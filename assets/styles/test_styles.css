@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 18 Mar 2024, 12:59:36 PM
- *  Last update: 19 Mar 2024, 8:24:58 PM
+ *  Last update: 25 Mar 2024, 2:22:26 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -11,11 +11,15 @@
 }
 
 :root {
-    --accent: #6F1D1B;
+    --accent: #4A1312;
     --bg-dark: #2A3D45;
     --bg-medium: #8D8D92;
     --bg-light: #F6F1D1;
     --white: #FFFFFF;
+}
+
+body {
+    display: flex;
 }
 
 nav {
@@ -55,71 +59,23 @@ a > img {
     cursor: pointer;
 }
 
-#pageWrapper {
-    display: flex;
-    z-index: -99;
-}
-
 main {
     flex-grow: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: var(--bg-dark);
-    z-index: -98;
-}
-
-.folder-deco {
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    height: 5%;
-}
-
-.folder-tab {
-    width: 15%;
-    background-color: var(--bg-light);
-    z-index: -97;
-    border-radius: 20px 20px 0 0;
-}
-
-.folder-deco-filler {
-    flex-grow: 1;
 }
 
 .main-app {
     width: 80%;
     height: 80%;
-    border-radius: 0 20px 0 0;
+    border-radius: 20px;
     padding: 20px;
-    background-color: var(--bg-light);
-    transition: display 0.5s;
-    z-index: -97;
+    background-color: var(--bg-medium);
     box-sizing: border-box;
 }
 
 .hidden {
     display: none;
-}
-
-.page-deco-base {
-    width: 70%;
-    height: 70%;
-    background-color: white;
-    position: absolute;
-    box-shadow: 0 4px 4px 2px #555;
-}
-
-.page-deco-1 {
-    z-index: -1;
-    /* transform: rotate(1.7deg); */
-    transform: none;
-    top: 15%;
-}
-
-.flip-off-page {
-    transform: rotate3d(2, 0, 0, 180deg) translateY(-50%);
-    transform-origin: bottom;
-    transition: 1.5s;
 }
