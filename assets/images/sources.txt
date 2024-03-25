@@ -6,26 +6,75 @@
 --  navbar
 logo.png
 https://pngimg.com/uploads/counter_strike/counter_strike_PNG48.png
+logo-wh.png
+Edited by Kaleb Jubar
 
+down.png
+https://www.flaticon.com/free-icon/down_94528
+Created by Freepik
+down-wh.png
+Edited by Kaleb Jubar
+
+terrorist.png
+https://www.flaticon.com/free-icon/terrorist_1022383
+Created by Freepik
+terrorist-wh.png
+Edited by Kaleb Jubar
+
+soldier.png
+https://www.flaticon.com/free-icon/soldier_3060350
+Created by Freepik
+solder-wh.png
+Edited by Kaleb Jubar
+
+weapon.png
+https://www.flaticon.com/free-icon/gun_5903049
+Created by Freepik
+weapon-wh.png
+Edited by Kaleb Jubar
+
+review.png
+https://www.flaticon.com/free-icon/review_5671544
+Created by Freepik
+review-wh.png
+Edited by Kaleb Jubar
+
+squad.png
+https://www.flaticon.com/free-icon/squad_11326999
+Created by Freepik
+squad-wh.png
+Edited by Kaleb Jubar
 
 --  backgrounds
-bgs/dust2.jpg
-https://liquipedia.net/commons/images/thumb/1/12/Csgo_dust2.0.jpg/1600px-Csgo_dust2.0.jpg
-
-bgs/mirage.jpg
-https://liquipedia.net/commons/images/f/f3/Csgo_mirage.jpg
-
-bgs/nuke.jpg
-https://liquipedia.net/commons/images/5/5e/Nuke_csgo.jpg
-
-bgs/vertigo.jpg
-https://liquipedia.net/commons/images/5/59/Csgo_de_vertigo_new.jpg
-
 bgs/anubis.jpg
 https://liquipedia.net/commons/images/5/59/Anubis_csgo.jpg
+bgs/anubis-dark.jpg
+Edited by Kaleb Jubar
+
+bgs/dust2.jpg
+https://liquipedia.net/commons/images/thumb/1/12/Csgo_dust2.0.jpg/1600px-Csgo_dust2.0.jpg
+bgs/dust2-dark.jpg
+Edited by Kaleb Jubar
 
 bgs/italy.jpg
 https://liquipedia.net/commons/images/5/5b/Cs_italy.jpg
+bgs/italy-dark.jpg
+Edited by Kaleb Jubar
+
+bgs/mirage.jpg
+https://liquipedia.net/commons/images/f/f3/Csgo_mirage.jpg
+bgs/mirage-dark.jpg
+Edited by Kaleb Jubar
+
+bgs/nuke.jpg
+https://liquipedia.net/commons/images/5/5e/Nuke_csgo.jpg
+bgs/nuke-dark.jpg
+Edited by Kaleb Jubar
+
+bgs/vertigo.jpg
+https://liquipedia.net/commons/images/5/59/Csgo_de_vertigo_new.jpg
+bgs/vertigo-dark.jpg
+Edited by Kaleb Jubar
 
 --  old images
 
