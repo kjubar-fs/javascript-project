@@ -1,0 +1,33 @@
+--  Author: Kaleb Jubar
+--  Created: 18 Mar 2024, 1:18:03 PM
+--  Last update: 25 Mar 2024, 1:48:01 PM
+--  Copyright (c) 2024 Kaleb Jubar
+
+--  navbar
+logo.png
+https://pngimg.com/uploads/counter_strike/counter_strike_PNG48.png
+
+
+--  backgrounds
+bgs/dust2.jpg
+https://liquipedia.net/commons/images/thumb/1/12/Csgo_dust2.0.jpg/1600px-Csgo_dust2.0.jpg
+
+bgs/mirage.jpg
+https://liquipedia.net/commons/images/f/f3/Csgo_mirage.jpg
+
+bgs/nuke.jpg
+https://liquipedia.net/commons/images/5/5e/Nuke_csgo.jpg
+
+bgs/vertigo.jpg
+https://liquipedia.net/commons/images/5/59/Csgo_de_vertigo_new.jpg
+
+bgs/anubis.jpg
+https://liquipedia.net/commons/images/5/59/Anubis_csgo.jpg
+
+bgs/italy.jpg
+https://liquipedia.net/commons/images/5/5b/Cs_italy.jpg
+
+--  old images
+
+old/confidential.png
+https://static.vecteezy.com/system/resources/previews/021/433/001/original/confidential-rubber-stamp-free-png.png
