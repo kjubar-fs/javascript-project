@@ -1,7 +1,11 @@
 --  Author: Kaleb Jubar
 --  Created: 18 Mar 2024, 1:18:03 PM
---  Last update: 25 Mar 2024, 1:48:01 PM
+--  Last update: 1 Apr 2024, 2:19:32 PM
 --  Copyright (c) 2024 Kaleb Jubar
+
+favicon.jpg
+https://ih1.redbubble.net/image.1489768352.0293/flat,750x,075,f-pad,750x1000,f8f8f8.jpg
+Edited by Kaleb Jubar
 
 --  navbar
 logo.png
@@ -9,41 +13,66 @@ https://pngimg.com/uploads/counter_strike/counter_strike_PNG48.png
 logo-wh.png
 Edited by Kaleb Jubar
 
-down.png
+icons/nav/down.png
 https://www.flaticon.com/free-icon/down_94528
 Created by Freepik
-down-wh.png
+icons/nav/down-wh.png
 Edited by Kaleb Jubar
 
-terrorist.png
+icons/nav/terrorist.png
 https://www.flaticon.com/free-icon/terrorist_1022383
 Created by Freepik
-terrorist-wh.png
+icons/nav/terrorist-wh.png
 Edited by Kaleb Jubar
 
-soldier.png
+icons/nav/soldier.png
 https://www.flaticon.com/free-icon/soldier_3060350
 Created by Freepik
-solder-wh.png
+icons/nav/solder-wh.png
 Edited by Kaleb Jubar
 
-weapon.png
+icons/nav/weapon.png
 https://www.flaticon.com/free-icon/gun_5903049
 Created by Freepik
-weapon-wh.png
+icons/nav/weapon-wh.png
 Edited by Kaleb Jubar
 
-review.png
+icons/nav/review.png
 https://www.flaticon.com/free-icon/review_5671544
 Created by Freepik
-review-wh.png
+icons/nav/review-wh.png
 Edited by Kaleb Jubar
 
-squad.png
+icons/nav/squad.png
 https://www.flaticon.com/free-icon/squad_11326999
 Created by Freepik
-squad-wh.png
+icons/nav/squad-wh.png
 Edited by Kaleb Jubar
+
+--  weapon select icons
+icons/weapons/pistol.png
+https://www.flaticon.com/free-icon/gun_1022348
+Created by Freepik
+
+icons/weapons/rifle.png
+https://www.flaticon.com/free-icon/rifle_4321303
+Created by Freepik
+
+icons/weapons/smg.png
+https://www.flaticon.com/free-icon/shotgun_238964
+Created by Freepik
+
+icons/weapons/heavy.png
+https://www.flaticon.com/free-icon/machine-gun_238966
+Created by Freepik
+
+icons/weapons/knife.png
+https://www.flaticon.com/free-icon/machete_3113027
+Created by Freepik
+
+icons/weapons/gloves.png
+https://www.flaticon.com/free-icon/gloves_14426602
+Created by Freepik
 
 --  backgrounds
 bgs/anubis.jpg
