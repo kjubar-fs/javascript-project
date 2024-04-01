@@ -1,0 +1,71 @@
+/*
+ *  Author: Kaleb Jubar
+ *  Created: 1 Apr 2024, 2:29:51 PM
+ *  Last update: 1 Apr 2024, 2:51:34 PM
+ *  Copyright (c) 2024 Kaleb Jubar
+ */
+
+/* general styles */
+/* clear out margin/padding to make our own styles */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+}
+
+.link-cursor {
+    cursor: pointer;
+}
+
+/* nav styles */
+nav {
+    background-color: black;
+    width: 100px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+img.logo {
+    width: 60px;
+}
+
+nav > hr {
+    width: 65px;
+    height: 2px;
+    border: none;
+    background-color: white;
+    margin: 20px 0;
+}
+
+nav > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+nav > ul > li:not(:last-child) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+nav > ul > li:not(:last-child)::after {
+    content: "";
+    display: block;
+    background-image: url("../images/icons/nav/down-wh.png");
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+}
+
+nav > ul > li::marker {
+    display: none;
+}
+
+img.nav-icon {
+    width: 50px;
+}
