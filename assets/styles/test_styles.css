@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 18 Mar 2024, 12:59:36 PM
- *  Last update: 25 Mar 2024, 2:22:26 PM
+ *  Last update: 26 Mar 2024, 3:08:53 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -20,6 +20,10 @@
 
 body {
     display: flex;
+}
+
+img {
+    width: 100%;
 }
 
 nav {
