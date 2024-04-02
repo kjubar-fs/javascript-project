@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 1 Apr 2024, 11:33:19 PM
+ *  Last update: 1 Apr 2024, 11:42:35 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -10,6 +10,19 @@
 *, *::before, *::after {
     margin: 0;
     padding: 0;
+}
+
+:root {
+    --ct-dark: #1C455B;
+    --ct-light: #B6E5FF;
+    --t-dark: #826D27;
+    --t-light: #FFF0BD;
+    --danger-light: #FFB6B6;
+    --danger-dark: #4A1312;
+    --success: #027400;
+    --gray-dark: #8D8D92;
+    --gray-mid: #CCC;
+    --gray-light: #F5F5F5;
 }
 
 body {
