@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 1 Apr 2024, 11:42:35 PM
+ *  Last update: 1 Apr 2024, 11:44:39 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -76,7 +76,7 @@ nav > ul > li:not(:first-child) {
 nav > ul > li:not(:first-child)::before {
     content: "";
     display: block;
-    background-image: url("../images/icons/nav/down-wh.png");
+    background-image: url("/assets/images/icons/nav/down-wh.png");
     background-size: cover;
     width: 15px;
     height: 15px;
@@ -94,7 +94,7 @@ main {
     align-items: center;
     justify-content: center;
 
-    background-image: url("../images/bgs/dust2-dark.jpg");
+    background-image: url("/assets/images/bgs/dust2-dark.jpg");
     background-size: cover;
 }
 
