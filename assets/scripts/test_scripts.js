@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 19 Mar 2024, 7:20:40 PM
- *  Last update: 1 Apr 2024, 1:30:14 PM
+ *  Last update: 2 Apr 2024, 4:16:35 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -50,7 +50,7 @@ console.log(newOp);
 
 document.querySelector(".logo").addEventListener("click", () => {
     console.log("adding new operator...");
-    document.getElementById("teamBuilder").appendChild(newOp.getElement());
+    document.getElementById("startBuilder").appendChild(newOp.getElement());
 });
 
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
