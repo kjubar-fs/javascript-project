@@ -2,7 +2,7 @@
 <!--
  Author: Kaleb Jubar
  Created: 1 Apr 2024, 2:25:58 PM
- Last update: 4 Apr 2024, 7:25:31 PM
+ Last update: 4 Apr 2024, 7:28:48 PM
  Copyright (c) 2024 Kaleb Jubar
 -->
 <html lang="en">
@@ -34,5 +34,10 @@
         </main>
 
         <script src="assets/scripts/test_scripts.js"></script>
+        <script>
+            document.getElementById("startBuilder").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "team_select.html";
+            });
+        </script>
     </body>
 </html>
