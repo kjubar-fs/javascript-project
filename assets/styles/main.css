@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 4 Apr 2024, 8:04:20 PM
+ *  Last update: 4 Apr 2024, 8:31:52 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -41,7 +41,6 @@ h2 {
 
 button {
     display: block;
-    border: 2px solid black;
     border-radius: 5px;
     box-shadow: 0 4px 4px var(--gray-dark);
     font-size: 16px;
@@ -55,6 +54,10 @@ button.btn-large {
 button.btn-small {
     width: 80px;
     padding: 10px 0;
+}
+
+input {
+    font-size: 16px;
 }
 
 .link-cursor {
@@ -84,6 +87,10 @@ button.btn-small {
 .bg-white {
     background-color: white;
     color: black;
+}
+
+.border-std {
+    border: 2px solid black;
 }
 
 /* nav styles */
@@ -200,4 +207,35 @@ main.screen-6 {
 .main-card.card-mid {
     width: 30%;
     height: 40%;
+}
+
+.main-card.card-lg {
+    width: 70%;
+    height: 70%;
+    padding: 50px;
+}
+
+/* operator list styles */
+#operatorList {
+    flex-grow: 1;
+    width: 100%;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+#operatorFooter {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#operatorName {
+    display: block;
+    padding: 10px 5px;
+    border-radius: 5px;
+    grid-column-start: 2;
+}
+
+#operatorNext {
+    margin-left: auto;
 }

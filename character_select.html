@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!--
  Author: Kaleb Jubar
- Created: 4 Apr 2024, 7:26:08 PM
- Last update: 4 Apr 2024, 8:15:05 PM
+ Created: 4 Apr 2024, 8:06:07 PM
+ Last update: 4 Apr 2024, 8:20:36 PM
  Copyright (c) 2024 Kaleb Jubar
 -->
 <html lang="en">
     <head>
-        <title>Team Select | CS:GO Team Builder</title>
+        <title>Character Select | CS:GO Team Builder</title>
         <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 
         <link rel="stylesheet" type="text/css" href="/assets/styles/main.css">
@@ -28,14 +28,15 @@
                 <li id="navTeamSummary"><img class="nav-icon link-cursor" src="/assets/images/icons/nav/squad-wh.png"></li>
             </ul>
         </nav>
-        <main id="mainContent" class="screen-2">
-            <h1 id="mainHeading">Counter-Strike Team Builder</h1>
-            <div id="teamSelect" class="main-card card-mid">
-                <h2>Select a Team</h2>
-                <button id="teamCT" class="btn-large ct-light link-cursor border-std">Counter-Terrorist</button>
-                <button id="teamT" class="btn-large t-light link-cursor border-std">Terrorist</button>
-                <button id="teamAuto" class="btn-large bg-white link-cursor border-std">Auto-Select</button>
-                <button id="teamNext" class="btn-small bg-white link-cursor border-std">Next</button>
+        <main id="mainContent" class="screen-3">
+            <h1 id="mainHeading">Counter-Terrorist</h1>
+            <div id="operatorSelect" class="main-card card-lg">
+                <h2>Select an Operator</h2>
+                <div id="operatorList" class="bg-white border-std"></div>
+                <div id="operatorFooter">
+                    <input id="operatorName" name="operatorName" class="border-std" placeholder="Player Name">
+                    <button id="operatorNext" class="btn-small ct-light link-cursor border-std">Next</button>
+                </div>
             </div>
         </main>
 
@@ -44,8 +45,8 @@
             document.getElementById("navLogo").addEventListener("click", () => {
                 window.location.href = window.location.href.split("/")[0] + "start_screen.html";
             });
-            document.getElementById("teamNext").addEventListener("click", () => {
-                window.location.href = window.location.href.split("/")[0] + "character_select.html";
+            document.getElementById("navTeam").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "team_select.html";
             });
         </script>
     </body>
