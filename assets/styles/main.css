@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 4 Apr 2024, 7:32:15 PM
+ *  Last update: 4 Apr 2024, 8:00:20 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -31,16 +31,59 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+button {
+    display: block;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px var(--gray-dark);
+    font-size: 16px;
+}
+
+button.btn-large {
+    width: 200px;
+    padding: 20px 0;
+}
+
+button.btn-small {
+    width: 80px;
+    padding: 10px 0;
+}
+
 .link-cursor {
     cursor: pointer;
 }
 
-h1 {
-    font-size: 32px;
+.ct-light {
+    background-color: var(--ct-light);
+    color: black;
 }
 
-h2 {
-    font-size: 24px;
+.ct-dark {
+    background-color: var(--ct-dark);
+    color: white;
+}
+
+.t-light {
+    background-color: var(--t-light);
+    color: black;
+}
+
+.t-dark {
+    background-color: var(--t-dark);
+    color: white;
+}
+
+.bg-white {
+    background-color: white;
+    color: black;
 }
 
 /* nav styles */
@@ -106,6 +149,11 @@ main {
     background-size: cover;
 }
 
+/* TODO: remove these in favor of JS updating the background */
+main:has(#teamSelect) {
+    background-image: url("/assets/images/bgs/anubis-dark.jpg");
+}
+
 #mainHeading {
     color: white;
     font-weight: 500;
@@ -117,10 +165,21 @@ main {
     background-color: var(--gray-mid);
     border: 20px solid var(--gray-dark);
     border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    box-sizing: border-box;
 }
 
-.main-card.slim {
+.main-card.card-button {
     border-width: 5px;
     border-radius: 15px;
     padding: 20px 60px;
+}
+
+.main-card.card-mid {
+    width: 30%;
+    height: 40%;
 }
