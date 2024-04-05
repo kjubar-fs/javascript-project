@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 5 Apr 2024, 10:57:01 AM
+ *  Last update: 5 Apr 2024, 11:37:48 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -30,6 +30,19 @@ body {
     flex-direction: row;
     font-family: "Roboto", sans-serif;
     max-height: 100vh;
+
+    --team-bg-dark: black;
+    --team-bg-light: white;
+}
+
+body.team-ct {
+    --team-bg-dark: var(--ct-dark);
+    --team-bg-light: var(--ct-light);
+}
+
+body.team-t {
+    --team-bg-dark: var(--t-dark);
+    --team-bg-light: var(--t-light);
 }
 
 h1 {
@@ -97,6 +110,16 @@ input:focus {
 .t-dark {
     background-color: var(--t-dark);
     color: white;
+}
+
+.team-dark {
+    background-color: var(--team-bg-dark);
+    color: white;
+}
+
+.team-light {
+    background-color: var(--team-bg-light);
+    color: black;
 }
 
 .border-std {
