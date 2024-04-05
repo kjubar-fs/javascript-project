@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 4 Apr 2024, 8:58:53 PM
+ *  Last update: 5 Apr 2024, 10:57:01 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -29,10 +29,11 @@ body {
     display: flex;
     flex-direction: row;
     font-family: "Roboto", sans-serif;
+    max-height: 100vh;
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 36px;
 }
 
 h2 {
@@ -43,7 +44,7 @@ button {
     display: block;
     border-radius: 5px;
     box-shadow: 0 3px 4px var(--gray-dark);
-    font-size: 16px;
+    font-size: 18px;
 }
 
 button.btn-large {
@@ -57,7 +58,7 @@ button.btn-small {
 }
 
 input {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 input:focus {
@@ -218,14 +219,14 @@ main.screen-6 {
 }
 
 .main-card.card-mid {
-    width: 30%;
-    height: 40%;
+    width: 40%;
+    height: 60%;
 }
 
 .main-card.card-lg {
     width: 70%;
     height: 70%;
-    padding: 50px;
+    padding: 35px;
 }
 
 /* operator list styles */
@@ -239,7 +240,12 @@ main.screen-6 {
     overflow-y: scroll;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+}
+
+@media screen and (max-width: 1199px) {
+    #operatorList {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
 
 .footer {
