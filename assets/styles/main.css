@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 5 Apr 2024, 11:42:52 AM
+ *  Last update: 5 Apr 2024, 11:59:39 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -45,6 +45,11 @@ body.team-t {
     --team-bg-light: var(--t-light);
 }
 
+div {
+    background-color: white;
+    border: 2px solid black;
+}
+
 h1 {
     font-size: 36px;
 }
@@ -58,6 +63,7 @@ button {
     border-radius: 5px;
     box-shadow: 0 3px 4px var(--gray-dark);
     font-size: 18px;
+    border: 2px solid black;
 }
 
 button.btn-large {
@@ -72,6 +78,7 @@ button.btn-small {
 
 input {
     font-size: 18px;
+    border: 2px solid black;
 }
 
 input:focus {
@@ -82,36 +89,6 @@ input:focus {
     cursor: pointer;
 }
 
-.bg-white {
-    background-color: white;
-    color: black;
-}
-
-.bg-lightgray {
-    background-color: var(--gray-light);
-    color: black;
-}
-
-.ct-light {
-    background-color: var(--ct-light);
-    color: black;
-}
-
-.ct-dark {
-    background-color: var(--ct-dark);
-    color: white;
-}
-
-.t-light {
-    background-color: var(--t-light);
-    color: black;
-}
-
-.t-dark {
-    background-color: var(--t-dark);
-    color: white;
-}
-
 .team-dark {
     background-color: var(--team-bg-dark);
     color: white;
@@ -120,14 +97,6 @@ input:focus {
 .team-light {
     background-color: var(--team-bg-light);
     color: black;
-}
-
-.border-std {
-    border: 2px solid black;
-}
-
-.border-thin {
-    border: 1px solid black;
 }
 
 /* nav styles */
@@ -252,6 +221,23 @@ main.screen-6 {
     padding: 35px;
 }
 
+.footer {
+    background: none;
+    border: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* team select styles */
+#teamCT {
+    background-color: var(--ct-light);
+}
+
+#teamT {
+    background-color: var(--t-light);
+}
+
 /* operator list styles */
 #operatorList {
     flex-grow: 1;
@@ -263,18 +249,6 @@ main.screen-6 {
     overflow-y: scroll;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
-
-@media screen and (max-width: 1199px) {
-    #operatorList {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-}
-
-.footer {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
 }
 
 #operatorName {
@@ -289,6 +263,8 @@ main.screen-6 {
 }
 
 .operator-card {
+    background-color: var(--gray-light);
+    border: 1px solid black;
     border-radius: 5px;
     padding: 5px;
     display: flex;
@@ -297,13 +273,25 @@ main.screen-6 {
 
 .operator-card.selected {
     box-shadow: 0 3px 4px var(--gray-dark);
+    background-color: var(--team-bg-light);
 }
 
-.operator-img {
+.operator-card > img {
     width: 100%;
 }
 
-p.operator-name {
+.operator-card > p {
     text-align: center;
     margin: 25px;
+}
+
+/* small screen style fixes */
+@media screen and (max-width: 1199px) {
+    #operatorList {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .operator-card > p {
+        margin: 15px;
+    }
 }
