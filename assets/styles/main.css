@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 4 Apr 2024, 8:00:20 PM
+ *  Last update: 4 Apr 2024, 8:04:20 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -145,13 +145,31 @@ main {
     align-items: center;
     justify-content: center;
 
-    background-image: url("/assets/images/bgs/dust2-dark.jpg");
     background-size: cover;
 }
 
-/* TODO: remove these in favor of JS updating the background */
-main:has(#teamSelect) {
+main.screen-1 {
+    background-image: url("/assets/images/bgs/dust2-dark.jpg");
+}
+
+main.screen-2 {
     background-image: url("/assets/images/bgs/anubis-dark.jpg");
+}
+
+main.screen-3 {
+    background-image: url("/assets/images/bgs/vertigo-dark.jpg");
+}
+
+main.screen-4 {
+    background-image: url("/assets/images/bgs/italy-dark.jpg");
+}
+
+main.screen-5 {
+    background-image: url("/assets/images/bgs/mirage-dark.jpg");
+}
+
+main.screen-6 {
+    background-image: url("/assets/images/bgs/nuke-dark.jpg");
 }
 
 #mainHeading {
