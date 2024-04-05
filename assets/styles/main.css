@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 4 Apr 2024, 8:31:52 PM
+ *  Last update: 4 Apr 2024, 8:58:53 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -42,7 +42,7 @@ h2 {
 button {
     display: block;
     border-radius: 5px;
-    box-shadow: 0 4px 4px var(--gray-dark);
+    box-shadow: 0 3px 4px var(--gray-dark);
     font-size: 16px;
 }
 
@@ -60,8 +60,22 @@ input {
     font-size: 16px;
 }
 
+input:focus {
+    outline: none;
+}
+
 .link-cursor {
     cursor: pointer;
+}
+
+.bg-white {
+    background-color: white;
+    color: black;
+}
+
+.bg-lightgray {
+    background-color: var(--gray-light);
+    color: black;
 }
 
 .ct-light {
@@ -84,13 +98,12 @@ input {
     color: white;
 }
 
-.bg-white {
-    background-color: white;
-    color: black;
-}
-
 .border-std {
     border: 2px solid black;
+}
+
+.border-thin {
+    border: 1px solid black;
 }
 
 /* nav styles */
@@ -219,11 +232,17 @@ main.screen-6 {
 #operatorList {
     flex-grow: 1;
     width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+    gap: 30px;
     border-radius: 5px;
     overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
-#operatorFooter {
+.footer {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -238,4 +257,24 @@ main.screen-6 {
 
 #operatorNext {
     margin-left: auto;
+}
+
+.operator-card {
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.operator-card.selected {
+    box-shadow: 0 3px 4px var(--gray-dark);
+}
+
+.operator-img {
+    width: 100%;
+}
+
+p.operator-name {
+    text-align: center;
+    margin: 25px;
 }
