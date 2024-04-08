@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+ Author: Kaleb Jubar
+ Created: 5 Apr 2024, 12:08:12 PM
+ Last update: 8 Apr 2024, 1:50:20 PM
+ Copyright (c) 2024 Kaleb Jubar
+-->
+<html lang="en">
+    <head>
+        <title>Character Select | CS:GO Team Builder</title>
+        <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+        <link rel="stylesheet" type="text/css" href="/assets/styles/main.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body class="team-ct">
+        <nav id="mainNav" class="team-dark">
+            <img id="navLogo" class="logo cursor-pointer" src="/assets/images/logo-wh.png" alt="Counter-Strike: Global Offensive logo">
+            <hr id="breadcrumbDivider">
+            <ul id="breadcrumbs">
+                <li id="navTeam"><img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/teams-wh.png"></li>
+                <li id="navChar"><img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/soldier-wh.png"></li>
+                <li id="navWeapon"><img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/weapon-wh.png"></li>
+                <li id="navSummary"><img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/review-wh.png"></li>
+                <li id="navTeamSummary"><img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/squad-wh.png"></li>
+            </ul>
+        </nav>
+        <main id="mainContent" class="screen-3">
+            <h1 id="mainHeading">Counter-Terrorist</h1>
+            <!-- TODO: fix styles for scrolling weapons and skins -->
+            <div id="weaponSelect" class="main-card card-lg">
+                <h2>Select Weapons and Gear</h2>
+                <div id="weaponWrapper" class="no-back-deco">
+                    <div id="weaponTabs" class="no-back-deco">
+                        <div id="tabPistol" class="weapon-tab cursor-pointer selected">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/pistol.png">
+                        </div>
+                        <div id="tabSMG" class="weapon-tab cursor-pointer">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/smg.png">
+                        </div>
+                        <div id="tabRifle" class="weapon-tab cursor-pointer">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/rifle.png">
+                        </div>
+                        <div id="tabHeavy" class="weapon-tab cursor-pointer">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/heavy.png">
+                        </div>
+                        <div id="tabKnife" class="weapon-tab cursor-pointer">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/knife.png">
+                        </div>
+                        <div id="tabGloves" class="weapon-tab cursor-pointer">
+                            <img class="nav-icon" src="/assets/images/icons/weapons/gloves.png">
+                        </div>
+                    </div>
+                    <div id="weaponChoices">
+                        <div id="weaponList">
+                            <div class="weapon-selector cursor-pointer">Weapon 1</div>
+                            <div class="weapon-selector cursor-pointer">Weapon 2</div>
+                            <div class="weapon-selector cursor-pointer selected">Weapon 3</div>
+                            <div class="weapon-selector cursor-pointer">Weapon 4</div>
+                            <div class="weapon-selector cursor-pointer">Weapon 5</div>
+                            <div class="weapon-selector cursor-pointer">Weapon 6</div>
+                        </div>
+                        <div id="weaponSkinList">
+                            <!-- TODO: rename these as they're shared with operator cards -->
+                            <div class="operator-card cursor-pointer">
+                                <img class="operator-img" src="/assets/images/logo.png">
+                                <p class="operator-name">Skin 1</p>
+                            </div>
+                            <div class="operator-card cursor-pointer">
+                                <img class="operator-img" src="/assets/images/logo.png">
+                                <p class="operator-name">Skin 2</p>
+                            </div>
+                            <div class="operator-card cursor-pointer">
+                                <img class="operator-img" src="/assets/images/logo.png">
+                                <p class="operator-name">Skin 3</p>
+                            </div>
+                            <div class="operator-card cursor-pointer">
+                                <img class="operator-img" src="/assets/images/logo.png">
+                                <p class="operator-name">Skin 4</p>
+                            </div>
+                            <div class="operator-card cursor-pointer">
+                                <img class="operator-img" src="/assets/images/logo.png">
+                                <p class="operator-name">Skin 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="weaponFooter" class="footer">
+                    <div id="weaponBalance" class="no-back-deco">
+                        <p>Available balance: <span id="balanceNum" class="text-pos">$9000</span></p>
+                    </div>
+                    <div id="weaponSelections">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                        <img class="selected-skin" src="/assets/images/logo.png">
+                    </div>
+                    <button id="weaponNext" class="next-btn btn-small team-light cursor-pointer">Next</button>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            document.getElementById("navLogo").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "start_screen.html";
+            });
+            document.getElementById("navTeam").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "team_select.html";
+            });
+            document.getElementById("navChar").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "character_select.html";
+            });
+        </script>
+    </body>
+</html>
