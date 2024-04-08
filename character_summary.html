@@ -2,7 +2,7 @@
 <!--
  Author: Kaleb Jubar
  Created: 8 Apr 2024, 1:53:23 PM
- Last update: 8 Apr 2024, 2:27:40 PM
+ Last update: 8 Apr 2024, 2:37:52 PM
  Copyright (c) 2024 Kaleb Jubar
 -->
 <html lang="en">
@@ -36,7 +36,7 @@
             <div id="charSumm" class="main-card card-lg">
                 <h2>&lt;your name here&gt;</h2>
                 <div id="charSummDisplay">
-                    <div id="charSummOperator">
+                    <div id="charSummOperator" class="no-back-deco">
                         <img src="/assets/images/logo.png">
                     </div>
                     <!-- TODO: rename these as they're shared with operator and weapon skin cards -->
@@ -84,6 +84,9 @@
             });
             document.getElementById("navWeapon").addEventListener("click", () => {
                 window.location.href = window.location.href.split("/")[0] + "weapon_select.html";
+            });
+            document.getElementById("charSummNext").addEventListener("click", () => {
+                window.location.href = window.location.href.split("/")[0] + "team_summary.html";
             });
         </script>
     </body>
