@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 10:23:36 AM
+ *  Last update: 9 Apr 2024, 10:29:37 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -50,6 +50,7 @@ body.team-t {
 div {
     background-color: white;
     border: 2px solid black;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -116,6 +117,30 @@ input:focus {
 
 .text-neg {
     color: var(--danger-dark);
+}
+
+/* display card styles (used in multiple places) */
+.operator-card {
+    background-color: var(--gray-light);
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.operator-card.selected {
+    box-shadow: 0 3px 4px var(--gray-dark);
+    background-color: var(--team-bg-light);
+}
+
+.operator-card > .operator-img {
+    width: 100%;
+}
+
+.operator-card > .operator-name {
+    text-align: center;
+    margin: 15px;
 }
 
 /* nav styles */
@@ -226,7 +251,6 @@ body:has(.main-card.card-lg) #mainHeading {
     align-items: center;
     justify-content: center;
     gap: 30px;
-    box-sizing: border-box;
 }
 
 .main-card.card-button {
@@ -267,7 +291,6 @@ body:has(.main-card.card-lg) #mainHeading {
 #operatorList {
     flex-grow: 1;
     width: 100%;
-    box-sizing: border-box;
     padding: 30px;
     gap: 30px;
     border-radius: 5px;
@@ -283,30 +306,6 @@ body:has(.main-card.card-lg) #mainHeading {
     grid-column-start: 2;
 }
 
-.operator-card {
-    background-color: var(--gray-light);
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.operator-card.selected {
-    box-shadow: 0 3px 4px var(--gray-dark);
-    background-color: var(--team-bg-light);
-}
-
-.operator-card > img {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.operator-card > p {
-    text-align: center;
-    margin: 15px;
-}
-
 /* weapon list styles */
 #weaponSelect {
     gap: 20px;
@@ -315,7 +314,6 @@ body:has(.main-card.card-lg) #mainHeading {
 
 #weaponWrapper {
     height: 80%;
-    box-sizing: border-box;
     display: grid;
     grid-template-columns: 70px 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -359,7 +357,6 @@ body:has(.main-card.card-lg) #mainHeading {
     grid-row: 1 / 7;
     grid-column: 2 / 3;
     height: 100%;
-    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     z-index: 0;
@@ -377,8 +374,7 @@ body:has(.main-card.card-lg) #mainHeading {
 
 #weaponList {
     height: 100%;
-    box-sizing: border-box;
-    flex-basis: 25%;
+    flex-basis: 20%;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -399,8 +395,7 @@ body:has(.main-card.card-lg) #mainHeading {
 
 #weaponSkinList {
     height: 100%;
-    box-sizing: border-box;
-    flex-basis: 75%;
+    flex-basis: 80%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 15px;
@@ -438,7 +433,6 @@ body:has(.main-card.card-lg) #mainHeading {
     grid-template-rows: 1fr 1fr;
     gap: 20px;
     padding: 20px;
-    box-sizing: border-box;
     align-items: center;
 }
 
@@ -472,7 +466,6 @@ body:has(.main-card.card-lg) #mainHeading {
     grid-template-rows: 1fr 1fr 1fr;
     gap: 10px;
     padding: 10px;
-    box-sizing: border-box;
     align-items: center;
 }
 
@@ -499,13 +492,18 @@ body:has(.main-card.card-lg) #mainHeading {
     border: none;
 }
 
-/* small screen style fixes */
+/* small screen style fixes, for making it look decent when using F12 sidebar */
 @media screen and (max-width: 1199px) {
     #operatorList {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
+    #weaponList {
+        flex-basis: 25%;
+    }
+
     #weaponSkinList {
         grid-template-columns: 1fr 1fr 1fr;
+        flex-basis: 75%;
     }
 }
