@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 11:16:30 AM
+ *  Last update: 9 Apr 2024, 11:20:31 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -494,10 +494,7 @@ body:has(.main-card.card-lg) #mainHeading {
 
 .team-summ-operator {
     flex-basis: 30%;
-}
-
-.team-summ-operator > img {
-    width: 100%;
+    padding: 0;
 }
 
 .team-summ-weapons {
