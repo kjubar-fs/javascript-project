@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 10:04:53 AM
+ *  Last update: 9 Apr 2024, 10:16:53 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -313,7 +313,8 @@ body:has(.main-card.card-lg) #mainHeading {
 }
 
 #weaponWrapper {
-    flex-grow: 1;
+    height: 80%;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 70px 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -356,9 +357,10 @@ body:has(.main-card.card-lg) #mainHeading {
 #weaponChoices {
     grid-row: 1 / 7;
     grid-column: 2 / 3;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    flex-grow: 1;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
     z-index: 0;
     padding: 15px;
     gap: 15px;
@@ -373,6 +375,9 @@ body:has(.main-card.card-lg) #mainHeading {
 }
 
 #weaponList {
+    height: 100%;
+    box-sizing: border-box;
+    flex-basis: 25%;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -392,10 +397,19 @@ body:has(.main-card.card-lg) #mainHeading {
 }
 
 #weaponSkinList {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;
+    box-sizing: border-box;
+    flex-basis: 75%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 15px;
     overflow-y: scroll;
+}
+
+#weaponSkinList > .operator-card {
+    flex-basis: calc(33% - 9px);
+    box-sizing: border-box;
 }
 
 .weapon-img {
