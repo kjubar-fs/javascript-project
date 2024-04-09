@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 9 Apr 2024, 4:48:19 PM
+ *  Last update: 9 Apr 2024, 4:51:51 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -89,7 +89,8 @@ function createNav() {
 
 const bodyEl = getElSlct("body");
 bodyEl.appendChild(createNav());
-updateBreadcrumbs(curPage);
+// TODO: reenable this
+//updateBreadcrumbs(curPage);
 
 // TODO: remove debug
 console.log("navbar created");
