@@ -1,11 +1,12 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 9 Apr 2024, 3:51:51 PM
+ *  Last update: 9 Apr 2024, 3:56:23 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
 
+// TODO: remove debug
 console.log("main script initialized");
 
 function createNav() {
@@ -77,3 +78,18 @@ function createNav() {
 
 const bodyEl = getElSlct("body");
 bodyEl.appendChild(createNav());
+
+// TODO: remove debug
+console.log("navbar created");
+
+function createMain() {
+    const mainEl = createEl("main", {
+        id: "mainContent",
+        className: "screen-1",
+        innerHTML: `<h1 id="mainHeading">Counter-Strike Team Builder</h1>`
+    });
+
+    return mainEl;
+}
+
+bodyEl.appendChild(createMain());
