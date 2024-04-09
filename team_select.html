@@ -2,7 +2,7 @@
 <!--
  Author: Kaleb Jubar
  Created: 4 Apr 2024, 7:26:08 PM
- Last update: 9 Apr 2024, 10:39:20 AM
+ Last update: 9 Apr 2024, 12:08:44 PM
  Copyright (c) 2024 Kaleb Jubar
 -->
 <html lang="en">
@@ -34,9 +34,18 @@
             <h1 id="mainHeading">Counter-Strike Team Builder</h1>
             <div id="teamSelect" class="main-card card-mid">
                 <h2>Select a Team</h2>
-                <button id="teamCT" class="btn-large cursor-pointer">Counter-Terrorist</button>
-                <button id="teamT" class="btn-large cursor-pointer">Terrorist</button>
-                <button id="teamAuto" class="btn-large cursor-pointer">Auto-Select</button>
+                <div class="no-back-deco">
+                    <input id="teamCT" type="radio" name="team">
+                    <label id="teamCTBtn" for="teamCT" class="btn-large cursor-pointer">Counter-Terrorist</label>
+                </div>
+                <div class="no-back-deco">
+                    <input id="teamT" type="radio" name="team">
+                    <label id="teamTBtn" for="teamT" class="btn-large cursor-pointer">Terrorist</label>
+                </div>
+                <div class="no-back-deco">
+                    <input id="teamAuto" type="radio" name="team">
+                    <label id="teamAutoBtn" for="teamAuto" class="btn-large cursor-pointer">Auto-Select</label>
+                </div>
                 <button id="teamNext" class="btn-small cursor-pointer">Next</button>
             </div>
         </main>

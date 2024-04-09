@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 11:33:59 AM
+ *  Last update: 9 Apr 2024, 12:13:35 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -74,17 +74,17 @@ button:active {
     transform: translateY(3px);
 }
 
-button.btn-large {
+.btn-large {
     width: 200px;
     padding: 20px 0;
 }
 
-button.btn-small {
+.btn-small {
     width: 80px;
     padding: 10px 0;
 }
 
-button.next-btn {
+.next-btn {
     margin-left: auto;
 }
 
@@ -290,12 +290,54 @@ body:has(.main-card.card-lg) #mainHeading {
 }
 
 /* team select styles */
-#teamCT {
-    background-color: var(--ct-light);
+#teamCTBtn, #teamTBtn, #teamAutoBtn {
+    display: block;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 4px var(--gray-dark);
+    transition: background-color 0.25s, color 0.25s;
+    text-align: center;
 }
 
-#teamT {
+#teamSelect input[type=radio] {
+    display: none;
+}
+
+#teamCTBtn {
+    background-color: var(--ct-light);
+    color: black;
+}
+
+#teamCT:checked + #teamCTBtn {
+    box-shadow: none;
+    transform: translateY(3px);
+    background-color: var(--ct-dark);
+    color: white;
+}
+
+#teamTBtn {
     background-color: var(--t-light);
+    color: black;
+}
+
+#teamT:checked + #teamTBtn {
+    box-shadow: none;
+    transform: translateY(3px);
+    background-color: var(--t-dark);
+    color: white;
+}
+
+#teamAutoBtn {
+    background-color: white;
+    color: black;
+}
+
+#teamAuto:checked + #teamAutoBtn {
+    box-shadow: none;
+    transform: translateY(3px);
+    background-color: black;
+    color: white;
 }
 
 /* operator list styles */
