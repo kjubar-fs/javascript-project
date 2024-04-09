@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 8 Apr 2024, 2:44:55 PM
+ *  Last update: 9 Apr 2024, 10:04:53 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -30,6 +30,8 @@ body {
     flex-direction: row;
     font-family: "Roboto", sans-serif;
     max-height: 100vh;
+    position: relative;
+    z-index: -999;
 
     --team-bg-dark: black;
     --team-bg-light: white;
@@ -175,6 +177,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: -998;
 
     background-size: cover;
 }
@@ -210,6 +213,10 @@ main.screen-6 {
     top: 50px;
 }
 
+body:has(.main-card.card-lg) #mainHeading {
+    top: 20px;
+}
+
 .main-card {
     background-color: var(--gray-mid);
     border: 20px solid var(--gray-dark);
@@ -235,7 +242,7 @@ main.screen-6 {
 
 .main-card.card-lg {
     width: 80%;
-    height: 70%;
+    height: 80%;
     padding: 25px;
 }
 
@@ -302,12 +309,15 @@ main.screen-6 {
 /* weapon list styles */
 #weaponSelect {
     gap: 20px;
+    z-index: -102;
 }
 
 #weaponWrapper {
-    display: flex;
-    flex-direction: row;
     flex-grow: 1;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    z-index: -101;
 }
 
 #weaponTabs {
@@ -319,6 +329,10 @@ main.screen-6 {
 }
 
 .weapon-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0;
     background-color: var(--gray-dark);
     border-width: 2px 0 2px 2px;
     border-color: black;
@@ -326,6 +340,7 @@ main.screen-6 {
     border-radius: 10px 0 0 10px;
     padding: 8px;
     z-index: -100;
+    transform: translateX(2px);
 }
 
 .weapon-tab.selected {
@@ -339,13 +354,15 @@ main.screen-6 {
 }
 
 #weaponChoices {
+    grid-row: 1 / 7;
+    grid-column: 2 / 3;
     display: grid;
     grid-template-columns: 1fr 3fr;
     flex-grow: 1;
     z-index: 0;
     padding: 15px;
     gap: 15px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px;
 }
 
 #weaponList, #weaponSkinList {
@@ -395,6 +412,8 @@ main.screen-6 {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 5px;
     padding: 5px;
+    justify-content: center;
+    align-items: center;
 }
 
 .selected-skin {
