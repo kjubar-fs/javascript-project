@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 10:16:53 AM
+ *  Last update: 9 Apr 2024, 10:23:36 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -299,11 +299,12 @@ body:has(.main-card.card-lg) #mainHeading {
 
 .operator-card > img {
     width: 100%;
+    box-sizing: border-box;
 }
 
 .operator-card > p {
     text-align: center;
-    margin: 25px;
+    margin: 15px;
 }
 
 /* weapon list styles */
@@ -400,16 +401,10 @@ body:has(.main-card.card-lg) #mainHeading {
     height: 100%;
     box-sizing: border-box;
     flex-basis: 75%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 15px;
     overflow-y: scroll;
-}
-
-#weaponSkinList > .operator-card {
-    flex-basis: calc(33% - 9px);
-    box-sizing: border-box;
 }
 
 .weapon-img {
@@ -426,12 +421,11 @@ body:has(.main-card.card-lg) #mainHeading {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 5px;
     padding: 5px;
-    justify-content: center;
-    align-items: center;
 }
 
 .selected-skin {
     height: 35px;
+    margin: auto;
 }
 
 /* character summary styles */
@@ -511,7 +505,7 @@ body:has(.main-card.card-lg) #mainHeading {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
-    .operator-card > p {
-        margin: 15px;
+    #weaponSkinList {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
