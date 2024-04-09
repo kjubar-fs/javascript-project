@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 10:29:37 AM
+ *  Last update: 9 Apr 2024, 10:31:53 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -120,7 +120,7 @@ input:focus {
 }
 
 /* display card styles (used in multiple places) */
-.operator-card {
+.display-card {
     background-color: var(--gray-light);
     border: 1px solid black;
     border-radius: 5px;
@@ -129,16 +129,16 @@ input:focus {
     flex-direction: column;
 }
 
-.operator-card.selected {
+.display-card.selected {
     box-shadow: 0 3px 4px var(--gray-dark);
     background-color: var(--team-bg-light);
 }
 
-.operator-card > .operator-img {
+.display-card > .display-img {
     width: 100%;
 }
 
-.operator-card > .operator-name {
+.display-card > .display-text {
     text-align: center;
     margin: 15px;
 }

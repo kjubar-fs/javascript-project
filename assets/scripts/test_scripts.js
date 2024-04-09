@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 19 Mar 2024, 7:20:40 PM
- *  Last update: 2 Apr 2024, 4:16:35 PM
+ *  Last update: 9 Apr 2024, 10:31:24 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -24,7 +24,7 @@ class Operator {
         // otherwise create and set it up
         elem = document.createElement("div");
         elem.id = this.#id;
-        elem.className = "card operator-card";
+        elem.className = "card display-card";
         elem.innerHTML = `
             <h3>${this.name}</h3>
             <img src="${this.icon}">`;
