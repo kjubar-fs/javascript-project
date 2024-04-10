@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 4:08:43 PM
+ *  Last update: 10 Apr 2024, 5:47:59 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -331,11 +331,102 @@ function createPageCharSel(contentDiv) {
 }
 
 function createPageWeaponSel(contentDiv) {
+    // set up non-interactive elements
+    contentDiv.innerHTML = `<h2>Select Weapons and Gear</h2>`;
 
+    // create weapon selection
+    let weapWrapDiv = createEl("div", {
+        id: "weaponWrapper",
+        className: "no-back-deco"
+    });
+
+    /**
+     * Create a weapon tab with the given ID and icon
+     * @param {string} tabId tab ID
+     * @param {string} icon weapon icon filename (no path or extension)
+     * @returns a div representing the created weapon tab
+     */
+    function createWeaponTab(tabId, icon) {
+        let tabDiv = createEl("div", {
+            id: tabId,
+            className: "weapon-tab cursor-pointer",
+            innerHTML: `<img class="nav-icon" src="/assets/images/icons/weapons/${icon}.png">`
+        });
+
+        return tabDiv;
+    }
+
+    // TODO: remove and replace with API categories
+    const WEAPONS = ["Pistol", "SMG", "Rifle", "Heavy", "Knife", "Gloves"];
+    WEAPONS.forEach((weapon) => {
+        weapWrapDiv.appendChild(
+            createWeaponTab(weapon, weapon.toLowerCase())
+        );
+    });
+
+    // create weapon and skin choices
+    let choicesDiv = createEl("div", { id: "weaponChoices" });
+    let weapListDiv = createEl("div", { id: "weaponList" });
+    let skinListDiv = createEl("div", { id: "weaponSkinList" });
+
+    // TODO: remove and replace with API weapons
+    for (let i = 1; i < 9; i++) {
+        weapListDiv.appendChild(
+            createEl("div", {
+                className: "weapon-selector cursor-pointer",
+                innerText: `Weapon ${i}`
+            })
+        );
+    }
+
+    // TODO: remove and replace with API skins
+    for (let i = 1; i < 8; i++) {
+        skinListDiv.appendChild(
+            createDisplayCard(true, "/assets/images/logo.png", `Skin ${i}`)
+        );
+    }
+
+    choicesDiv.appendChild(weapListDiv);
+    choicesDiv.appendChild(skinListDiv);
+    weapWrapDiv.appendChild(choicesDiv);
+
+    // create footer
+    let weapFooterDiv = createEl("div", {
+        id: "weaponFooter",
+        className: "footer",
+        // some of this content will be interactible, but only called from other places so we'll use innerHTML for now
+        innerHTML:
+            // TODO: remove selected skins from here
+            `<div id="weaponBalance" class="no-back-deco">
+                <p>Available balance: <span id="balanceNum" class="text-pos">$9000</span></p>
+            </div>
+            <div id="weaponSelections">
+                <img class="selected-skin" src="/assets/images/logo.png">
+                <img class="selected-skin" src="/assets/images/logo.png">
+                <img class="selected-skin" src="/assets/images/logo.png">
+                <img class="selected-skin" src="/assets/images/logo.png">
+                <img class="selected-skin" src="/assets/images/logo.png">
+                <img class="selected-skin" src="/assets/images/logo.png">
+            </div>`
+    });
+
+    // create next button and set up handler
+    let nextBtn = createEl("button", {
+        id: "weaponNext",
+        className: "next-btn btn-small team-light cursor-pointer",
+        innerHTML: "Next"
+    });
+
+    nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.summPage) });
+
+    weapFooterDiv.appendChild(nextBtn);
+
+    contentDiv.appendChild(weapWrapDiv);
+    contentDiv.appendChild(weapFooterDiv);
 }
 
 function createPageCharSumm(contentDiv) {
-
+    
 }
 
 function createPageTeamSumm(contentDiv) {

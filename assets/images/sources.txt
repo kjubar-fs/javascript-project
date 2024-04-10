@@ -1,6 +1,6 @@
 --  Author: Kaleb Jubar
 --  Created: 18 Mar 2024, 1:18:03 PM
---  Last update: 1 Apr 2024, 11:32:57 PM
+--  Last update: 10 Apr 2024, 4:15:33 PM
 --  Copyright (c) 2024 Kaleb Jubar
 
 favicon.jpg
@@ -73,6 +73,10 @@ Created by Freepik
 
 icons/weapons/gloves.png
 https://www.flaticon.com/free-icon/gloves_14426602
+Created by Freepik
+
+icons/weapons/unknown.png
+https://www.flaticon.com/free-icon/question_1662046
 Created by Freepik
 
 --  backgrounds
