@@ -1,11 +1,13 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 7:32:48 PM
+ *  Last update: 10 Apr 2024, 7:41:20 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
 
+// using Object.freeze creates an object whose properties and values cannot change
+// closest you can get to having an enum in JS
 const PAGES_ENUM = Object.freeze({
     startPage: 0,
     teamPage: 1,
@@ -238,7 +240,7 @@ function createPageStart(contentDiv) {
     contentDiv.innerHTML = `<h2>Start</h2>`;
 
     // set up the reset button, hidden by default
-    let resetBtn = createEl("button", {
+    const resetBtn = createEl("button", {
         id: "resetBtn",
         className: "danger cursor-pointer hidden",
         innerHTML: "Reset"
@@ -265,15 +267,15 @@ function createPageTeamSel(contentDiv) {
      */
     function createTeamBtn(contentDiv, btnId, label) {
         // create wrapper div
-        let btnDiv = createEl("div", { className: "no-back-deco" });
+        const btnDiv = createEl("div", { className: "no-back-deco" });
 
         // create radio and label
-        let radioEl = createEl("input", {
+        const radioEl = createEl("input", {
             id: btnId,
             type: "radio",
             name: "team"
         });
-        let labelEl = createEl("label", {
+        const labelEl = createEl("label", {
             id: `${btnId}Btn`,
             className: "btn-large cursor-pointer",
             innerHTML: label    // label uses innerHTML for the text inside
@@ -290,11 +292,11 @@ function createPageTeamSel(contentDiv) {
     }
 
     // add change listeners to radio buttons
-    let ctRadio = createTeamBtn(contentDiv, "teamCT", "Counter-Terrorist");
-    let tRadio = createTeamBtn(contentDiv, "teamT", "Terrorist");
-    let autoRadio = createTeamBtn(contentDiv, "teamAuto", "Auto-Select");
+    const ctRadio = createTeamBtn(contentDiv, "teamCT", "Counter-Terrorist");
+    const tRadio = createTeamBtn(contentDiv, "teamT", "Terrorist");
+    const autoRadio = createTeamBtn(contentDiv, "teamAuto", "Auto-Select");
 
-    let updateTeam = (e) => {
+    const updateTeam = (e) => {
         // parse the team name from the ID of the triggering component
         curTeam = e.target.id.split("team")[1].toUpperCase();
         // TODO: remove debug
@@ -306,7 +308,7 @@ function createPageTeamSel(contentDiv) {
     autoRadio.addEventListener("change", updateTeam);
 
     // create the next button
-    let nextBtn = createEl("button", {
+    const nextBtn = createEl("button", {
         id: "teamNext",
         className: "btn-small cursor-pointer",
         innerHTML: "Next"   // button also uses innerHTML
@@ -319,7 +321,7 @@ function createPageTeamSel(contentDiv) {
 }
 
 function createDisplayCard(clickable, imgPath, text) {
-    let cardDiv = createEl("div", {
+    const cardDiv = createEl("div", {
         // element needs cursor-pointer if it's intended to be clickable
         className: `display-card ${clickable ? "cursor-pointer" : ""}`,
         innerHTML: 
@@ -336,7 +338,7 @@ function createPageCharSel(contentDiv) {
 
     // create operator cards
     // TODO: replace this with data loaded from API
-    let opListDiv = createEl("div", { id: "operatorList" });
+    const opListDiv = createEl("div", { id: "operatorList" });
     for (let i = 1; i < 12; i++) {
         opListDiv.appendChild(
             createDisplayCard(true, "/assets/images/logo.png", `Operator ${i}`)
@@ -344,7 +346,7 @@ function createPageCharSel(contentDiv) {
     }
 
     // create footer
-    let opFooterDiv = createEl("div", {
+    const opFooterDiv = createEl("div", {
         id: "operatorFooter",
         className: "footer",
         innerHTML:
@@ -353,7 +355,7 @@ function createPageCharSel(contentDiv) {
     });
 
     // create next button and set up handler
-    let nextBtn = createEl("button", {
+    const nextBtn = createEl("button", {
         id: "operatorNext",
         className: "next-btn btn-small team-light cursor-pointer",
         innerHTML: "Next"
@@ -374,7 +376,7 @@ function createPageWeaponSel(contentDiv) {
     contentDiv.innerHTML = `<h2>Select Weapons and Gear</h2>`;
 
     // create weapon selection
-    let weapWrapDiv = createEl("div", {
+    const weapWrapDiv = createEl("div", {
         id: "weaponWrapper",
         className: "no-back-deco"
     });
@@ -386,7 +388,7 @@ function createPageWeaponSel(contentDiv) {
      * @returns a div representing the created weapon tab
      */
     function createWeaponTab(tabId, icon) {
-        let tabDiv = createEl("div", {
+        const tabDiv = createEl("div", {
             id: tabId,
             className: "weapon-tab cursor-pointer",
             innerHTML: `<img class="nav-icon" src="/assets/images/icons/weapons/${icon}.png">`
@@ -404,9 +406,9 @@ function createPageWeaponSel(contentDiv) {
     });
 
     // create weapon and skin choices
-    let choicesDiv = createEl("div", { id: "weaponChoices" });
-    let weapListDiv = createEl("div", { id: "weaponList" });
-    let skinListDiv = createEl("div", { id: "weaponSkinList" });
+    const choicesDiv = createEl("div", { id: "weaponChoices" });
+    const weapListDiv = createEl("div", { id: "weaponList" });
+    const skinListDiv = createEl("div", { id: "weaponSkinList" });
 
     // TODO: remove and replace with API weapons
     for (let i = 1; i < 9; i++) {
@@ -430,7 +432,7 @@ function createPageWeaponSel(contentDiv) {
     weapWrapDiv.appendChild(choicesDiv);
 
     // create footer
-    let weapFooterDiv = createEl("div", {
+    const weapFooterDiv = createEl("div", {
         id: "weaponFooter",
         className: "footer",
         // some of this content will be interactible, but only called from other places so we'll use innerHTML for now
@@ -450,7 +452,7 @@ function createPageWeaponSel(contentDiv) {
     });
 
     // create next button and set up handler
-    let nextBtn = createEl("button", {
+    const nextBtn = createEl("button", {
         id: "weaponNext",
         className: "next-btn btn-small team-light cursor-pointer",
         innerHTML: "Next"
@@ -470,10 +472,10 @@ function createPageCharSumm(contentDiv) {
     // TODO: update header contents with name
 
     // create main summary
-    let charSummDiv = createEl("div", { id: "charSummDisplay" });
+    const charSummDiv = createEl("div", { id: "charSummDisplay" });
 
     // create operator display
-    let charOpDiv = createEl("div", {
+    const charOpDiv = createEl("div", {
         id: "charSummOperator",
         className: "no-back-deco",
         // TODO: replace with operator image
@@ -481,7 +483,7 @@ function createPageCharSumm(contentDiv) {
     });
 
     // create weapons display
-    let charWeapDiv = createEl("div", {
+    const charWeapDiv = createEl("div", {
         id: "charSummWeapons",
         className: "no-back-deco"
     });
@@ -497,7 +499,7 @@ function createPageCharSumm(contentDiv) {
     charSummDiv.appendChild(charWeapDiv);
 
     // create footer
-    let charFooter = createEl("div", {
+    const charFooter = createEl("div", {
         id: "charSummFooter",
         className: "footer",
         // same as with character select, interactibility on the field is set up elsewhere so we'll use innerHTML
@@ -505,7 +507,7 @@ function createPageCharSumm(contentDiv) {
     });
 
     // create next button and set up handler
-    let nextBtn = createEl("button", {
+    const nextBtn = createEl("button", {
         id: "charSummNext",
         className: "next-btn btn-small team-light cursor-pointer",
         innerHTML: "Next"
@@ -527,21 +529,21 @@ function createPageTeamSumm(contentDiv) {
     // TODO: update header contents with team name
     
     // create main summary
-    let displayDiv = createEl("div", { id: "teamSummDisplay" });
+    const displayDiv = createEl("div", { id: "teamSummDisplay" });
 
     // create 4 operator cards
     // TODO: replace this with player and 3 randomly-generated operators
     for (let i = 1; i < 5; i++) {
         // create character container
-        let charDiv = createEl("div", { className: "team-summ-char-details no-back-deco" });
+        const charDiv = createEl("div", { className: "team-summ-char-details no-back-deco" });
 
         // create operator card
-        let opDiv = createDisplayCard(false, "/assets/images/logo.png", `Operator ${i}`);
+        const opDiv = createDisplayCard(false, "/assets/images/logo.png", `Operator ${i}`);
         // replace CSS classes on this card because this page uses special styles
         opDiv.className = "team-summ-operator display-card no-back-deco";
 
         // create weapon list
-        let weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
+        const weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
 
         // create weapon cards and add to list
         for (let j = 1; j < 7; j++) {
