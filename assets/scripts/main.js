@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 5:47:59 PM
+ *  Last update: 10 Apr 2024, 6:24:00 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -426,9 +426,96 @@ function createPageWeaponSel(contentDiv) {
 }
 
 function createPageCharSumm(contentDiv) {
+    // set up non-interactive elements
+    contentDiv.innerHTML = `<h2 id="charSummName">&lt;your name here&gt;</h2>`;
+    // TODO: update header contents with name
+
+    // create main summary
+    let charSummDiv = createEl("div", { id: "charSummDisplay" });
+
+    // create operator display
+    let charOpDiv = createEl("div", {
+        id: "charSummOperator",
+        className: "no-back-deco",
+        // TODO: replace with operator image
+        innerHTML: `<img src="/assets/images/logo.png">`
+    });
+
+    // create weapons display
+    let charWeapDiv = createEl("div", {
+        id: "charSummWeapons",
+        className: "no-back-deco"
+    });
+
+    // TODO: replace with selected weapons
+    for (let i = 1; i < 7; i++) {
+        charWeapDiv.appendChild(
+            createDisplayCard(false, "/assets/images/logo.png", `Weapon ${i}`)
+        );
+    }
+
+    charSummDiv.appendChild(charOpDiv);
+    charSummDiv.appendChild(charWeapDiv);
+
+    // create footer
+    let charFooter = createEl("div", {
+        id: "charSummFooter",
+        className: "footer",
+        // same as with character select, interactibility on the field is set up elsewhere so we'll use innerHTML
+        innerHTML: `<input id="charSummTeamName" name="charSummTeamName" placeholder="Team Name">`
+    });
+
+    // create next button and set up handler
+    let nextBtn = createEl("button", {
+        id: "charSummNext",
+        className: "next-btn btn-small team-light cursor-pointer",
+        innerHTML: "Next"
+    });
+
+    nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.teamSummPage) });
+
+    // add to footer
+    charFooter.appendChild(nextBtn);
     
+    // add content to page
+    contentDiv.appendChild(charSummDiv);
+    contentDiv.appendChild(charFooter);
 }
 
 function createPageTeamSumm(contentDiv) {
+    // set up non-interactive elements
+    contentDiv.innerHTML = `<h2 id="teamSummName">&lt;your team name here&gt;</h2>`;
+    // TODO: update header contents with team name
     
+    // create main summary
+    let displayDiv = createEl("div", { id: "teamSummDisplay" });
+
+    // create 4 operator cards
+    // TODO: replace this with player and 3 randomly-generated operators
+    for (let i = 1; i < 5; i++) {
+        // create character container
+        let charDiv = createEl("div", { className: "team-summ-char-details no-back-deco" });
+
+        // create operator card
+        let opDiv = createDisplayCard(false, "/assets/images/logo.png", `Operator ${i}`);
+        // replace CSS classes on this card because this page uses special styles
+        opDiv.className = "team-summ-operator display-card no-back-deco";
+
+        // create weapon list
+        let weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
+
+        // create weapon cards and add to list
+        for (let j = 1; j < 7; j++) {
+            weaponsDiv.appendChild(
+                createDisplayCard(false, "/assets/images/logo.png", `Weapon ${j}`)
+            );
+        }
+
+        charDiv.appendChild(opDiv);
+        charDiv.appendChild(weaponsDiv);
+
+        displayDiv.appendChild(charDiv);
+    }
+
+    contentDiv.appendChild(displayDiv);
 }
