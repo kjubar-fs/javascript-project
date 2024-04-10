@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 12:11:28 PM
+ *  Last update: 10 Apr 2024, 12:16:08 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -116,6 +116,9 @@ function navToPage(pageNum) {
 
     // set the current page
     curPage = pageNum;
+
+    // update background image
+    getElID("mainContent").className = `screen-${pageNum+1}`;
 
     // clear out the content div
     // this will be the only div on the page with the main-card CSS class (unless the user edits via F12)
