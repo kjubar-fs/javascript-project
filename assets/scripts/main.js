@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 6:24:00 PM
+ *  Last update: 10 Apr 2024, 7:08:50 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -15,7 +15,7 @@ const PAGES_ENUM = Object.freeze({
     teamSummPage: 5
 });
 
-let curPage = PAGES_ENUM.startPage;
+let curPage = -1;
 let curTeam = "";
 
 // TODO: remove debug
@@ -96,15 +96,15 @@ function createMain() {
         className: "screen-1",
         innerHTML:
             `<h1 id="mainHeading">Counter-Strike Team Builder</h1>
-            <div id="startBuilder" class="main-card card-button cursor-pointer"><h2>Start</h2></div>`
+            <div class="main-card"></div>`
     });
-
-    mainEl.lastChild.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
 
     return mainEl;
 }
 
 bodyEl.appendChild(createMain());
+
+navToPage(PAGES_ENUM.startPage);
 
 function navToPage(pageNum) {
     // do nothing if we're already on the specified page
@@ -119,7 +119,12 @@ function navToPage(pageNum) {
     curPage = pageNum;
 
     // update background image
-    getElID("mainContent").className = `screen-${pageNum+1}`;
+    getElID("mainContent").className = `screen-${pageNum + 1}`;
+
+    // show the reset button when we navigate away from the start page
+    if (pageNum !== PAGES_ENUM.startPage) {
+        getElID("resetBtn").classList.remove("hidden");
+    }
 
     // clear out the content div
     // this will be the only div on the page with the main-card CSS class (unless the user edits via F12)
@@ -204,9 +209,36 @@ function updateBreadcrumbs(pageNum) {
     });
 }
 
+function resetApplication() {
+    // prompt for reset
+    let shouldReset = confirm("Would you like to clear all data and restart?");
+    if (!shouldReset) { return; }
+
+    // TODO: remove debug
+    console.log("application reset!");
+
+    // hide reset button
+    getElID("resetBtn").classList.add("hidden");
+
+    // TODO: implement rest of reset (data, breadcrumbs, etc.)
+
+    // navigate to home
+    navToPage(PAGES_ENUM.startPage);
+}
+
 function createPageStart(contentDiv) {
-    // HTML for start page is basic and non-interactive, so just use innerHTML
+    // set up non-interactive elements
     contentDiv.innerHTML = `<h2>Start</h2>`;
+
+    // set up the reset button, hidden by default
+    let resetBtn = createEl("button", {
+        id: "resetBtn",
+        className: "danger cursor-pointer hidden",
+        innerHTML: "Reset"
+    });
+    resetBtn.addEventListener("click", resetApplication);
+
+    contentDiv.parentElement.appendChild(resetBtn);
 
     // add a click listener to go to the next page
     contentDiv.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
