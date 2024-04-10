@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 1:24:18 PM
+ *  Last update: 10 Apr 2024, 4:08:43 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -27,8 +27,8 @@ function createNav() {
         id: "mainNav",
         className: "team-dark",
         innerHTML:
-        `<hr id="breadcrumbDivider">
-        <ul id="breadcrumbs"></ul>`
+            `<hr id="breadcrumbDivider">
+            <ul id="breadcrumbs"></ul>`
     });
     
     // make logo and prepend to nav
@@ -95,8 +95,8 @@ function createMain() {
         id: "mainContent",
         className: "screen-1",
         innerHTML:
-        `<h1 id="mainHeading">Counter-Strike Team Builder</h1>
-        <div id="startBuilder" class="main-card card-button cursor-pointer"><h2>Start</h2></div>`
+            `<h1 id="mainHeading">Counter-Strike Team Builder</h1>
+            <div id="startBuilder" class="main-card card-button cursor-pointer"><h2>Start</h2></div>`
     });
 
     mainEl.lastChild.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
@@ -279,8 +279,55 @@ function createPageTeamSel(contentDiv) {
     contentDiv.appendChild(nextBtn);
 }
 
-function createPageCharSel(contentDiv) {
+function createDisplayCard(clickable, imgPath, text) {
+    let cardDiv = createEl("div", {
+        // element needs cursor-pointer if it's intended to be clickable
+        className: `display-card ${clickable ? "cursor-pointer" : ""}`,
+        innerHTML: 
+            `<img class="display-img" src="${imgPath}">
+            <p class="display-text">${text}</p>`
+    });
 
+    return cardDiv;
+}
+
+function createPageCharSel(contentDiv) {
+    // set up non-interactive elements
+    contentDiv.innerHTML = `<h2>Select an Operator</h2>`;
+
+    // create operator cards
+    // TODO: replace this with data loaded from API
+    let opListDiv = createEl("div", { id: "operatorList" });
+    for (let i = 1; i < 12; i++) {
+        opListDiv.appendChild(
+            createDisplayCard(true, "/assets/images/logo.png", `Operator ${i}`)
+        );
+    }
+
+    // create footer
+    let opFooterDiv = createEl("div", {
+        id: "operatorFooter",
+        className: "footer",
+        innerHTML:
+            // this doesn't need interactivity since it is only accessed by validation functions later, so we'll add it via innerHTML
+            `<input id="operatorName" name="operatorName" placeholder="Player Name">`
+    });
+
+    // create next button and set up handler
+    let nextBtn = createEl("button", {
+        id: "operatorNext",
+        className: "next-btn btn-small team-light cursor-pointer",
+        innerHTML: "Next"
+    });
+
+    nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.weaponPage) });
+
+    // add to footer
+    opFooterDiv.appendChild(nextBtn);
+
+    // add content to page
+    contentDiv.appendChild(opListDiv);
+    contentDiv.appendChild(opFooterDiv);
 }
 
 function createPageWeaponSel(contentDiv) {
