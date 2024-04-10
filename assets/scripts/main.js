@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 9 Apr 2024, 4:51:51 PM
+ *  Last update: 10 Apr 2024, 12:11:28 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -36,7 +36,6 @@ function createNav() {
         className: "logo cursor-pointer",
         src: "/assets/images/logo-wh.png"
     });
-    // TODO: implement navigation and hook up here
     logoEl.addEventListener("click", () => { navToPage(PAGES_ENUM.startPage) });
     navEl.firstChild.insertAdjacentElement("beforebegin", logoEl);
 
@@ -46,35 +45,30 @@ function createNav() {
         // className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/teams-wh.png">`
     });
-    // TODO: implement navigation and hook up here
     navTeamEl.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
     const navCharEl = createEl("li", {
         id: "navChar",
         // className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/soldier-wh.png">`
     });
-    // TODO: implement navigation and hook up here
     navCharEl.addEventListener("click", () => { navToPage(PAGES_ENUM.charPage) });
     const navWeaponEl = createEl("li", {
         id: "navWeapon",
         // className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/weapon-wh.png">`
     });
-    // TODO: implement navigation and hook up here
     navWeaponEl.addEventListener("click", () => { navToPage(PAGES_ENUM.weaponPage) });
     const navSummaryEl = createEl("li", {
         id: "navSummary",
         // className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/review-wh.png">`
     });
-    // TODO: implement navigation and hook up here
     navSummaryEl.addEventListener("click", () => { navToPage(PAGES_ENUM.summPage) });
     const navTeamSummaryEl = createEl("li", {
         id: "navTeamSummary",
         // className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/squad-wh.png">`
     });
-    // TODO: implement navigation and hook up here
     navTeamSummaryEl.addEventListener("click", () => { navToPage(PAGES_ENUM.teamSummPage) });
 
     const navUlEl = navEl.lastChild;
@@ -90,7 +84,7 @@ function createNav() {
 const bodyEl = getElSlct("body");
 bodyEl.appendChild(createNav());
 // TODO: reenable this
-//updateBreadcrumbs(curPage);
+// updateBreadcrumbs(curPage);
 
 // TODO: remove debug
 console.log("navbar created");
@@ -163,7 +157,8 @@ function navToPage(pageNum) {
             break;
     }
 
-    updateBreadcrumbs(pageNum);
+    // TODO: reenable
+    // updateBreadcrumbs(pageNum);
 }
 
 function updateBreadcrumbs(pageNum) {
