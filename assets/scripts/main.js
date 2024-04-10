@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 12:16:08 PM
+ *  Last update: 10 Apr 2024, 12:26:02 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -165,33 +165,32 @@ function navToPage(pageNum) {
 }
 
 function updateBreadcrumbs(pageNum) {
+    // hide the divider for start page, otherwise show
+    pageNum === PAGES_ENUM.startPage
+        ? getElID("breadcrumbDivider").classList.add("hidden")
+        : getElID("breadcrumbDivider").classList.remove("hidden");
+    
     // get a list of which nav elements should be hidden
     let hideNavs;
     switch (pageNum) {
         case PAGES_ENUM.teamPage:
-            getElID("breadcrumbDivider").classList.remove("hidden");
             hideNavs = ["navChar", "navWeapon", "navSummary", "navTeamSummary"];
             break;
         case PAGES_ENUM.charPage:
-            getElID("breadcrumbDivider").classList.remove("hidden");
             hideNavs = ["navWeapon", "navSummary", "navTeamSummary"];
             break;
         case PAGES_ENUM.weaponPage:
-            getElID("breadcrumbDivider").classList.remove("hidden");
             hideNavs = ["navSummary", "navTeamSummary"];
             break;
         case PAGES_ENUM.summPage:
-            getElID("breadcrumbDivider").classList.remove("hidden");
             hideNavs = ["navTeamSummary"];
             break;
         case PAGES_ENUM.teamSummPage:
-            getElID("breadcrumbDivider").classList.remove("hidden");
             hideNavs = [];
             break;
         // default to start page if this breaks somehow
         case PAGES_ENUM.startPage:
         default:
-            getElID("breadcrumbDivider").classList.add("hidden");
             hideNavs = ["navTeam", "navChar", "navWeapon", "navSummary", "navTeamSummary"];
             break;
     }
