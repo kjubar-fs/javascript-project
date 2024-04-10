@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 7:23:43 PM
+ *  Last update: 10 Apr 2024, 7:32:48 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -140,26 +140,31 @@ function navToPage(pageNum) {
 
     switch (pageNum) {
         case PAGES_ENUM.teamPage:
+            document.title = "Team Select | CS:GO Team Builder";
             contentDiv.id = "teamSelect";
             contentDiv.className = "main-card card-mid";
             createPageTeamSel(contentDiv);
             break;
         case PAGES_ENUM.charPage:
+            document.title = "Character Select | CS:GO Team Builder";
             contentDiv.id = "operatorSelect";
             contentDiv.className = "main-card card-lg";
             createPageCharSel(contentDiv);
             break;
         case PAGES_ENUM.weaponPage:
+            document.title = "Weapon Select | CS:GO Team Builder";
             contentDiv.id = "weaponSelect";
             contentDiv.className = "main-card card-lg";
             createPageWeaponSel(contentDiv);
             break;
         case PAGES_ENUM.summPage:
+            document.title = "Character Summary | CS:GO Team Builder";
             contentDiv.id = "charSumm";
             contentDiv.className = "main-card card-lg";
             createPageCharSumm(contentDiv);
             break;
         case PAGES_ENUM.teamSummPage:
+            document.title = "Team Summary | CS:GO Team Builder";
             contentDiv.id = "teamSumm";
             contentDiv.className = "main-card card-lg";
             createPageTeamSumm(contentDiv);
@@ -167,6 +172,7 @@ function navToPage(pageNum) {
         // default to start page if this breaks somehow
         case PAGES_ENUM.startPage:
         default:
+            document.title = "Start Screen | CS:GO Team Builder";
             contentDiv.id = "startBuilder";
             contentDiv.className = "main-card card-button cursor-pointer";
             createPageStart(contentDiv);
