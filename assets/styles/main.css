@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 9 Apr 2024, 4:51:11 PM
+ *  Last update: 10 Apr 2024, 11:52:10 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -184,7 +184,7 @@ nav > ul {
 }
 
 nav > ul > li, nav > hr {
-    transition: opacity 1s;
+    transition: opacity 0.5s;
 }
 
 nav > ul > li:not(:first-child) {
@@ -249,7 +249,7 @@ main.screen-6 {
     font-weight: 500;
     position: absolute;
     top: 50px;
-    transition: all 5s;
+    transition: all 1.5s;
 }
 
 body:has(.main-card.card-lg) #mainHeading {
@@ -265,13 +265,14 @@ body:has(.main-card.card-lg) #mainHeading {
     align-items: center;
     justify-content: center;
     gap: 30px;
-    transition: all 5s;
+    transition: all 1.5s;
 }
 
 .main-card.card-button {
     border-width: 5px;
     border-radius: 15px;
-    padding: 20px 60px;
+    width: 190px;
+    height: 80px;
 }
 
 .main-card.card-mid {
