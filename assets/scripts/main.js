@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 12:26:02 PM
+ *  Last update: 10 Apr 2024, 1:24:18 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -16,6 +16,7 @@ const PAGES_ENUM = Object.freeze({
 });
 
 let curPage = PAGES_ENUM.startPage;
+let curTeam = "";
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -195,6 +196,8 @@ function updateBreadcrumbs(pageNum) {
             break;
     }
 
+    // go over the list of breadcrumbs and show/hide as indicated by the current page
+    // both Element.children and Element.childNodes are not proper arrays, so we have to use the spread operator to do a forEach
     const crumbs = [ ...getElID("breadcrumbs").children ];
     crumbs.forEach(el => {
         hideNavs.includes(el.id) ? el.classList.add("hidden") : el.classList.remove("hidden");
@@ -202,12 +205,78 @@ function updateBreadcrumbs(pageNum) {
 }
 
 function createPageStart(contentDiv) {
+    // HTML for start page is basic and non-interactive, so just use innerHTML
     contentDiv.innerHTML = `<h2>Start</h2>`;
+
+    // add a click listener to go to the next page
     contentDiv.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
 }
 
 function createPageTeamSel(contentDiv) {
+    // set up non-interactive elements
+    contentDiv.innerHTML =`<h2>Select a Team</h2>`;
 
+    /**
+     * Creates a new team button, appends it to the given div, and returns
+     * the created inner radio button for adding interactivity
+     * @param {HTMLElement} contentDiv content div element to append to
+     * @param {string} btnId id string
+     * @param {string} label button label
+     * @returns created input radio button
+     */
+    function createTeamBtn(contentDiv, btnId, label) {
+        // create wrapper div
+        let btnDiv = createEl("div", { className: "no-back-deco" });
+
+        // create radio and label
+        let radioEl = createEl("input", {
+            id: btnId,
+            type: "radio",
+            name: "team"
+        });
+        let labelEl = createEl("label", {
+            id: `${btnId}Btn`,
+            className: "btn-large cursor-pointer",
+            innerHTML: label    // label uses innerHTML for the text inside
+        })
+        labelEl.setAttribute("for", btnId); // "for" can't be set with dot notation
+
+        // append children to wrapper, then wrapper to content
+        btnDiv.appendChild(radioEl);
+        btnDiv.appendChild(labelEl);
+        contentDiv.appendChild(btnDiv);
+
+        // return the radio element for interactivity
+        return radioEl;
+    }
+
+    // add change listeners to radio buttons
+    let ctRadio = createTeamBtn(contentDiv, "teamCT", "Counter-Terrorist");
+    let tRadio = createTeamBtn(contentDiv, "teamT", "Terrorist");
+    let autoRadio = createTeamBtn(contentDiv, "teamAuto", "Auto-Select");
+
+    let updateTeam = (e) => {
+        // parse the team name from the ID of the triggering component
+        curTeam = e.target.id.split("team")[1].toUpperCase();
+        // TODO: remove debug
+        console.log(`team changed: ${curTeam}`);
+    }
+    
+    ctRadio.addEventListener("change", updateTeam);
+    tRadio.addEventListener("change", updateTeam);
+    autoRadio.addEventListener("change", updateTeam);
+
+    // create the next button
+    let nextBtn = createEl("button", {
+        id: "teamNext",
+        className: "btn-small cursor-pointer",
+        innerHTML: "Next"   // button also uses innerHTML
+    });
+
+    // add navigation on click
+    nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.charPage) });
+
+    contentDiv.appendChild(nextBtn);
 }
 
 function createPageCharSel(contentDiv) {
