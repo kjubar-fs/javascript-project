@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 7:08:50 PM
+ *  Last update: 10 Apr 2024, 7:23:43 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -17,6 +17,8 @@ const PAGES_ENUM = Object.freeze({
 
 let curPage = -1;
 let curTeam = "";
+// TODO: empty array, only full for debug purposes
+let visitedPages = [0, 1, 2, 3, 4, 5];
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -27,7 +29,7 @@ function createNav() {
         id: "mainNav",
         className: "team-dark",
         innerHTML:
-            `<hr id="breadcrumbDivider">
+            `<hr id="breadcrumbDivider" class="hidden">
             <ul id="breadcrumbs"></ul>`
     });
     
@@ -43,31 +45,31 @@ function createNav() {
     // make breadcrumbs and append to nav
     const navTeamEl = createEl("li", {
         id: "navTeam",
-        // className: "hidden",
+        className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/teams-wh.png">`
     });
     navTeamEl.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
     const navCharEl = createEl("li", {
         id: "navChar",
-        // className: "hidden",
+        className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/soldier-wh.png">`
     });
     navCharEl.addEventListener("click", () => { navToPage(PAGES_ENUM.charPage) });
     const navWeaponEl = createEl("li", {
         id: "navWeapon",
-        // className: "hidden",
+        className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/weapon-wh.png">`
     });
     navWeaponEl.addEventListener("click", () => { navToPage(PAGES_ENUM.weaponPage) });
     const navSummaryEl = createEl("li", {
         id: "navSummary",
-        // className: "hidden",
+        className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/review-wh.png">`
     });
     navSummaryEl.addEventListener("click", () => { navToPage(PAGES_ENUM.summPage) });
     const navTeamSummaryEl = createEl("li", {
         id: "navTeamSummary",
-        // className: "hidden",
+        className: "hidden",
         innerHTML: `<img class="nav-icon cursor-pointer" src="/assets/images/icons/nav/squad-wh.png">`
     });
     navTeamSummaryEl.addEventListener("click", () => { navToPage(PAGES_ENUM.teamSummPage) });
@@ -84,8 +86,6 @@ function createNav() {
 
 const bodyEl = getElSlct("body");
 bodyEl.appendChild(createNav());
-// TODO: reenable this
-// updateBreadcrumbs(curPage);
 
 // TODO: remove debug
 console.log("navbar created");
@@ -103,7 +103,6 @@ function createMain() {
 }
 
 bodyEl.appendChild(createMain());
-
 navToPage(PAGES_ENUM.startPage);
 
 function navToPage(pageNum) {
@@ -117,6 +116,14 @@ function navToPage(pageNum) {
 
     // set the current page
     curPage = pageNum;
+
+    // if this page hasn't been visited yet, record it as visited
+    // TODO: update to false to dynamically update crumbs
+    let needCrumbUpdate = true;
+    if (!visitedPages.includes(pageNum)) {
+        visitedPages.push(pageNum);
+        needCrumbUpdate = true;
+    }
 
     // update background image
     getElID("mainContent").className = `screen-${pageNum + 1}`;
@@ -166,46 +173,40 @@ function navToPage(pageNum) {
             break;
     }
 
-    // TODO: reenable
-    // updateBreadcrumbs(pageNum);
+    if (needCrumbUpdate) {
+        updateBreadcrumbs();
+    }
 }
 
-function updateBreadcrumbs(pageNum) {
-    // hide the divider for start page, otherwise show
-    pageNum === PAGES_ENUM.startPage
-        ? getElID("breadcrumbDivider").classList.add("hidden")
-        : getElID("breadcrumbDivider").classList.remove("hidden");
-    
-    // get a list of which nav elements should be hidden
-    let hideNavs;
-    switch (pageNum) {
-        case PAGES_ENUM.teamPage:
-            hideNavs = ["navChar", "navWeapon", "navSummary", "navTeamSummary"];
-            break;
-        case PAGES_ENUM.charPage:
-            hideNavs = ["navWeapon", "navSummary", "navTeamSummary"];
-            break;
-        case PAGES_ENUM.weaponPage:
-            hideNavs = ["navSummary", "navTeamSummary"];
-            break;
-        case PAGES_ENUM.summPage:
-            hideNavs = ["navTeamSummary"];
-            break;
-        case PAGES_ENUM.teamSummPage:
-            hideNavs = [];
-            break;
-        // default to start page if this breaks somehow
-        case PAGES_ENUM.startPage:
-        default:
-            hideNavs = ["navTeam", "navChar", "navWeapon", "navSummary", "navTeamSummary"];
-            break;
+function updateBreadcrumbs() {
+    // show the divider if more than 1 page has been visited
+    if (visitedPages.length > 1) {
+        getElID("breadcrumbDivider").classList.remove("hidden");
     }
 
-    // go over the list of breadcrumbs and show/hide as indicated by the current page
-    // both Element.children and Element.childNodes are not proper arrays, so we have to use the spread operator to do a forEach
-    const crumbs = [ ...getElID("breadcrumbs").children ];
-    crumbs.forEach(el => {
-        hideNavs.includes(el.id) ? el.classList.add("hidden") : el.classList.remove("hidden");
+    // update the breadcrumbs based on which pages we've visited
+    visitedPages.forEach((page) => {
+        switch (page) {
+            case PAGES_ENUM.teamPage:
+                getElID("navTeam").classList.remove("hidden");
+                break;
+            case PAGES_ENUM.charPage:
+                getElID("navChar").classList.remove("hidden");
+                break;
+            case PAGES_ENUM.weaponPage:
+                getElID("navWeapon").classList.remove("hidden");
+                break;
+            case PAGES_ENUM.summPage:
+                getElID("navSummary").classList.remove("hidden");
+                break;
+            case PAGES_ENUM.teamSummPage:
+                getElID("navTeamSummary").classList.remove("hidden");
+                break;
+            // do nothing for start page or any other number we may end up with
+            case PAGES_ENUM.startPage:
+            default:
+                break;
+        }
     });
 }
 
