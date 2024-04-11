@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 12:12:46 PM
+ *  Last update: 11 Apr 2024, 12:20:19 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,7 +9,7 @@
  * Data classes for loading from the API
  */
 
-import { createDisplayCard } from "./main.js";
+import { createDisplayCard, changeOperator } from "./main.js";
 import { getElID } from "./utility.js";
 
 /**
@@ -43,13 +43,8 @@ export class Operator {
     }
 
     #click() {
-        // raise an event saying the operator changed
-        // if this is not selected, select it
-        // otherwise deselect it
-        const event = new CustomEvent("operatorChanged", {
-            bubbles: true,
-            detail: this.getElement().classList.contains("selected") ? {} : this
-        });
-        this.getElement().dispatchEvent(event);
+        // if this card is currently selected, return an empty object so it's deselected
+        // otherwise return this to select it
+        changeOperator(this.getElement().classList.contains("selected") ? {} : this);
     }
 }
