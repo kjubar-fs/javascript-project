@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 11:47:48 AM
+ *  Last update: 11 Apr 2024, 12:13:41 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -40,8 +40,32 @@ loadOperators().then((result) => {
     populateOperatorCards();
 });
 
+// choice storage
+let curOperator = {};
+
 // TODO: remove debug
 console.log("main script initialized");
+
+const bodyEl = getElSlct("body");
+
+// set up event listeners for operator and weapon changes
+bodyEl.addEventListener("operatorChanged", (e) => {
+    // TODO: remove debug
+    console.log("current operator changed from ");
+    console.log(curOperator);
+    console.log("to");
+    console.log(e.detail);
+
+    // deselect previous operator
+    // if curOperator is empty, there was nothing selected
+    if (Object.keys(curOperator).length !== 0) {
+        curOperator.getElement().classList.remove("selected");
+    }
+
+    // update current operator
+    curOperator = e.detail;
+    curOperator.getElement().classList.add("selected");
+});
 
 /**
  * Assembles the navbar
@@ -108,7 +132,6 @@ function createNav() {
     return navEl;
 }
 
-const bodyEl = getElSlct("body");
 bodyEl.appendChild(createNav());
 
 // TODO: remove debug

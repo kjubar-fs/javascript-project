@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 11:26:46 AM
+ *  Last update: 11 Apr 2024, 12:12:46 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -43,7 +43,13 @@ export class Operator {
     }
 
     #click() {
-        console.log(this.name);
-        this.getElement().classList.toggle("selected");
+        // raise an event saying the operator changed
+        // if this is not selected, select it
+        // otherwise deselect it
+        const event = new CustomEvent("operatorChanged", {
+            bubbles: true,
+            detail: this.getElement().classList.contains("selected") ? {} : this
+        });
+        this.getElement().dispatchEvent(event);
     }
 }
