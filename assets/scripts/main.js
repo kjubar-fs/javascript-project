@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 9:30:08 AM
+ *  Last update: 11 Apr 2024, 10:02:23 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -21,6 +21,14 @@ let curPage = -1;
 let curTeam = "";
 // TODO: empty array, only full for debug purposes
 let visitedPages = [0, 1, 2, 3, 4, 5];
+
+// pregenerate screen HTML
+let startContent = createPageStart();
+let teamSelContent = createPageTeamSel();
+let charSelContent = createPageCharSel();
+let weaponSelContent = createPageWeaponSel();
+let charSummContent = createPageCharSumm();
+let teamSummContent = createPageTeamSumm();
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -101,6 +109,7 @@ console.log("navbar created");
  * @returns created top main element
  */
 function createMain() {
+    // create main
     const mainEl = createEl("main", {
         id: "mainContent",
         className: "screen-1",
@@ -108,6 +117,16 @@ function createMain() {
             `<h1 id="mainHeading">Counter-Strike Team Builder</h1>
             <div class="main-card"></div>`
     });
+
+    // set up the reset button, hidden by default
+    const resetBtn = createEl("button", {
+        id: "resetBtn",
+        className: "danger cursor-pointer hidden",
+        innerHTML: "Reset"
+    });
+    resetBtn.addEventListener("click", resetApplication);
+
+    mainEl.appendChild(resetBtn);
 
     return mainEl;
 }
@@ -118,7 +137,7 @@ navToPage(PAGES_ENUM.startPage);
 /**
  * Navigates to the specified page
  * Does nothing if attempting to navigate to the current page
- * @param {PAGES_NUM} pageNum page number to navigate to, from the PAGES_NUM enum
+ * @param {PAGES_ENUM} pageNum page number to navigate to, from PAGES_ENUM
  */
 function navToPage(pageNum) {
     // do nothing if we're already on the specified page
@@ -154,37 +173,38 @@ function navToPage(pageNum) {
     // clear out the content div
     // this will be the only div on the page with the main-card CSS class (unless the user edits via F12)
     contentDiv.innerHTML = "";
+    let content;
 
     switch (pageNum) {
         case PAGES_ENUM.teamPage:
             document.title = "Team Select | CS:GO Team Builder";
             contentDiv.id = "teamSelect";
             contentDiv.className = "main-card card-mid";
-            createPageTeamSel(contentDiv);
+            content = teamSelContent;
             break;
         case PAGES_ENUM.charPage:
             document.title = "Character Select | CS:GO Team Builder";
             contentDiv.id = "operatorSelect";
             contentDiv.className = "main-card card-lg";
-            createPageCharSel(contentDiv);
+            content = charSelContent;
             break;
         case PAGES_ENUM.weaponPage:
             document.title = "Weapon Select | CS:GO Team Builder";
             contentDiv.id = "weaponSelect";
             contentDiv.className = "main-card card-lg";
-            createPageWeaponSel(contentDiv);
+            content = weaponSelContent;
             break;
         case PAGES_ENUM.summPage:
             document.title = "Character Summary | CS:GO Team Builder";
             contentDiv.id = "charSumm";
             contentDiv.className = "main-card card-lg";
-            createPageCharSumm(contentDiv);
+            content = charSummContent;
             break;
         case PAGES_ENUM.teamSummPage:
             document.title = "Team Summary | CS:GO Team Builder";
             contentDiv.id = "teamSumm";
             contentDiv.className = "main-card card-lg";
-            createPageTeamSumm(contentDiv);
+            content = teamSummContent;
             break;
         // default to start page if this breaks somehow
         case PAGES_ENUM.startPage:
@@ -192,9 +212,16 @@ function navToPage(pageNum) {
             document.title = "Start Screen | CS:GO Team Builder";
             contentDiv.id = "startBuilder";
             contentDiv.className = "main-card card-button cursor-pointer";
-            createPageStart(contentDiv);
+            // add a click listener to go to the next page
+            contentDiv.addEventListener("click", navToTeamSelect);
+            content = startContent;
             break;
     }
+
+    // apply content to div
+    content.forEach((el) => {
+        contentDiv.appendChild(el);
+    });
 
     if (needCrumbUpdate) {
         updateBreadcrumbs();
@@ -265,73 +292,38 @@ function navToTeamSelect() {
 }
 
 /**
- * Create start page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create start page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageStart(contentDiv) {
+function createPageStart() {
+    // TODO: remove debug
+    console.log("creating start page");
+    // empty content array
+    let content = [];
+
     // set up non-interactive elements
-    contentDiv.innerHTML = `<h2>Start</h2>`;
+    content.push(createEl("h2", { innerText: "Start" }));
 
-    // set up the reset button, hidden by default
-    const resetBtn = createEl("button", {
-        id: "resetBtn",
-        className: "danger cursor-pointer hidden",
-        innerHTML: "Reset"
-    });
-    resetBtn.addEventListener("click", resetApplication);
-
-    contentDiv.parentElement.appendChild(resetBtn);
-
-    // add a click listener to go to the next page
-    contentDiv.addEventListener("click", navToTeamSelect);
+    return content;
 }
 
 /**
- * Create team select page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create team select page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageTeamSel(contentDiv) {
+function createPageTeamSel() {
+    // TODO: remove debug
+    console.log("creating team select page");
+    // empty content array
+    let content = [];
+    
     // set up non-interactive elements
-    contentDiv.innerHTML =`<h2>Select a Team</h2>`;
-
-    /**
-     * Creates a new team button, appends it to the given div, and returns
-     * the created inner radio button for adding interactivity
-     * @param {HTMLElement} contentDiv div element to append content to
-     * @param {string} btnId id string
-     * @param {string} label button label
-     * @returns created input radio button
-     */
-    function createTeamBtn(contentDiv, btnId, label) {
-        // create wrapper div
-        const btnDiv = createEl("div", { className: "no-back-deco" });
-
-        // create radio and label
-        const radioEl = createEl("input", {
-            id: btnId,
-            type: "radio",
-            name: "team"
-        });
-        const labelEl = createEl("label", {
-            id: `${btnId}Btn`,
-            className: "btn-large cursor-pointer",
-            innerHTML: label    // label uses innerHTML for the text inside
-        })
-        labelEl.setAttribute("for", btnId); // "for" can't be set with dot notation
-
-        // append children to wrapper, then wrapper to content
-        btnDiv.appendChild(radioEl);
-        btnDiv.appendChild(labelEl);
-        contentDiv.appendChild(btnDiv);
-
-        // return the radio element for interactivity
-        return radioEl;
-    }
+    content.push(createEl("h2", { innerText: "Select a Team" }));
 
     // add change listeners to radio buttons
-    const ctRadio = createTeamBtn(contentDiv, "teamCT", "Counter-Terrorist");
-    const tRadio = createTeamBtn(contentDiv, "teamT", "Terrorist");
-    const autoRadio = createTeamBtn(contentDiv, "teamAuto", "Auto-Select");
+    const ctRadio = createTeamBtn("teamCT", "Counter-Terrorist");
+    const tRadio = createTeamBtn("teamT", "Terrorist");
+    const autoRadio = createTeamBtn("teamAuto", "Auto-Select");
 
     const updateTeam = (e) => {
         // parse the team name from the ID of the triggering component
@@ -354,7 +346,44 @@ function createPageTeamSel(contentDiv) {
     // add navigation on click
     nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.charPage) });
 
-    contentDiv.appendChild(nextBtn);
+    content.push(nextBtn);
+
+    return content;
+
+    /// inner function ///
+
+    /**
+     * Creates a new team button, adds it to the content array, and returns
+     * the created inner radio button for adding interactivity
+     * @param {string} btnId id string
+     * @param {string} label button label
+     * @returns created input radio button
+     */
+    function createTeamBtn(btnId, label) {
+        // create wrapper div
+        const btnDiv = createEl("div", { className: "no-back-deco" });
+
+        // create radio and label
+        const radioEl = createEl("input", {
+            id: btnId,
+            type: "radio",
+            name: "team"
+        });
+        const labelEl = createEl("label", {
+            id: `${btnId}Btn`,
+            className: "btn-large cursor-pointer",
+            innerHTML: label    // label uses innerHTML for the text inside
+        })
+        labelEl.setAttribute("for", btnId); // "for" can't be set with dot notation
+
+        // append children to wrapper, then wrapper to content
+        btnDiv.appendChild(radioEl);
+        btnDiv.appendChild(labelEl);
+        content.push(btnDiv);
+
+        // return the radio element for interactivity
+        return radioEl;
+    }
 }
 
 /**
@@ -377,12 +406,17 @@ function createDisplayCard(clickable, imgPath, text) {
 }
 
 /**
- * Create character select page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create character select page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageCharSel(contentDiv) {
+function createPageCharSel() {
+    // TODO: remove debug
+    console.log("creating character select page");
+    // empty content array
+    let content = [];
+
     // set up non-interactive elements
-    contentDiv.innerHTML = `<h2>Select an Operator</h2>`;
+    content.push(createEl("h2", { innerText: "Select an Operator" }));
 
     // create operator cards
     // TODO: replace this with data loaded from API
@@ -415,39 +449,30 @@ function createPageCharSel(contentDiv) {
     opFooterDiv.appendChild(nextBtn);
 
     // add content to page
-    contentDiv.appendChild(opListDiv);
-    contentDiv.appendChild(opFooterDiv);
+    content.push(opListDiv);
+    content.push(opFooterDiv);
+
+    return content;
 }
 
 /**
- * Create weapon select page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create weapon select page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageWeaponSel(contentDiv) {
+function createPageWeaponSel() {
+    // TODO: remove debug
+    console.log("creating weapon select page");
+    // empty content array
+    let content = [];
+
     // set up non-interactive elements
-    contentDiv.innerHTML = `<h2>Select Weapons and Gear</h2>`;
+    content.push(createEl("h2", { innerText: "Select Weapons and Gear" }));
 
     // create weapon selection
     const weapWrapDiv = createEl("div", {
         id: "weaponWrapper",
         className: "no-back-deco"
     });
-
-    /**
-     * Create a weapon tab with the given ID and icon
-     * @param {string} tabId tab ID
-     * @param {string} icon weapon icon filename (no path or extension)
-     * @returns a div representing the created weapon tab
-     */
-    function createWeaponTab(tabId, icon) {
-        const tabDiv = createEl("div", {
-            id: tabId,
-            className: "weapon-tab cursor-pointer",
-            innerHTML: `<img class="nav-icon" src="/assets/images/icons/weapons/${icon}.png">`
-        });
-
-        return tabDiv;
-    }
 
     // TODO: remove and replace with API categories
     const WEAPONS = ["Pistol", "SMG", "Rifle", "Heavy", "Knife", "Gloves"];
@@ -514,17 +539,45 @@ function createPageWeaponSel(contentDiv) {
 
     weapFooterDiv.appendChild(nextBtn);
 
-    contentDiv.appendChild(weapWrapDiv);
-    contentDiv.appendChild(weapFooterDiv);
+    content.push(weapWrapDiv);
+    content.push(weapFooterDiv);
+
+    return content;
+
+    /// inner function ///
+
+    /**
+     * Create a weapon tab with the given ID and icon
+     * @param {string} tabId tab ID
+     * @param {string} icon weapon icon filename (no path or extension)
+     * @returns a div representing the created weapon tab
+     */
+    function createWeaponTab(tabId, icon) {
+        const tabDiv = createEl("div", {
+            id: tabId,
+            className: "weapon-tab cursor-pointer",
+            innerHTML: `<img class="nav-icon" src="/assets/images/icons/weapons/${icon}.png">`
+        });
+
+        return tabDiv;
+    }
 }
 
 /**
- * Create character summary page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create character summary page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageCharSumm(contentDiv) {
+function createPageCharSumm() {
+    // TODO: remove debug
+    console.log("creating character summary page");
+    // empty content array
+    let content = [];
+    
     // set up non-interactive elements
-    contentDiv.innerHTML = `<h2 id="charSummName">&lt;your name here&gt;</h2>`;
+    content.push(createEl("h2", {
+        id: "charSummName",
+        innerText: "<your name here>"
+    }));
     // TODO: update header contents with name
 
     // create main summary
@@ -575,17 +628,27 @@ function createPageCharSumm(contentDiv) {
     charFooter.appendChild(nextBtn);
     
     // add content to page
-    contentDiv.appendChild(charSummDiv);
-    contentDiv.appendChild(charFooter);
+    content.push(charSummDiv);
+    content.push(charFooter);
+
+    return content;
 }
 
 /**
- * Create team summary page elements and append them to the given div
- * @param {HTMLElement} contentDiv div element to append content to
+ * Create team summary page elements
+ * @returns an array of elements to append to the main content div
  */
-function createPageTeamSumm(contentDiv) {
+function createPageTeamSumm() {
+    // TODO: remove debug
+    console.log("creating team summary page");
+    // empty content array
+    let content = [];
+    
     // set up non-interactive elements
-    contentDiv.innerHTML = `<h2 id="teamSummName">&lt;your team name here&gt;</h2>`;
+    content.push(createEl("h2", {
+        id: "teamSummName",
+        innerText: "<your team name here>"
+    }));
     // TODO: update header contents with team name
     
     // create main summary
@@ -618,5 +681,7 @@ function createPageTeamSumm(contentDiv) {
         displayDiv.appendChild(charDiv);
     }
 
-    contentDiv.appendChild(displayDiv);
+    content.push(displayDiv);
+
+    return content;
 }
