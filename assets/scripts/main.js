@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 12:31:32 PM
+ *  Last update: 11 Apr 2024, 12:34:05 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -43,7 +43,7 @@ let curTeam = "";
 let curTeamName = "";
 
 let curOperator = {};
-let charName = "";
+let playerName = "";
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -52,7 +52,7 @@ console.log("main script initialized");
  * Change the currently selected operator
  * @param {Operator} newOperator operator to change to
  */
-export function changeOperator(newOperator) {
+export function updateOperator(newOperator) {
     // deselect previous operator
     // if curOperator is empty, there was nothing selected
     if (Object.keys(curOperator).length !== 0) {
@@ -64,13 +64,14 @@ export function changeOperator(newOperator) {
     curOperator.getElement().classList.add("selected");
 }
 
-function changeCharName(newName) {
-    charName = newName;
+/**
+ * Update the player's name
+ * @param {string} newName new player name
+ */
+function updatePlayerName(newName) {
+    playerName = newName;
 
-    // TODO: remove debug
-    console.log("char name updated to " + newName);
-
-    // TODO: update character name in summary pages
+    // TODO: update player name in summary pages
 }
 
 const bodyEl = getElSlct("body");
@@ -322,8 +323,8 @@ function resetApplication() {
 
     // reset data
     updateSelectedTeam("", "");
-    changeOperator({});
-    changeCharName("");
+    updateOperator({});
+    updatePlayerName("");
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
@@ -515,7 +516,7 @@ function createPageCharSel() {
         placeholder: "Player Name"
     });
     charNameInput.addEventListener("input", (e) => {
-        changeCharName(e.target.value);
+        updatePlayerName(e.target.value);
     });
     opFooterDiv.appendChild(charNameInput);
 
