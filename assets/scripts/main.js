@@ -1,11 +1,12 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 11:03:16 AM
+ *  Last update: 11 Apr 2024, 11:47:48 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
 import { Operator } from "./data_classes.js";
+import { loadOperators } from "./data_loading.js";
 
 // using Object.freeze creates an object whose properties and values cannot change
 // closest you can get to having an enum in JS
@@ -31,6 +32,13 @@ let charSelContent = createPageCharSel();
 let weaponSelContent = createPageWeaponSel();
 let charSummContent = createPageCharSumm();
 let teamSummContent = createPageTeamSumm();
+
+// preload data
+let operators;
+loadOperators().then((result) => {
+    operators = result;
+    populateOperatorCards();
+});
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -460,18 +468,9 @@ function createPageCharSel() {
     // set up non-interactive elements
     content.push(createEl("h2", { innerText: "Select an Operator" }));
 
-    // create operator cards
-    // TODO: replace this with data loaded from API
+    // create operator list
     const opListDiv = createEl("div", { id: "operatorList" });
-    for (let i = 1; i < 12; i++) {
-        opListDiv.appendChild(
-            createDisplayCard(true, "/assets/images/logo.png", `Operator ${i}`)
-        );
-    }
-    // create dummy operator card using class
-    opListDiv.appendChild(
-        new Operator("test-op-1", "Billy", "/assets/images/logo.png").getElement()
-    );
+    // populating of cards will be handled by the data loading
 
     // create footer
     const opFooterDiv = createEl("div", {
@@ -499,6 +498,22 @@ function createPageCharSel() {
     content.push(opFooterDiv);
 
     return content;
+}
+
+/**
+ * Populate the content of the operator list from the loaded data
+ */
+function populateOperatorCards() {
+    // since this is called asynchronously, return if HTML elements haven't been created (just in case)
+    if (!operators || !charSelContent) {
+        return;
+    }
+
+    // add element for each operator
+    const opListDiv = charSelContent.filter((el) => el.id === "operatorList")[0];
+    operators.forEach((op) => {
+        opListDiv.appendChild(op.getElement());
+    });
 }
 
 /**

@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 11:11:06 AM
+ *  Last update: 11 Apr 2024, 11:26:46 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -12,14 +12,18 @@
 import { createDisplayCard } from "./main.js";
 import { getElID } from "./utility.js";
 
+/**
+ * A class representing an operator
+ * Has a getElement method for creating/accessing an element unique to the operator
+ */
 export class Operator {
     #id;
     name;
-    icon;
+    image;
 
-    constructor(id, name, icon) {
+    constructor(id, name, image) {
         this.name = name;
-        this.icon = icon;
+        this.image = image;
         this.#id = id;
     }
 
@@ -31,7 +35,7 @@ export class Operator {
         }
         
         // otherwise create and set it up
-        elem = createDisplayCard(true, this.icon, this.name);
+        elem = createDisplayCard(true, this.image, this.name);
         elem.id = this.#id;
         elem.addEventListener("click", this.#click.bind(this));
 

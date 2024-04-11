@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 19 Mar 2024, 7:20:40 PM
- *  Last update: 11 Apr 2024, 11:11:42 AM
+ *  Last update: 11 Apr 2024, 11:37:13 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
@@ -79,3 +79,17 @@ function indexWeapons() {
     apiSkinsResults = [];
 }
 getSkins();
+
+const CSGO_OPERATORS_API = "https://bymykel.github.io/CSGO-API/api/en/agents.json";
+let apiOperatorsResults = [];
+async function getOperators() {
+    await fetch(CSGO_OPERATORS_API)
+        .then((resp) => resp.json())
+        .then((results) => {
+            apiOperatorsResults = results;
+        })
+        .catch((reason) => console.log(`Error: ${reason}`));
+    // console.log(apiOperatorsResults.filter(agent => agent.name.includes("Darryl")));
+    apiOperatorsResults = [];
+}
+getOperators();
