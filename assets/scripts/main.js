@@ -1,10 +1,11 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 10:48:53 AM
+ *  Last update: 11 Apr 2024, 11:03:16 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
+import { Operator } from "./data_classes.js";
 
 // using Object.freeze creates an object whose properties and values cannot change
 // closest you can get to having an enum in JS
@@ -433,7 +434,8 @@ function updateSelectedTeam(teamAbbr, teamName) {
  * @param {string} text text to display in the card
  * @returns created card div
  */
-function createDisplayCard(clickable, imgPath, text) {
+// TODO: determine if export is necessary here
+export function createDisplayCard(clickable, imgPath, text) {
     const cardDiv = createEl("div", {
         // element needs cursor-pointer if it's intended to be clickable
         className: `display-card ${clickable ? "cursor-pointer" : ""}`,
@@ -466,6 +468,10 @@ function createPageCharSel() {
             createDisplayCard(true, "/assets/images/logo.png", `Operator ${i}`)
         );
     }
+    // create dummy operator card using class
+    opListDiv.appendChild(
+        new Operator("test-op-1", "Billy", "/assets/images/logo.png").getElement()
+    );
 
     // create footer
     const opFooterDiv = createEl("div", {
