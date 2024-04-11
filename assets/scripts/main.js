@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 10:32:33 AM
+ *  Last update: 11 Apr 2024, 10:48:53 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -133,6 +133,8 @@ function createMain() {
 }
 
 bodyEl.appendChild(createMain());
+// TODO: remove debug
+console.log("main created");
 navToPage(PAGES_ENUM.startPage);
 
 /**
