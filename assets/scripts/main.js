@@ -1,12 +1,12 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 12:34:05 PM
+ *  Last update: 11 Apr 2024, 1:19:57 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
 import { Operator } from "./data_classes.js";
-import { loadOperators } from "./data_loading.js";
+import { loadOperators, loadSkins } from "./data_loading.js";
 
 // using Object.freeze creates an object whose properties and values cannot change
 // closest you can get to having an enum in JS
@@ -32,6 +32,21 @@ let operators;
 loadOperators().then((result) => {
     operators = result;
     populateOperatorCards();
+});
+// TODO: implement Weapon class
+// dictionary index of weapons
+// [id: string]:    weapon: Weapon
+let weapons = {};
+// dictionary index of weapon categories
+// [id: string]:    name: string
+let weaponCategories = {};
+// dictionary index of weapons by category
+// [categoryId: string]:    weaponId: string[]
+let weaponsByCategory = {};
+loadSkins(weapons, weaponCategories, weaponsByCategory).then((result) => {
+    console.log(weapons);
+    console.log(weaponCategories);
+    console.log(weaponsByCategory);
 });
 
 // selection storage

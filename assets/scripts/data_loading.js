@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 11 Apr 2024, 11:39:42 AM
+ *  Last update: 11 Apr 2024, 1:21:23 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -12,6 +12,7 @@
 import { Operator } from "./data_classes.js";
 
 const CSGO_OPERATORS_API = "https://bymykel.github.io/CSGO-API/api/en/agents.json";
+const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
 
 /**
  * Fetches the list of operators from the API and formats them into objects
@@ -36,4 +37,68 @@ export async function loadOperators() {
     });
 
     return operators;
+}
+
+/**
+ * Fetches the list of skins from the API, formats them into objects,
+ * and parses the results into indexes on the provided objects
+ * @param {Object} weapons weapon list
+ * @param {Object} weaponCategories weapon category list
+ * @param {Object} weaponsByCategory weapon to category index
+ */
+export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
+    let apiResults = [];
+
+    await fetch(CSGO_SKINS_API)
+        .then((resp) => resp.json())
+        .then((results) => {
+            apiResults = results;
+        })
+        .catch((reason) => console.log(`Error: ${reason}`));
+
+    // create indexes, mapping results to Weapon and Skin objects
+    apiResults.forEach(weaponRaw => {
+        // the taser has no weapon category so we'll omit it entirely to save complexity later
+        if (!weaponRaw.category.id) {
+            return;
+        }
+
+        // index weapon data
+        // TODO: replace this with Weapon class when created
+        let weapon = {};
+        if (!weapons[weaponRaw.weapon.id]) {
+            weapon = {
+                id: weaponRaw.weapon.id,
+                name: weaponRaw.weapon.name,
+                categoryId: weaponRaw.category.id,
+                teamId: weaponRaw.team.id,
+                skins: []
+            };
+            weapons[weapon.id] = weapon;
+        } else {
+            weapon = weapons[weaponRaw.weapon.id];
+        }
+
+        // index weapon category ID
+        if (!weaponCategories[weapon.categoryId]) {
+            weaponCategories[weapon.categoryId] = weaponRaw.category.name;
+        }
+
+        // index weapons by category
+        if (!weaponsByCategory[weapon.categoryId]) {
+            weaponsByCategory[weapon.categoryId] = [];
+            weaponsByCategory[weapon.categoryId].push(weapon.id);
+        } else if (!weaponsByCategory[weapon.categoryId].some(el => el === weapon.id)) {
+            weaponsByCategory[weapon.categoryId].push(weapon.id);
+        }
+
+        // index specific skin
+        /* TODO: implement Skin class and this logic, remove statement below
+         *  pseudocode:
+         *      create new skin object
+         *      add skin to skins dictionary, indexed on skin id
+         *      add skin id to array in corresponding weapon object in weapons array
+         */
+        weapon.skins.push(weaponRaw.id);
+    });
 }
