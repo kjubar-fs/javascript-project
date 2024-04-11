@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 10 Apr 2024, 7:41:20 PM
+ *  Last update: 11 Apr 2024, 8:59:35 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -131,13 +131,15 @@ function navToPage(pageNum) {
     getElID("mainContent").className = `screen-${pageNum + 1}`;
 
     // show the reset button when we navigate away from the start page
+    // also remove the click handler for the main div
+    const contentDiv = getElSlct(".main-card");
     if (pageNum !== PAGES_ENUM.startPage) {
         getElID("resetBtn").classList.remove("hidden");
+        contentDiv.removeEventListener("click", navToTeamSelect);
     }
 
     // clear out the content div
     // this will be the only div on the page with the main-card CSS class (unless the user edits via F12)
-    const contentDiv = getElSlct(".main-card");
     contentDiv.innerHTML = "";
 
     switch (pageNum) {
@@ -235,6 +237,14 @@ function resetApplication() {
     navToPage(PAGES_ENUM.startPage);
 }
 
+/**
+ * Named wrapper for navigating to the team page
+ * For use on the main page so we can remove the handler from the main content div
+ */
+function navToTeamSelect() {
+    navToPage(PAGES_ENUM.teamPage);
+}
+
 function createPageStart(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2>Start</h2>`;
@@ -250,7 +260,7 @@ function createPageStart(contentDiv) {
     contentDiv.parentElement.appendChild(resetBtn);
 
     // add a click listener to go to the next page
-    contentDiv.addEventListener("click", () => { navToPage(PAGES_ENUM.teamPage) });
+    contentDiv.addEventListener("click", navToTeamSelect);
 }
 
 function createPageTeamSel(contentDiv) {
