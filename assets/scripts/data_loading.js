@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 11 Apr 2024, 1:21:23 PM
+ *  Last update: 11 Apr 2024, 2:01:45 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,7 +9,7 @@
  * Data methods for loading from the API and formatting results
  */
 
-import { Operator } from "./data_classes.js";
+import { Operator, Weapon, Skin } from "./data_classes.js";
 
 const CSGO_OPERATORS_API = "https://bymykel.github.io/CSGO-API/api/en/agents.json";
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
@@ -64,16 +64,15 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
         }
 
         // index weapon data
-        // TODO: replace this with Weapon class when created
-        let weapon = {};
+        let weapon;
         if (!weapons[weaponRaw.weapon.id]) {
-            weapon = {
-                id: weaponRaw.weapon.id,
-                name: weaponRaw.weapon.name,
-                categoryId: weaponRaw.category.id,
-                teamId: weaponRaw.team.id,
-                skins: []
-            };
+            weapon = new Weapon(
+                weaponRaw.weapon.id,
+                weaponRaw.weapon.name,
+                weaponRaw.category.id,
+                weaponRaw.team.id
+            );
+            
             weapons[weapon.id] = weapon;
         } else {
             weapon = weapons[weaponRaw.weapon.id];
@@ -93,12 +92,17 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
         }
 
         // index specific skin
-        /* TODO: implement Skin class and this logic, remove statement below
-         *  pseudocode:
-         *      create new skin object
-         *      add skin to skins dictionary, indexed on skin id
-         *      add skin id to array in corresponding weapon object in weapons array
-         */
-        weapon.skins.push(weaponRaw.id);
+        // a few skins aren't formatted "<weapon> | <skin>" so just fall back to full name
+        let weaponName = 
+            weaponRaw.name.includes("|") ?
+            weaponRaw.name.split("|")[1].trim() :
+            weaponRaw.name;
+        weapon.skins.push(
+            new Skin(
+                weaponRaw.id,
+                weaponName,
+                weaponRaw.image
+            )
+        );
     });
 }
