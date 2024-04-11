@@ -1,58 +1,9 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 19 Mar 2024, 7:20:40 PM
- *  Last update: 9 Apr 2024, 10:31:24 AM
+ *  Last update: 11 Apr 2024, 11:11:42 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
-
-// TODO: remove console.logs
-
-let getID = (id) => document.getElementById(id);
-
-class Operator {
-    name;
-    icon;
-    #id;
-
-    getElement() {
-        // return element if it's created already
-        let elem = getID(this.#id);
-        if (!!elem) {
-            return elem;
-        }
-        
-        // otherwise create and set it up
-        elem = document.createElement("div");
-        elem.id = this.#id;
-        elem.className = "card display-card";
-        elem.innerHTML = `
-            <h3>${this.name}</h3>
-            <img src="${this.icon}">`;
-        elem.addEventListener("click", this.#click.bind(this));
-
-        return elem;
-    }
-
-    #click() {
-        console.log(this.name);
-        this.getElement().lastChild.classList.toggle("hidden");
-    }
-}
-
-let opData = {
-    name: "Billy Bob",
-    icon: "assets/images/bgs/dust2.jpg"
-};
-
-let newOp = new Operator();
-Object.assign(newOp, opData);
-console.log(newOp);
-
-document.querySelector(".logo").addEventListener("click", () => {
-    console.log("adding new operator...");
-    document.getElementById("startBuilder").appendChild(newOp.getElement());
-});
-
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
 // response from API, list of objects representing skins
 let apiSkinsResults = [];
