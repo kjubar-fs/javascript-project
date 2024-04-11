@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 1:49:09 PM
+ *  Last update: 11 Apr 2024, 2:50:34 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -10,7 +10,7 @@
  */
 
 import { createDisplayCard, updateOperator } from "./main.js";
-import { getElID } from "./utility.js";
+import { getElID, createEl } from "./utility.js";
 
 /**
  * A class representing an operator

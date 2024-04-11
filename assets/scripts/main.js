@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 2:38:06 PM
+ *  Last update: 11 Apr 2024, 7:30:46 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -57,6 +57,8 @@ loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
     console.log(weaponCategories);
     console.log(weaponsByCategory);
     populateWeaponTabs();
+    populateWeapons();
+    populateSkins();
 });
 
 // selection storage
@@ -603,23 +605,6 @@ function createPageWeaponSel() {
     const weapListDiv = createEl("div", { id: "weaponList" });
     const skinListDiv = createEl("div", { id: "weaponSkinList" });
 
-    // TODO: remove and replace with API weapons
-    for (let i = 1; i < 9; i++) {
-        weapListDiv.appendChild(
-            createEl("div", {
-                className: "weapon-selector cursor-pointer",
-                innerText: `Weapon ${i}`
-            })
-        );
-    }
-
-    // TODO: remove and replace with API skins
-    for (let i = 1; i < 8; i++) {
-        skinListDiv.appendChild(
-            createDisplayCard(true, "/assets/images/logo.png", `Skin ${i}`)
-        );
-    }
-
     choicesDiv.appendChild(weapListDiv);
     choicesDiv.appendChild(skinListDiv);
     weapWrapDiv.appendChild(choicesDiv);
@@ -694,6 +679,45 @@ function populateWeaponTabs() {
     Object.keys(weaponCategories).forEach((catId) => {
         let catName = weaponCategories[catId];
         weapWrapDiv.appendChild(createWeaponTab(catId, catName.toLowerCase()));
+    });
+}
+
+/**
+ * Populate the list of weapons from the loaded data
+ */
+function populateWeapons() {
+    // since this is called asynchronously, return if weapon list hasn't been populated (just in case)
+    if (Object.keys(weapons).length === 0) {
+        return;
+    }
+
+    // add selector for each weapon
+    const weapListDiv = weaponSelContent
+                            .filter((el) => el.id === "weaponWrapper")[0]
+                            .querySelector("#weaponList");
+    Object.keys(weapons).forEach((id) => {
+        weapListDiv.appendChild(weapons[id].getElement());
+    });
+}
+
+/**
+ * Populate the list of skins from the loaded data
+ */
+function populateSkins() {
+    // since this is called asynchronously, return if weapon list hasn't been populated (just in case)
+    if (Object.keys(weapons).length === 0) {
+        return;
+    }
+
+    const skinListDiv = weaponSelContent
+                            .filter((el) => el.id === "weaponWrapper")[0]
+                            .querySelector("#weaponSkinList");
+    Object.keys(weapons).forEach((id) => {
+        weapons[id].skins.forEach((skin) => {
+            skinListDiv.appendChild(
+                createDisplayCard(true, skin.image, skin.name)
+            );
+        });
     });
 }
 
