@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 10:02:23 AM
+ *  Last update: 11 Apr 2024, 10:32:33 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -19,6 +19,7 @@ const PAGES_ENUM = Object.freeze({
 
 let curPage = -1;
 let curTeam = "";
+let curTeamName = "";
 // TODO: empty array, only full for debug purposes
 let visitedPages = [0, 1, 2, 3, 4, 5];
 
@@ -277,7 +278,13 @@ function resetApplication() {
     // hide reset button
     getElID("resetBtn").classList.add("hidden");
 
+    // reset data
+    curTeam = "";
+    curTeamName = "";
+    updateSelectedTeam("", "");
+
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
+    // visitedPages.length = 0;
 
     // navigate to home
     navToPage(PAGES_ENUM.startPage);
@@ -326,10 +333,7 @@ function createPageTeamSel() {
     const autoRadio = createTeamBtn("teamAuto", "Auto-Select");
 
     const updateTeam = (e) => {
-        // parse the team name from the ID of the triggering component
-        curTeam = e.target.id.split("team")[1].toUpperCase();
-        // TODO: remove debug
-        console.log(`team changed: ${curTeam}`);
+        updateSelectedTeam(e.target.id.split("team")[1].toLowerCase(), e.target.value);
     }
     
     ctRadio.addEventListener("change", updateTeam);
@@ -369,6 +373,7 @@ function createPageTeamSel() {
             type: "radio",
             name: "team"
         });
+        radioEl.setAttribute("value", label);
         const labelEl = createEl("label", {
             id: `${btnId}Btn`,
             className: "btn-large cursor-pointer",
@@ -384,6 +389,39 @@ function createPageTeamSel() {
         // return the radio element for interactivity
         return radioEl;
     }
+}
+
+/**
+ * Given the team abbreviation and name, update appropriate data vars,
+ * page header, team-specific styles, and navbar icon for character select
+ * @param {string} teamAbbr team abbreviation, one of "ct", "t", or "auto"
+ * @param {string} teamName team name in plain text
+ */
+function updateSelectedTeam(teamAbbr, teamName) {
+    // update data vars
+    curTeam = teamAbbr;
+    curTeamName = teamName;
+    
+    // update header text and styles
+    const header = getElID("mainHeading");
+    if (!!curTeam && curTeam !== "auto") {
+        header.innerText = header.innerText.split(":")[0] + `: ${curTeamName}`;
+        bodyEl.className = `team-${curTeam}`;
+    } else {
+        header.innerText = "Counter-Strike Team Builder";
+        bodyEl.className = "";
+    }
+
+    // update nav icon for char select
+    const charIcon = getElSlct("#navChar > img");
+    if (curTeam === "t") {
+        charIcon.src = "/assets/images/icons/nav/terrorist-wh.png";
+    } else {
+        charIcon.src = "/assets/images/icons/nav/soldier-wh.png";
+    }
+    
+    // TODO: remove debug
+    console.log(`team changed: ${curTeam}`);
 }
 
 /**
