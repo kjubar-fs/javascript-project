@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 12:21:06 PM
+ *  Last update: 11 Apr 2024, 12:31:32 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -19,12 +19,6 @@ const PAGES_ENUM = Object.freeze({
     teamSummPage: 5
 });
 
-let curPage = -1;
-let curTeam = "";
-let curTeamName = "";
-// TODO: empty array, only full for debug purposes
-let visitedPages = [0, 1, 2, 3, 4, 5];
-
 // pregenerate screen HTML
 let startContent = createPageStart();
 let teamSelContent = createPageTeamSel();
@@ -41,7 +35,15 @@ loadOperators().then((result) => {
 });
 
 // selection storage
+// TODO: empty array, only full for debug purposes
+let visitedPages = [0, 1, 2, 3, 4, 5];
+let curPage = -1;
+
+let curTeam = "";
+let curTeamName = "";
+
 let curOperator = {};
+let charName = "";
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -60,6 +62,15 @@ export function changeOperator(newOperator) {
     // update current operator
     curOperator = newOperator;
     curOperator.getElement().classList.add("selected");
+}
+
+function changeCharName(newName) {
+    charName = newName;
+
+    // TODO: remove debug
+    console.log("char name updated to " + newName);
+
+    // TODO: update character name in summary pages
 }
 
 const bodyEl = getElSlct("body");
@@ -310,9 +321,9 @@ function resetApplication() {
     getElID("resetBtn").classList.add("hidden");
 
     // reset data
-    curTeam = "";
-    curTeamName = "";
     updateSelectedTeam("", "");
+    changeOperator({});
+    changeCharName("");
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
@@ -495,11 +506,18 @@ function createPageCharSel() {
     // create footer
     const opFooterDiv = createEl("div", {
         id: "operatorFooter",
-        className: "footer",
-        innerHTML:
-            // this doesn't need interactivity since it is only accessed by validation functions later, so we'll add it via innerHTML
-            `<input id="operatorName" name="operatorName" placeholder="Player Name">`
+        className: "footer"
     });
+
+    const charNameInput = createEl("input", {
+        id: "operatorName",
+        name: "operatorName",
+        placeholder: "Player Name"
+    });
+    charNameInput.addEventListener("input", (e) => {
+        changeCharName(e.target.value);
+    });
+    opFooterDiv.appendChild(charNameInput);
 
     // create next button and set up handler
     const nextBtn = createEl("button", {
@@ -507,7 +525,6 @@ function createPageCharSel() {
         className: "next-btn btn-small team-light cursor-pointer",
         innerHTML: "Next"
     });
-
     nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.weaponPage) });
 
     // add to footer
