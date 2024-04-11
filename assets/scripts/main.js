@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 8:59:35 AM
+ *  Last update: 11 Apr 2024, 9:30:08 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -25,6 +25,10 @@ let visitedPages = [0, 1, 2, 3, 4, 5];
 // TODO: remove debug
 console.log("main script initialized");
 
+/**
+ * Assembles the navbar
+ * @returns created top nav element
+ */
 function createNav() {
     // make nav
     const navEl = createEl("nav", {
@@ -92,6 +96,10 @@ bodyEl.appendChild(createNav());
 // TODO: remove debug
 console.log("navbar created");
 
+/**
+ * Creates the main content
+ * @returns created top main element
+ */
 function createMain() {
     const mainEl = createEl("main", {
         id: "mainContent",
@@ -107,6 +115,11 @@ function createMain() {
 bodyEl.appendChild(createMain());
 navToPage(PAGES_ENUM.startPage);
 
+/**
+ * Navigates to the specified page
+ * Does nothing if attempting to navigate to the current page
+ * @param {PAGES_NUM} pageNum page number to navigate to, from the PAGES_NUM enum
+ */
 function navToPage(pageNum) {
     // do nothing if we're already on the specified page
     if (curPage === pageNum) {
@@ -188,6 +201,9 @@ function navToPage(pageNum) {
     }
 }
 
+/**
+ * Updates the breadcrumb display in the navbar based on visited pages
+ */
 function updateBreadcrumbs() {
     // show the divider if more than 1 page has been visited
     if (visitedPages.length > 1) {
@@ -220,6 +236,9 @@ function updateBreadcrumbs() {
     });
 }
 
+/**
+ * Resets all application data and returns to the start screen
+ */
 function resetApplication() {
     // prompt for reset
     let shouldReset = confirm("Would you like to clear all data and restart?");
@@ -245,6 +264,10 @@ function navToTeamSelect() {
     navToPage(PAGES_ENUM.teamPage);
 }
 
+/**
+ * Create start page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageStart(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2>Start</h2>`;
@@ -263,6 +286,10 @@ function createPageStart(contentDiv) {
     contentDiv.addEventListener("click", navToTeamSelect);
 }
 
+/**
+ * Create team select page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageTeamSel(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML =`<h2>Select a Team</h2>`;
@@ -270,7 +297,7 @@ function createPageTeamSel(contentDiv) {
     /**
      * Creates a new team button, appends it to the given div, and returns
      * the created inner radio button for adding interactivity
-     * @param {HTMLElement} contentDiv content div element to append to
+     * @param {HTMLElement} contentDiv div element to append content to
      * @param {string} btnId id string
      * @param {string} label button label
      * @returns created input radio button
@@ -330,6 +357,13 @@ function createPageTeamSel(contentDiv) {
     contentDiv.appendChild(nextBtn);
 }
 
+/**
+ * Create a display card
+ * @param {boolean} clickable true if this card has click interactivity
+ * @param {string} imgPath src path for card's image
+ * @param {string} text text to display in the card
+ * @returns created card div
+ */
 function createDisplayCard(clickable, imgPath, text) {
     const cardDiv = createEl("div", {
         // element needs cursor-pointer if it's intended to be clickable
@@ -342,6 +376,10 @@ function createDisplayCard(clickable, imgPath, text) {
     return cardDiv;
 }
 
+/**
+ * Create character select page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageCharSel(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2>Select an Operator</h2>`;
@@ -381,6 +419,10 @@ function createPageCharSel(contentDiv) {
     contentDiv.appendChild(opFooterDiv);
 }
 
+/**
+ * Create weapon select page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageWeaponSel(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2>Select Weapons and Gear</h2>`;
@@ -476,6 +518,10 @@ function createPageWeaponSel(contentDiv) {
     contentDiv.appendChild(weapFooterDiv);
 }
 
+/**
+ * Create character summary page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageCharSumm(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2 id="charSummName">&lt;your name here&gt;</h2>`;
@@ -533,6 +579,10 @@ function createPageCharSumm(contentDiv) {
     contentDiv.appendChild(charFooter);
 }
 
+/**
+ * Create team summary page elements and append them to the given div
+ * @param {HTMLElement} contentDiv div element to append content to
+ */
 function createPageTeamSumm(contentDiv) {
     // set up non-interactive elements
     contentDiv.innerHTML = `<h2 id="teamSummName">&lt;your team name here&gt;</h2>`;
