@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 1:19:57 PM
+ *  Last update: 11 Apr 2024, 2:38:06 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -17,6 +17,15 @@ const PAGES_ENUM = Object.freeze({
     weaponPage: 3,
     summPage: 4,
     teamSummPage: 5
+});
+
+const WEAPON_ICONS = Object.freeze({
+    pistols: "pistol",
+    rifles: "rifle",
+    heavy: "heavy",
+    smgs: "smg",
+    knives: "knife",
+    gloves: "gloves"
 });
 
 // pregenerate screen HTML
@@ -43,10 +52,11 @@ let weaponCategories = {};
 // dictionary index of weapons by category
 // [categoryId: string]:    weaponId: string[]
 let weaponsByCategory = {};
-loadSkins(weapons, weaponCategories, weaponsByCategory).then((result) => {
+loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
     console.log(weapons);
     console.log(weaponCategories);
     console.log(weaponsByCategory);
+    populateWeaponTabs();
 });
 
 // selection storage
@@ -588,14 +598,6 @@ function createPageWeaponSel() {
         className: "no-back-deco"
     });
 
-    // TODO: remove and replace with API categories
-    const WEAPONS = ["Pistol", "SMG", "Rifle", "Heavy", "Knife", "Gloves"];
-    WEAPONS.forEach((weapon) => {
-        weapWrapDiv.appendChild(
-            createWeaponTab(weapon, weapon.toLowerCase())
-        );
-    });
-
     // create weapon and skin choices
     const choicesDiv = createEl("div", { id: "weaponChoices" });
     const weapListDiv = createEl("div", { id: "weaponList" });
@@ -657,24 +659,42 @@ function createPageWeaponSel() {
     content.push(weapFooterDiv);
 
     return content;
+}
 
-    /// inner function ///
+/**
+ * Create a weapon tab with the given ID and icon
+ * @param {string} tabId tab ID
+ * @param {string} icon weapon icon filename (no path or extension)
+ * @returns a div representing the created weapon tab
+ */
+function createWeaponTab(tabId, icon) {
+    let imgPath = !!WEAPON_ICONS[icon] ?
+        `/assets/images/icons/weapons/${WEAPON_ICONS[icon]}.png` :
+        `/assets/images/icons/weapons/unknown.png`;
+    const tabDiv = createEl("div", {
+        id: tabId,
+        className: "weapon-tab cursor-pointer",
+        innerHTML: `<img class="nav-icon" src="${imgPath}">`
+    });
 
-    /**
-     * Create a weapon tab with the given ID and icon
-     * @param {string} tabId tab ID
-     * @param {string} icon weapon icon filename (no path or extension)
-     * @returns a div representing the created weapon tab
-     */
-    function createWeaponTab(tabId, icon) {
-        const tabDiv = createEl("div", {
-            id: tabId,
-            className: "weapon-tab cursor-pointer",
-            innerHTML: `<img class="nav-icon" src="/assets/images/icons/weapons/${icon}.png">`
-        });
+    return tabDiv;
+}
 
-        return tabDiv;
+/**
+ * Populate the content of the operator list from the loaded data
+ */
+function populateWeaponTabs() {
+    // since this is called asynchronously, return if weapon list hasn't been populated (just in case)
+    if (Object.keys(weaponCategories).length === 0) {
+        return;
     }
+
+    // add tab for each weapon category
+    const weapWrapDiv = weaponSelContent.filter((el) => el.id === "weaponWrapper")[0];
+    Object.keys(weaponCategories).forEach((catId) => {
+        let catName = weaponCategories[catId];
+        weapWrapDiv.appendChild(createWeaponTab(catId, catName.toLowerCase()));
+    });
 }
 
 /**
