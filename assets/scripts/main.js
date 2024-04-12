@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 12:52:13 PM
+ *  Last update: 12 Apr 2024, 2:36:36 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -19,13 +19,37 @@ const PAGES_ENUM = Object.freeze({
     teamSummPage: 5
 });
 
-const WEAPON_ICONS = Object.freeze({
-    pistols: "pistol",
-    rifles: "rifle",
-    heavy: "heavy",
-    smgs: "smg",
-    knives: "knife",
-    gloves: "gloves"
+const WEAPON_DETAILS = Object.freeze({
+    pistols: Object.freeze({
+        icon: "pistol",
+        priceMin: 200,
+        priceMax: 700
+    }),
+    rifles: Object.freeze({
+        icon: "rifle",
+        priceMin: 1500,
+        priceMax: 3500
+    }),
+    heavy: Object.freeze({
+        icon: "heavy",
+        priceMin: 2500,
+        priceMax: 4500
+    }),
+    smgs: Object.freeze({
+        icon: "smg",
+        priceMin: 1000,
+        priceMax: 1500
+    }),
+    knives: Object.freeze({
+        icon: "knife",
+        priceMin: 100,
+        priceMax: 500
+    }),
+    gloves: Object.freeze({
+        icon: "gloves",
+        priceMin: 100,
+        priceMax: 500
+    })
 });
 
 // pregenerate screen HTML
@@ -905,12 +929,12 @@ function createPageWeaponSel() {
 /**
  * Create a weapon tab with the given ID and icon
  * @param {string} tabId tab ID
- * @param {string} icon weapon icon filename (no path or extension)
+ * @param {string} catName weapon category name
  * @returns a div representing the created weapon tab
  */
-function createWeaponTab(tabId, icon) {
-    let imgPath = !!WEAPON_ICONS[icon] ?
-        `/assets/images/icons/weapons/${WEAPON_ICONS[icon]}.png` :
+function createWeaponTab(tabId, catName) {
+    let imgPath = !!WEAPON_DETAILS[catName] ?
+        `/assets/images/icons/weapons/${WEAPON_DETAILS[catName]["icon"]}.png` :
         `/assets/images/icons/weapons/unknown.png`;
     const tabDiv = createEl("div", {
         id: tabId,
