@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 9:04:53 PM
+ *  Last update: 11 Apr 2024, 9:11:50 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -139,7 +139,7 @@ function updateWeaponCategory(newCategory) {
     getElID("weaponList").scrollTop = 0;    // scroll weapon list to the top so it doesn't start randomly in the middle
 
     // select first weapon under new category automatically
-    updateWeapon(weapons[weaponsByCategory[newCategory][0]]);
+    updateWeapon(weapons[getElSlct("#weaponList > div:not(.removed)").id]);
 
     // update the current weapon category
     curWeapCategory = newCategory;
