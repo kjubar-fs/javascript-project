@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 7:30:46 PM
+ *  Last update: 11 Apr 2024, 8:02:40 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -714,9 +714,7 @@ function populateSkins() {
                             .querySelector("#weaponSkinList");
     Object.keys(weapons).forEach((id) => {
         weapons[id].skins.forEach((skin) => {
-            skinListDiv.appendChild(
-                createDisplayCard(true, skin.image, skin.name)
-            );
+            skinListDiv.appendChild(skin.getElement());
         });
     });
 }
