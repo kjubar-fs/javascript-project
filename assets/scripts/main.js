@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:02:40 AM
+ *  Last update: 12 Apr 2024, 10:52:25 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -35,6 +35,47 @@ let charSelContent = createPageCharSel();
 let weaponSelContent = createPageWeaponSel();
 let charSummContent = createPageCharSumm();
 let teamSummContent = createPageTeamSumm();
+let allContent = [startContent, teamSelContent, charSelContent, weaponSelContent, charSummContent, teamSummContent];
+console.log(allContent);
+
+// utility functions for searching the generated content, even if it isn't on screen
+// certain changes need to be made to unrendered elements, like when resetting, which is why we have these
+/**
+ * Given an element ID, searches the generated content and returns the element
+ * @param {string} id ID to query for
+ * @returns matching HTMLElement, or null if not found
+ */
+export function getElFromContentByID(id) {
+    return getElFromContentBySel(`#${id}`);
+}
+
+/**
+ * Given a CSS selector, searches the generated content and returns the first matching element
+ * @param {string} selector CSS selector to query for
+ * @returns first matching HTMLElement, or null if not found
+ */
+function getElFromContentBySel(selector) {
+    // we have to use standard for loops here to break early
+    // breaking forEach early with a return requires weird workarounds
+    for (let i = 0; i < allContent.length; i++) {
+        const searchContent = allContent[i];
+        for (let j = 0; j < searchContent.length; j++) {
+            // first, check each top-level element in the array
+            const el = searchContent[j];
+            if (el.matches(selector)) {
+                return el;
+            }
+            // if it doesn't match, query this element's children
+            const returnEl = el.querySelector(selector);
+            if (!!returnEl) {
+                return returnEl;
+            }
+        }
+    }
+
+    // nothing found, return null
+    return null;
+}
 
 // preload data
 let operators;
