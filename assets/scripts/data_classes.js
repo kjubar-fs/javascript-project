@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 8:34:47 PM
+ *  Last update: 11 Apr 2024, 8:56:32 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,7 +9,7 @@
  * Data classes for loading from the API
  */
 
-import { createDisplayCard, updateOperator } from "./main.js";
+import { createDisplayCard, updateOperator, updateWeapon } from "./main.js";
 import { getElID, createEl } from "./utility.js";
 
 /**
@@ -98,9 +98,8 @@ export class Weapon {
     }
 
     #click() {
-        // if this weapon is currently selected, return an empty object so it's deselected
-        // otherwise return this to select it
-        // updateWeapon(this.getElement().classList.contains("selected") ? {} : this);
+        // always return this, as things can't be deselected
+        updateWeapon(this);
     }
 }
 

@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 8:52:33 PM
+ *  Last update: 11 Apr 2024, 9:04:53 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -73,7 +73,7 @@ let curOperator = {};
 let playerName = "";
 
 let curWeapCategory = "";
-let curWeap = "";
+let curWeap = {};
 let selectedSkins = [];
 
 // TODO: remove debug
@@ -130,6 +130,7 @@ function updateWeaponCategory(newCategory) {
         getElID(curWeapCategory).classList.remove("selected");
     }
 
+    // show weapons in the new category and select its tab
     weaponsByCategory[newCategory].forEach((weaponName) => {
         const weapon = weapons[weaponName];
         weapon.getElement().classList.remove("removed");
@@ -137,7 +138,40 @@ function updateWeaponCategory(newCategory) {
     getElID(newCategory).classList.add("selected");
     getElID("weaponList").scrollTop = 0;    // scroll weapon list to the top so it doesn't start randomly in the middle
 
+    // select first weapon under new category automatically
+    updateWeapon(weapons[weaponsByCategory[newCategory][0]]);
+
+    // update the current weapon category
     curWeapCategory = newCategory;
+}
+
+/**
+ * Change the currently selected weapon and update skin list
+ * @param {Weapon} newWeapon weapon to switch to
+ */
+export function updateWeapon(newWeapon) {
+    // do nothing if already on this weapon
+    if (curWeap === newWeapon) {
+        return;
+    }
+
+    // hide skins for the old weapon and deselect its tab, if there is one
+    if (Object.keys(curWeap).length !== 0) {
+        curWeap.skins.forEach((skin) => {
+            skin.getElement().classList.add("removed");
+        });
+        curWeap.getElement().classList.remove("selected");
+    }
+
+    // show skins for the new weapon and select its tab
+    newWeapon.skins.forEach((skin) => {
+        skin.getElement().classList.remove("removed");
+    });
+    newWeapon.getElement().classList.add("selected");
+    getElID("weaponSkinList").scrollTop = 0;    // scroll skin list to the top so it doesn't start randomly in the middle
+
+    // update the current weapon
+    curWeap = newWeapon;
 }
 
 const bodyEl = getElSlct("body");
@@ -769,7 +803,7 @@ function populateSkins() {
     Object.keys(weapons).forEach((id) => {
         weapons[id].skins.forEach((skin) => {
             const skinElem = skin.getElement();
-            // skinElem.classList.add("removed");  // hide by default
+            skinElem.classList.add("removed");  // hide by default
             skinListDiv.appendChild(skinElem);
         });
     });
