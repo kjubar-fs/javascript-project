@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:14:10 AM
+ *  Last update: 12 Apr 2024, 11:35:36 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -658,6 +658,9 @@ function updateSelectedTeam(teamAbbr, teamName) {
         charIcon.src = "/assets/images/icons/nav/soldier-wh.png";
     }
 
+    // filter operator list
+    filterOperatorsByTeam(teamAbbr);
+
     // if we're clearing the team name, deselect all selection radio buttons
     if (!teamAbbr || !teamName) {
         getElFromContentByID("teamCT").checked = false;
@@ -753,6 +756,34 @@ function populateOperatorCards() {
     const opListDiv = charSelContent.filter((el) => el.id === "operatorList")[0];
     operators.forEach((op) => {
         opListDiv.appendChild(op.getElement());
+    });
+}
+
+/**
+ * Given a team abbreviation, filter the list of operators to be team-appropriate
+ * If no abbreviation is provided, all operators will be shown
+ * @param {string} teamAbbr team abbreviation, one of "ct", "t", or "" ("auto" is not supported)
+ */
+function filterOperatorsByTeam(teamAbbr) {
+    // if "" provided, show all operators
+    if (!teamAbbr) {
+        operators.forEach((op) => {
+            op.getElement().classList.remove("removed");
+        });
+        return;
+    }
+
+    // team-specific filtering only supports ct and t
+    if (teamAbbr !== "ct" && teamAbbr !== "t") {
+        return;
+    }
+
+    // show operators matching team, hide non-matching
+    operators.forEach((op) => {
+        const opEl = op.getElement();
+        op.teamAbbr === teamAbbr ?
+            opEl.classList.remove("removed") :
+            opEl.classList.add("removed");
     });
 }
 

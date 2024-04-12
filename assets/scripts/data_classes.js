@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 12 Apr 2024, 11:03:49 AM
+ *  Last update: 12 Apr 2024, 11:31:51 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -20,11 +20,13 @@ export class Operator {
     #id;
     name;
     image;
+    teamAbbr;
 
-    constructor(id, name, image) {
+    constructor(id, name, image, teamAbbr) {
         this.#id = id;
         this.name = name;
         this.image = image;
+        this.teamAbbr = teamAbbr;
     }
 
     get id() {

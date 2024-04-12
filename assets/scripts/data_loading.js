@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 12 Apr 2024, 9:33:28 AM
+ *  Last update: 12 Apr 2024, 11:33:21 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -33,7 +33,12 @@ export async function loadOperators() {
     let operators = [];
 
     apiResults.forEach((op) => {
-        operators.push(new Operator(op.id, op.name.split("|")[0].trim(), op.image));
+        operators.push(new Operator(
+            op.id,
+            op.name.split("|")[0].trim(),   // use only first part of name, part after | is organization name
+            op.image,
+            op.team.id === "terrorists" ? "t" : "ct"    // no operator is available to both teams, so just use "t" or "ct"
+        ));
     });
 
     return operators;
