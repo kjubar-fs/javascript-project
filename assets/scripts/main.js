@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 8:48:12 PM
+ *  Last update: 11 Apr 2024, 8:52:33 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -335,7 +335,7 @@ function navToPage(pageNum) {
 
     // if we're switching to the weapon select page and no weapon is currently selected, switch to the first one by default
     if (pageNum === PAGES_ENUM.weaponPage && !curWeapCategory) {
-        updateWeaponCategory(Object.keys(weaponCategories)[0]);
+        updateWeaponCategory(getElSlct("#weaponChoices + div").id);
     }
 
     if (needCrumbUpdate) {
