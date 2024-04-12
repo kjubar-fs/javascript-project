@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 2:50:34 PM
+ *  Last update: 11 Apr 2024, 8:34:47 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -88,6 +88,7 @@ export class Weapon {
         
         // otherwise create and set it up
         elem = createEl("div", {
+            id: this.#id,
             className: "weapon-selector cursor-pointer",
             innerText: this.name
         });

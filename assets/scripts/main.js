@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 8:02:40 PM
+ *  Last update: 11 Apr 2024, 8:48:12 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -72,6 +72,10 @@ let curTeamName = "";
 let curOperator = {};
 let playerName = "";
 
+let curWeapCategory = "";
+let curWeap = "";
+let selectedSkins = [];
+
 // TODO: remove debug
 console.log("main script initialized");
 
@@ -99,6 +103,41 @@ function updatePlayerName(newName) {
     playerName = newName;
 
     // TODO: update player name in summary pages
+}
+
+/**
+ * Switch currently active weapon category to filter display to
+ * @param {string} newCategory weapon category to switch to
+ */
+function updateWeaponCategory(newCategory) {
+    // do nothing if already on this category
+    if (curWeapCategory === newCategory) {
+        return;
+    }
+
+    // return if weapon list hasn't been populated (just in case)
+    // or if the category doesn't exist
+    if (Object.keys(weaponsByCategory).length === 0 || !weaponsByCategory[newCategory]) {
+        return;
+    }
+
+    // hide weapons in the old category and deselect its tab, if there is one
+    if (!!curWeapCategory) {
+        weaponsByCategory[curWeapCategory].forEach((weaponName) => {
+            const weapon = weapons[weaponName];
+            weapon.getElement().classList.add("removed");
+        });
+        getElID(curWeapCategory).classList.remove("selected");
+    }
+
+    weaponsByCategory[newCategory].forEach((weaponName) => {
+        const weapon = weapons[weaponName];
+        weapon.getElement().classList.remove("removed");
+    });
+    getElID(newCategory).classList.add("selected");
+    getElID("weaponList").scrollTop = 0;    // scroll weapon list to the top so it doesn't start randomly in the middle
+
+    curWeapCategory = newCategory;
 }
 
 const bodyEl = getElSlct("body");
@@ -293,6 +332,11 @@ function navToPage(pageNum) {
     content.forEach((el) => {
         contentDiv.appendChild(el);
     });
+
+    // if we're switching to the weapon select page and no weapon is currently selected, switch to the first one by default
+    if (pageNum === PAGES_ENUM.weaponPage && !curWeapCategory) {
+        updateWeaponCategory(Object.keys(weaponCategories)[0]);
+    }
 
     if (needCrumbUpdate) {
         updateBreadcrumbs();
@@ -675,10 +719,15 @@ function populateWeaponTabs() {
     }
 
     // add tab for each weapon category
+    // can't use getElID here because this is before rendering the weapons page
     const weapWrapDiv = weaponSelContent.filter((el) => el.id === "weaponWrapper")[0];
     Object.keys(weaponCategories).forEach((catId) => {
         let catName = weaponCategories[catId];
-        weapWrapDiv.appendChild(createWeaponTab(catId, catName.toLowerCase()));
+        const tabDiv = createWeaponTab(catId, catName.toLowerCase());
+        tabDiv.addEventListener("click", function() {
+            updateWeaponCategory(this.id);
+        }.bind(tabDiv));    // have to bind "this" to tabDiv, otherwise we get weirdness or errors
+        weapWrapDiv.appendChild(tabDiv);
     });
 }
 
@@ -692,11 +741,14 @@ function populateWeapons() {
     }
 
     // add selector for each weapon
+    // can't use getElID here because this is before rendering the weapons page
     const weapListDiv = weaponSelContent
                             .filter((el) => el.id === "weaponWrapper")[0]
                             .querySelector("#weaponList");
     Object.keys(weapons).forEach((id) => {
-        weapListDiv.appendChild(weapons[id].getElement());
+        const weaponElem = weapons[id].getElement();
+        weaponElem.classList.add("removed");    // hide by default
+        weapListDiv.appendChild(weaponElem);
     });
 }
 
@@ -709,12 +761,16 @@ function populateSkins() {
         return;
     }
 
+    // add card for each skin
+    // can't use getElID here because this is before rendering the weapons page
     const skinListDiv = weaponSelContent
                             .filter((el) => el.id === "weaponWrapper")[0]
                             .querySelector("#weaponSkinList");
     Object.keys(weapons).forEach((id) => {
         weapons[id].skins.forEach((skin) => {
-            skinListDiv.appendChild(skin.getElement());
+            const skinElem = skin.getElement();
+            // skinElem.classList.add("removed");  // hide by default
+            skinListDiv.appendChild(skinElem);
         });
     });
 }
