@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 11 Apr 2024, 2:01:45 PM
+ *  Last update: 11 Apr 2024, 9:29:41 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -60,6 +60,14 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
     apiResults.forEach(weaponRaw => {
         // the taser has no weapon category so we'll omit it entirely to save complexity later
         if (!weaponRaw.category.id) {
+            return;
+        }
+
+        // each knife has an alternate variant with the same name and a single skin
+        // these are inconsistent with the other weapons and clutter the UI, so we'll skip those
+        // the weapon ID for these begin with "sfui_wpnhud" and, as of writing this code,
+        // there are no other weapons that start with the same prefix that we'd want to keep in
+        if (weaponRaw.weapon.id.startsWith("sfui_wpnhud")) {
             return;
         }
 
