@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 12 Apr 2024, 11:40:34 AM
+ *  Last update: 12 Apr 2024, 2:48:04 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -63,6 +63,7 @@ export class Weapon {
     name;
     categoryId;
     teamAbbr;
+    price;
     skins;
 
     constructor(id, name, categoryId, teamAbbr) {
@@ -75,6 +76,10 @@ export class Weapon {
 
     get id() {
         return this.#id;
+    }
+
+    setPrice(price) {
+        this.price = price;
     }
 
     addSkin(skin) {

@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 2:36:36 PM
+ *  Last update: 12 Apr 2024, 3:06:12 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -19,7 +19,7 @@ const PAGES_ENUM = Object.freeze({
     teamSummPage: 5
 });
 
-const WEAPON_DETAILS = Object.freeze({
+export const WEAPON_DETAILS = Object.freeze({
     pistols: Object.freeze({
         icon: "pistol",
         priceMin: 200,

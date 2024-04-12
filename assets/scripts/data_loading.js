@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 12 Apr 2024, 11:42:07 AM
+ *  Last update: 12 Apr 2024, 3:15:35 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,7 +9,9 @@
  * Data methods for loading from the API and formatting results
  */
 
+import { WEAPON_DETAILS } from "./main.js";
 import { Operator, Weapon, Skin } from "./data_classes.js";
+import { getRandomInt, roundToNearestMultiple } from "./utility.js";
 
 const CSGO_OPERATORS_API = "https://bymykel.github.io/CSGO-API/api/en/agents.json";
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
@@ -79,6 +81,8 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
         // index weapon data
         let weapon;
         if (!weapons[weaponRaw.weapon.id]) {
+            // weapon doesn't exist, so create it
+            
             // set up weapon abbreviation to match internal format
             let teamAbbr = "both";
             if (weaponRaw.team.id === "terrorists") {
@@ -87,15 +91,28 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
                 teamAbbr = "ct";
             }
 
+            // create weapon object
             weapon = new Weapon(
                 weaponRaw.weapon.id,
                 weaponRaw.weapon.name,
                 weaponRaw.category.id,
                 teamAbbr
             );
+
+            // generate price from defined range, rounded to the nearest multiple of 50
+            weapon.setPrice(
+                roundToNearestMultiple(
+                    getRandomInt(
+                        WEAPON_DETAILS[weaponRaw.category.name.toLowerCase()]["priceMin"],
+                        WEAPON_DETAILS[weaponRaw.category.name.toLowerCase()]["priceMax"]
+                    ),
+                    50
+                )
+            );
             
             weapons[weapon.id] = weapon;
         } else {
+            // just reference weapon, as it has already been created
             weapon = weapons[weaponRaw.weapon.id];
         }
 
