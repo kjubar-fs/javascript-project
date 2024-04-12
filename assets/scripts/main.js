@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 3:06:12 PM
+ *  Last update: 12 Apr 2024, 3:42:54 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -897,7 +897,7 @@ function createPageWeaponSel() {
         innerHTML:
             // TODO: remove selected skins from here
             `<div id="weaponBalance" class="no-back-deco">
-                <p>Available balance: <span id="balanceNum" class="text-pos">$9000</span></p>
+                <p>Available balance: <span id="balanceNum" class="price">$<span class="text-pos">9000</span></span></p>
             </div>
             <div id="weaponSelections">
                 <img class="selected-skin" src="/assets/images/logo.png">

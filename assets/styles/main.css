@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 11 Apr 2024, 8:17:23 PM
+ *  Last update: 12 Apr 2024, 3:42:05 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -18,6 +18,7 @@
     --t-dark: #826D27;
     --t-light: #FFF0BD;
     --danger-light: #FFB6B6;
+    --danger-mid: #C33;
     --danger-dark: #4A1312;
     --success: #027400;
     --gray-dark: #8D8D92;
@@ -121,7 +122,7 @@ input:focus {
 }
 
 .text-neg {
-    color: var(--danger-dark);
+    color: var(--danger-mid);
 }
 
 /* display card styles (used in multiple places) */
@@ -446,6 +447,9 @@ body:has(.main-card.card-lg) #mainHeading {
     text-align: center;
     border: 1px solid black;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .weapon-selector:active {
@@ -455,6 +459,10 @@ body:has(.main-card.card-lg) #mainHeading {
 .weapon-selector.selected {
     box-shadow: 0 3px 4px var(--gray-dark);
     background-color: var(--team-bg-light);
+}
+
+.price {
+    font-weight: 500;
 }
 
 #weaponSkinList {

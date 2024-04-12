@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 12 Apr 2024, 2:48:04 PM
+ *  Last update: 12 Apr 2024, 3:43:10 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -97,7 +97,9 @@ export class Weapon {
         elem = createEl("div", {
             id: this.#id,
             className: "weapon-selector cursor-pointer",
-            innerText: this.name
+            innerHTML:
+                `<span>${this.name}</span>
+                <span class="price">$<span class="text-pos">${this.price}</span></span>`
         });
         elem.addEventListener("click", this.#click.bind(this));
 
