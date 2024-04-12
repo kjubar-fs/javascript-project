@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 11 Apr 2024, 9:11:50 PM
+ *  Last update: 12 Apr 2024, 10:02:40 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -53,6 +53,7 @@ let weaponCategories = {};
 // [categoryId: string]:    weaponId: string[]
 let weaponsByCategory = {};
 loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
+    // TODO: remove debug
     console.log(weapons);
     console.log(weaponCategories);
     console.log(weaponsByCategory);
@@ -88,6 +89,8 @@ export function updateOperator(newOperator) {
     // if curOperator is empty, there was nothing selected
     if (Object.keys(curOperator).length !== 0) {
         curOperator.getElement().classList.remove("selected");
+        curOperator = newOperator;
+        return;
     }
 
     // update current operator
@@ -101,8 +104,6 @@ export function updateOperator(newOperator) {
  */
 function updatePlayerName(newName) {
     playerName = newName;
-
-    // TODO: update player name in summary pages
 }
 
 /**
@@ -146,7 +147,7 @@ function updateWeaponCategory(newCategory) {
 }
 
 /**
- * Change the currently selected weapon and update skin list
+ * Change the currently selected weapon and update displayed skin list
  * @param {Weapon} newWeapon weapon to switch to
  */
 export function updateWeapon(newWeapon) {
@@ -172,6 +173,56 @@ export function updateWeapon(newWeapon) {
 
     // update the current weapon
     curWeap = newWeapon;
+}
+
+/**
+ * Add or remove the given skin to/from the selected list
+ * @param {Skin} newSkin skin to select or deselect, or {} to clear array
+ */
+export function selectSkin(newSkin) {
+    // if we're provided an empty object, we just need to reset the skin selections
+    if (Object.keys(newSkin).length === 0) {
+        selectedSkins.forEach((skin) => {
+            skin.getElement().classList.remove("selected");
+        });
+        selectedSkins.length = 0;
+        return;
+    }
+
+    const skinEl = newSkin.getElement();
+    // if the skin is selected, deselect it and remove it from the list
+    if (skinEl.classList.contains("selected")) {
+        skinEl.classList.remove("selected");
+        let ix = selectedSkins.indexOf(newSkin);
+        if (ix !== -1) {
+            selectedSkins.splice(ix, 1);
+        }
+
+        // return early because we don't need to do anything else
+        return;
+    }
+
+    // if the skin is not selected, a few things must happen
+    // 1. check if another skin for the same weapon is selected
+    //   if necessary:
+    //   a. remove other skin from array
+    //   b. deselect other skin
+    // 2. add new skin to array
+    // 3. select new skin
+    // notably, we will not validate if the price exceeds the total
+    // or whether or not we have at least one weapon from each category
+    // that will happen when the user attempts to navigate away
+    let filteredSkins = selectedSkins.filter((skin) => skin.weaponId === newSkin.weaponId);
+    filteredSkins.forEach((skin) => {
+        skin.getElement().classList.remove("selected");
+        selectedSkins.splice(selectedSkins.indexOf(skin), 1);
+    });
+
+    newSkin.getElement().classList.add("selected");
+    selectedSkins.push(newSkin);
+
+    // TODO: remove debug
+    console.log(selectedSkins);
 }
 
 const bodyEl = getElSlct("body");
@@ -430,6 +481,7 @@ function resetApplication() {
     updateSelectedTeam("", "");
     updateOperator({});
     updatePlayerName("");
+    selectSkin({});
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;

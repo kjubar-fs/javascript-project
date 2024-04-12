@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 11 Apr 2024, 9:29:41 PM
+ *  Last update: 12 Apr 2024, 9:33:28 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -109,7 +109,8 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
             new Skin(
                 weaponRaw.id,
                 weaponName,
-                weaponRaw.image
+                weaponRaw.image,
+                weapon.id
             )
         );
     });

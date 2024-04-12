@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 11 Apr 2024, 8:56:32 PM
+ *  Last update: 12 Apr 2024, 9:46:55 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,7 +9,7 @@
  * Data classes for loading from the API
  */
 
-import { createDisplayCard, updateOperator, updateWeapon } from "./main.js";
+import { createDisplayCard, updateOperator, updateWeapon, selectSkin } from "./main.js";
 import { getElID, createEl } from "./utility.js";
 
 /**
@@ -47,8 +47,8 @@ export class Operator {
     }
 
     #click() {
-        // if this card is currently selected, return an empty object so it's deselected
-        // otherwise return this to select it
+        // if this card is currently selected, call with an empty object so it's deselected
+        // otherwise call with this to select it
         updateOperator(this.getElement().classList.contains("selected") ? {} : this);
     }
 }
@@ -98,7 +98,7 @@ export class Weapon {
     }
 
     #click() {
-        // always return this, as things can't be deselected
+        // always call with this, as things can't be deselected
         updateWeapon(this);
     }
 }
@@ -110,11 +110,13 @@ export class Skin {
     #id;
     name;
     image;
+    weaponId;
 
-    constructor(id, name, image) {
+    constructor(id, name, image, weaponId) {
         this.#id = id;
         this.name = name;
         this.image = image;
+        this.weaponId = weaponId;
     }
 
     get id() {
@@ -137,8 +139,8 @@ export class Skin {
     }
 
     #click() {
-        // if this card is currently selected, return an empty object so it's deselected
-        // otherwise return this to select it
-        // updateSkin(this.getElement().classList.contains("selected") ? {} : this);
+        // always call with this, as deselection needs to be handled by the function
+        // calling with an empty object resets all skin selections
+        selectSkin(this);
     }
 }
