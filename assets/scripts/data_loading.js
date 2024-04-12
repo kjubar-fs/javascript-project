@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 12 Apr 2024, 11:33:21 AM
+ *  Last update: 12 Apr 2024, 11:42:07 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -79,11 +79,19 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
         // index weapon data
         let weapon;
         if (!weapons[weaponRaw.weapon.id]) {
+            // set up weapon abbreviation to match internal format
+            let teamAbbr = "both";
+            if (weaponRaw.team.id === "terrorists") {
+                teamAbbr = "t";
+            } else if (weaponRaw.team.id === "counter-terrorists") {
+                teamAbbr = "ct";
+            }
+
             weapon = new Weapon(
                 weaponRaw.weapon.id,
                 weaponRaw.weapon.name,
                 weaponRaw.category.id,
-                weaponRaw.team.id
+                teamAbbr
             );
             
             weapons[weapon.id] = weapon;

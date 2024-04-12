@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:35:36 AM
+ *  Last update: 12 Apr 2024, 12:34:22 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -124,20 +124,25 @@ console.log("main script initialized");
 
 /**
  * Change the currently selected operator
- * @param {Operator} newOperator operator to change to
+ * @param {Operator} newOperator operator to change to, or {} to deselect
  */
 export function updateOperator(newOperator) {
     // deselect previous operator
     // if curOperator is empty, there was nothing selected
     if (Object.keys(curOperator).length !== 0) {
         curOperator.getElement().classList.remove("selected");
-        curOperator = newOperator;
-        return;
     }
 
     // update current operator
     curOperator = newOperator;
-    curOperator.getElement().classList.add("selected");
+    // only update element if new operator isn't {}
+    if (Object.keys(newOperator).length !== 0) {
+        newOperator.getElement().classList.add("selected");
+    }
+
+    // TODO: remove debug
+    console.log("operator updated to");
+    console.log(newOperator);
 }
 
 /**
@@ -150,7 +155,7 @@ function updatePlayerName(newName) {
 
 /**
  * Switch currently active weapon category to filter display to
- * @param {string} newCategory weapon category to switch to
+ * @param {string} newCategory weapon category to switch to, or "" to deselect and hide all weapons
  */
 function updateWeaponCategory(newCategory) {
     // do nothing if already on this category
@@ -159,8 +164,8 @@ function updateWeaponCategory(newCategory) {
     }
 
     // return if weapon list hasn't been populated (just in case)
-    // or if the category doesn't exist
-    if (Object.keys(weaponsByCategory).length === 0 || !weaponsByCategory[newCategory]) {
+    // or if the category doesn't exist (but isn't "")
+    if (Object.keys(weaponsByCategory).length === 0 || (!!newCategory && !weaponsByCategory[newCategory])) {
         return;
     }
 
@@ -173,10 +178,23 @@ function updateWeaponCategory(newCategory) {
         getElFromContentByID(curWeapCategory).classList.remove("selected");
     }
 
+    // TODO: remove debug
+    console.log(`weapon category changed to: ${newCategory}`);
+
+    // if the new category is "", don't need to do anything else
+    if (!newCategory) {
+        curWeapCategory = newCategory;
+        return;
+    }
+
     // show weapons in the new category and select its tab
     weaponsByCategory[newCategory].forEach((weaponName) => {
         const weapon = weapons[weaponName];
-        weapon.getElement().classList.remove("removed");
+        // only show weapons for both teams or the current team
+        // or, for debug purposes, if we have no team/auto team set show all
+        if (weapon.teamAbbr === "both" || weapon.teamAbbr === curTeam || (!curTeam || curTeam === "auto")) {
+            weapon.getElement().classList.remove("removed");
+        }
     });
     getElFromContentByID(newCategory).classList.add("selected");
     getElFromContentByID("weaponList").scrollTop = 0;    // scroll weapon list to the top so it doesn't start randomly in the middle
@@ -215,6 +233,10 @@ export function updateWeapon(newWeapon) {
 
     // update the current weapon
     curWeap = newWeapon;
+
+    // TODO: remove debug
+    console.log("weapon updated to");
+    console.log(newWeapon);
 }
 
 /**
@@ -228,6 +250,8 @@ export function selectSkin(newSkin) {
             skin.getElement().classList.remove("selected");
         });
         selectedSkins.length = 0;
+        // TODO: remove debug
+        console.log("skins cleared");
         return;
     }
 
@@ -515,11 +539,8 @@ function resetApplication() {
     getElID("resetBtn").classList.add("hidden");
 
     // reset data
-    updateSelectedTeam("", "");
-    updateOperator({});
+    updateSelectedTeam("", ""); // clearing team clears operator, weapons, and resets the filtering
     updatePlayerName("");
-    selectSkin({});
-    updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id); // reset weapon page to first category/weapon again
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
@@ -571,12 +592,21 @@ function createPageTeamSel() {
     const autoRadio = createTeamBtn("teamAuto", "Auto-Select");
 
     const updateTeam = (e) => {
+        // if the user has visited the operator or weapon select pages,
+        // confirm that changing team will clear their operator and weapon selections
+        if (visitedPages.includes(PAGES_ENUM.charPage) || visitedPages.includes(PAGES_ENUM.weaponPage)) {
+            let shouldChangeTeam = confirm("Changing team will reset your operator and weapon selections. Proceed?");
+            if (!shouldChangeTeam) {
+                e.preventDefault(); // this, combined with firing on click instead of on change, prevents selecting the new radio button
+                return;
+            }
+        }
         updateSelectedTeam(e.target.id.split("team")[1].toLowerCase(), e.target.value);
     }
     
-    ctRadio.addEventListener("change", updateTeam);
-    tRadio.addEventListener("change", updateTeam);
-    autoRadio.addEventListener("change", updateTeam);
+    ctRadio.addEventListener("click", updateTeam);
+    tRadio.addEventListener("click", updateTeam);
+    autoRadio.addEventListener("click", updateTeam);
 
     // create the next button
     const nextBtn = createEl("button", {
@@ -659,7 +689,13 @@ function updateSelectedTeam(teamAbbr, teamName) {
     }
 
     // filter operator list
-    filterOperatorsByTeam(teamAbbr);
+    updateOperator({});
+    filterOperatorsByTeam(teamAbbr !== "auto" ? teamAbbr : "");
+
+    // clear selected skins and reset selected weapon category to top to reset displayed weapons
+    selectSkin({});
+    updateWeaponCategory("");
+    updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
 
     // if we're clearing the team name, deselect all selection radio buttons
     if (!teamAbbr || !teamName) {

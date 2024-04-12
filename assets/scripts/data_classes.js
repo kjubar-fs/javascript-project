@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 12 Apr 2024, 11:31:51 AM
+ *  Last update: 12 Apr 2024, 11:40:34 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -62,14 +62,14 @@ export class Weapon {
     #id;
     name;
     categoryId;
-    teamId;
+    teamAbbr;
     skins;
 
-    constructor(id, name, categoryId, teamId) {
+    constructor(id, name, categoryId, teamAbbr) {
         this.#id = id;
         this.name = name;
         this.categoryId = categoryId;
-        this.teamId = teamId;
+        this.teamAbbr = teamAbbr;
         this.skins = [];
     }
 
