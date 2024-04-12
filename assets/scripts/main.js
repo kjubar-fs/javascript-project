@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:04:17 AM
+ *  Last update: 12 Apr 2024, 11:14:10 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -519,6 +519,7 @@ function resetApplication() {
     updateOperator({});
     updatePlayerName("");
     selectSkin({});
+    updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id); // reset weapon page to first category/weapon again
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
@@ -655,6 +656,13 @@ function updateSelectedTeam(teamAbbr, teamName) {
         charIcon.src = "/assets/images/icons/nav/terrorist-wh.png";
     } else {
         charIcon.src = "/assets/images/icons/nav/soldier-wh.png";
+    }
+
+    // if we're clearing the team name, deselect all selection radio buttons
+    if (!teamAbbr || !teamName) {
+        getElFromContentByID("teamCT").checked = false;
+        getElFromContentByID("teamT").checked = false;
+        getElFromContentByID("teamAuto").checked = false;
     }
     
     // TODO: remove debug
