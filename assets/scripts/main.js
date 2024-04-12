@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 12:34:22 PM
+ *  Last update: 12 Apr 2024, 12:52:13 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -192,7 +192,7 @@ function updateWeaponCategory(newCategory) {
         const weapon = weapons[weaponName];
         // only show weapons for both teams or the current team
         // or, for debug purposes, if we have no team/auto team set show all
-        if (weapon.teamAbbr === "both" || weapon.teamAbbr === curTeam || (!curTeam || curTeam === "auto")) {
+        if (weapon.teamAbbr === "both" || weapon.teamAbbr === curTeam || !curTeam) {
             weapon.getElement().classList.remove("removed");
         }
     });
@@ -666,13 +666,27 @@ function createPageTeamSel() {
  * @param {string} teamName team name in plain text
  */
 function updateSelectedTeam(teamAbbr, teamName) {
+    // randomize team selection when set to "auto"
+    if (teamAbbr === "auto") {
+        if (Math.random() > 0.5) {
+            teamAbbr = "ct";
+            teamName = "Counter-Terrorist";
+        } else {
+            teamAbbr = "t";
+            teamName = "Terrorist";
+        }
+        alert("Team has been auto-selected as " + teamName);
+        getElFromContentByID("teamAuto").checked = false;
+        getElFromContentByID(`team${teamAbbr.toUpperCase()}`).checked = true;
+    }
+
     // update data vars
     curTeam = teamAbbr;
     curTeamName = teamName;
     
     // update header text and styles
     const header = getElID("mainHeading");
-    if (!!curTeam && curTeam !== "auto") {
+    if (!!curTeam) {
         header.innerText = header.innerText.split(":")[0] + `: ${curTeamName}`;
         bodyEl.className = `team-${curTeam}`;
     } else {
@@ -690,7 +704,7 @@ function updateSelectedTeam(teamAbbr, teamName) {
 
     // filter operator list
     updateOperator({});
-    filterOperatorsByTeam(teamAbbr !== "auto" ? teamAbbr : "");
+    filterOperatorsByTeam(teamAbbr);
 
     // clear selected skins and reset selected weapon category to top to reset displayed weapons
     selectSkin({});
