@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 10:56:11 AM
- *  Last update: 12 Apr 2024, 9:46:55 AM
+ *  Last update: 12 Apr 2024, 11:03:49 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -9,8 +9,8 @@
  * Data classes for loading from the API
  */
 
-import { createDisplayCard, updateOperator, updateWeapon, selectSkin } from "./main.js";
-import { getElID, createEl } from "./utility.js";
+import { getElFromContentByID, createDisplayCard, updateOperator, updateWeapon, selectSkin } from "./main.js";
+import { createEl } from "./utility.js";
 
 /**
  * A class representing an operator
@@ -33,7 +33,7 @@ export class Operator {
 
     getElement() {
         // return element if it's created already
-        let elem = getElID(this.#id);
+        let elem = getElFromContentByID(this.#id);
         if (!!elem) {
             return elem;
         }
@@ -81,7 +81,7 @@ export class Weapon {
 
     getElement() {
         // return element if it's created already
-        let elem = getElID(this.#id);
+        let elem = getElFromContentByID(this.#id);
         if (!!elem) {
             return elem;
         }
@@ -125,7 +125,7 @@ export class Skin {
 
     getElement() {
         // return element if it's created already
-        let elem = getElID(this.#id);
+        let elem = getElFromContentByID(this.#id);
         if (!!elem) {
             return elem;
         }
