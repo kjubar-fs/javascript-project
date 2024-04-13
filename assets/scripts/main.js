@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:25:52 PM
+ *  Last update: 12 Apr 2024, 10:46:39 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -1141,19 +1141,17 @@ function createPageCharSumm() {
     
     // set up non-interactive elements
     content.push(createEl("h2", {
-        id: "charSummName",
-        innerText: "<your name here>"   // name is filled in by updateCharSumm()
+        innerText: "Character Summary"
     }));
 
     // create main summary
     const charSummDiv = createEl("div", { id: "charSummDisplay" });
 
     // create operator display
-    const charOpDiv = createEl("div", {
-        id: "charSummOperator",
-        className: "no-back-deco",
-        innerHTML: `<img>`  // image source is filled in by updateCharSumm()
-    });
+    const charOpDiv = createDisplayCard(false, "", "");     // image source is filled in by updateCharSumm()
+    charOpDiv.id = "charSummOperator";
+    charOpDiv.classList.add("no-back-deco");
+    charOpDiv.lastChild.id = "charSummName";    // name is filled in by updateCharSumm()
 
     // create weapons display
     const charWeapDiv = createEl("div", {
