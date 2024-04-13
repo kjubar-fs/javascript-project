@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 12:15:06 PM
+ *  Last update: 13 Apr 2024, 1:05:50 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -620,9 +620,6 @@ function navToPage(pageNum) {
     // TODO: remove debug
     console.log("navigating to page " + pageNum);
 
-    // set the current page
-    curPage = pageNum;
-
     // if this page hasn't been visited yet, record it as visited
     // TODO: update to false to dynamically update crumbs
     let needCrumbUpdate = true;
@@ -697,9 +694,81 @@ function navToPage(pageNum) {
         contentDiv.appendChild(el);
     });
 
+    // set the current page
+    curPage = pageNum;
+
+    // update breadcrumbs if needed
     if (needCrumbUpdate) {
         updateBreadcrumbs();
     }
+}
+
+/**
+ * Validate the current page to determine if we can navigate away
+ * @returns true if page is valid, false if not
+ */
+function validateCurPage() {
+    switch (curPage) {
+        case PAGES_ENUM.teamPage:
+            // must select a team on the team page
+            if (curTeam === "") {
+                return false;
+            }
+            
+            break;
+        case PAGES_ENUM.charPage:
+            // must select an operator
+            if (Object.keys(curOperator).length === 0) {
+                return false;
+            }
+            // must enter a name
+            if (playerName === "") {
+                return false;
+            }
+            // name must be 2 words and 20 characters or less, and not all whitespace
+            // count all whitespace as word separators, in case the user enters tab or enter
+            let whitespace = playerName.split(/\s/).length;
+            if (playerName.length > 20 || whitespace > 1 || !playerName.trim()) {
+                return false;
+            }
+
+            break;
+        case PAGES_ENUM.weaponPage:
+            // must have at least one weapon of each category
+            let selCategories = [];
+            selectedSkins.forEach((skin) => {
+                let weaponCat = weapons[skin.weaponId].categoryId;
+                if (!selCategories.includes(weaponCat)) {
+                    selCategories.push(weaponCat);
+                }
+            });
+            if (selCategories.length !== Object.keys(weaponCategories).length) {
+                return false;
+            }
+            
+            // must not exceed the funds limit
+            if (curFunds < 0) {
+                return false;
+            }
+
+            break;
+        case PAGES_ENUM.summPage:
+            // must have a team name of a single word with all alpha characters
+            if (!teamName.match(/^[a-zA-Z]/)) {
+                return false;
+            }
+            
+            break;
+        // default to no validation if this breaks somehow
+        case PAGES_ENUM.startPage:
+        case PAGES_ENUM.teamSummPage:
+        default:
+            // no validation necessary for start and team summary pages
+            break;
+    }
+
+    // if we haven't returned early, page is valid
+    return true;
 }
 
 /**
