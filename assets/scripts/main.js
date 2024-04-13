@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 11:28:53 AM
+ *  Last update: 13 Apr 2024, 11:49:31 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -594,15 +594,9 @@ function createMain() {
 
     const weapDetailsDiv = createEl("div", {
         id: "weapSummDetails",
-        className: "no-back-deco",
-        innerHTML:
-            // TODO: replace these with content taken from weapon selected
-            `<p><span class="text-bold">Weapon: </span>Weapon Name</p>
-            <p><span class="text-bold">Skin: </span>Skin Name</p>
-            <p><span class="text-bold">Category: </span>Weapon Category</p>
-            <p><span class="text-bold">Price: </span>Weapon Price</p>
-            <p><span class="text-bold">Available to Team: </span>Team</p>`
+        className: "no-back-deco"
     });
+    // weapon details will be filled in when showing the popup
     
     weapPopupWrapper.firstChild.appendChild(weapDisplayDiv);
     weapPopupWrapper.firstChild.appendChild(weapDetailsDiv);
@@ -1224,6 +1218,44 @@ function populateSkins() {
             skinElem.classList.add("removed");  // hide by default
             skinListDiv.appendChild(skinElem);
         });
+    });
+}
+
+/**
+ * Shows the weapon summary popup with the details from the provided weapon
+ * @param {Skin} skin weapon to display summary for
+ */
+function showWeaponSummary(skin) {
+    getElSlct("#weapSummImage > img").src = skin.image;
+
+    const weapSummDetails = getElID("weapSummDetails");
+    weapSummDetails.innerHTML = "";     // clear existing list first
+    const weapon = weapons[skin.weaponId];
+    weapSummDetails.appendChild(createKVP("Weapon", weapon.name));
+    weapSummDetails.appendChild(createKVP("Skin", skin.name));
+    weapSummDetails.appendChild(createKVP("Category", weaponCategories[weapon.categoryId]));
+    weapSummDetails.appendChild(createKVP("Price", `$${weapon.price}`));
+    let team;
+    if (weapon.teamAbbr === "ct") {
+        team = "Counter-Terrorist";
+    } else if (weapon.teamAbbr === "t") {
+        team = "Terrorist";
+    } else {
+        team = weapon.teamAbbr;
+    }
+    weapSummDetails.appendChild(createKVP("Available to Team", team));
+
+    getElID("weapSummWrapper").classList.remove("removed");
+}
+
+/**
+ * Create a paragraph element representing a key-value pair
+ * @param {string} key key name, will precede colon
+ * @param {string} value value, will come after colon
+ */
+function createKVP(key, value) {
+    return createEl("p", {
+        innerHTML: `<span class="text-bold">${key}: </span>${value}`
     });
 }
 
