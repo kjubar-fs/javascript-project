@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 12:56:52 AM
+ *  Last update: 13 Apr 2024, 11:28:53 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -559,6 +559,54 @@ function createMain() {
     resetBtn.addEventListener("click", resetApplication);
 
     mainEl.appendChild(resetBtn);
+    
+    // create the weapon details popup, hidden by default
+    // wrapper to darken background when popup is shown
+    const weapPopupWrapper = createEl("div", {
+        id: "weapSummWrapper",
+        className: "no-back-deco removed"
+    });
+
+    // popup content div
+    const weapSummPopup = createEl("div", {
+        id: "weapSummPopup",
+        className: "no-back-deco"
+    });
+
+    // close (hide) the popup when clicking the x
+    const weapSummClose = createEl("img", {
+        id: "closeWeapSummPopup",
+        className: "cursor-pointer",
+        src: "/assets/images/icons/close.png"
+    });
+    weapSummClose.addEventListener("click", () => {
+        weapPopupWrapper.classList.add("removed");
+    });
+
+    weapSummPopup.appendChild(weapSummClose);
+
+    weapPopupWrapper.appendChild(weapSummPopup);
+    
+    // create weapon image/detail display
+    const weapDisplayDiv = createDisplayCard(false, "", "");    // image path will be filled in when showing the popup
+    weapDisplayDiv.id = "weapSummImage";
+    weapDisplayDiv.classList.add("no-back-deco");
+
+    const weapDetailsDiv = createEl("div", {
+        id: "weapSummDetails",
+        className: "no-back-deco",
+        innerHTML:
+            // TODO: replace these with content taken from weapon selected
+            `<p><span class="text-bold">Weapon: </span>Weapon Name</p>
+            <p><span class="text-bold">Skin: </span>Skin Name</p>
+            <p><span class="text-bold">Category: </span>Weapon Category</p>
+            <p><span class="text-bold">Price: </span>Weapon Price</p>
+            <p><span class="text-bold">Available to Team: </span>Team</p>`
+    });
+    
+    weapPopupWrapper.firstChild.appendChild(weapDisplayDiv);
+    weapPopupWrapper.firstChild.appendChild(weapDetailsDiv);
+    mainEl.appendChild(weapPopupWrapper);
 
     return mainEl;
 }
