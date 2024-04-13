@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 12:33:34 AM
+ *  Last update: 13 Apr 2024, 12:56:52 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -1342,7 +1342,7 @@ function generateRandomLoadout() {
                 weapon = weapons[weaponsByCategory[weaponCat][ix]];
             } while(weapon.teamAbbr !== "both" && weapon.teamAbbr !== curTeam);
             total += weapon.price;
-            gennedWeaps.push(weapon);
+            gennedWeaps.push(weapon.skins[getRandomInt(0, weapon.skins.length - 1)]);
         });
     } while(total > MAX_FUNDS);
 
@@ -1360,7 +1360,8 @@ function updateTeamSumm() {
     getElFromContentByID("teamSummName").innerText = teamName;
 
     // add player's data
-    const playerTeamSummDiv = getElFromContentByID("teamSummDisplay").firstChild;  // player display will always be first
+    const teamSummDiv = getElFromContentByID("teamSummDisplay")
+    const playerTeamSummDiv = teamSummDiv.firstChild;  // player display will always be first
 
     // update operator image
     playerTeamSummDiv.querySelector(".team-summ-operator > .display-img").src = curOperator.image;
@@ -1377,4 +1378,22 @@ function updateTeamSumm() {
     });
 
     // fill in generated team members
+    // start index at 1 to skip player display
+    for (let i = 1; i < teamSummDiv.children.length; i++) {
+        const teammateSummDiv = teamSummDiv.children[i];
+
+        // update operator image
+        teammateSummDiv.querySelector(".team-summ-operator > .display-img").src = teamMemberOperators[i - 1].image;
+        // update player name
+        teammateSummDiv.querySelector(".team-summ-operator > .display-text").innerText = teamMemberNames[i - 1];
+
+        // add weapons
+        const teammateSummWeapDiv = teammateSummDiv.querySelector(".team-summ-weapons");
+        teammateSummWeapDiv.innerHTML = "";     // clear weapon div first
+        teamMemberWeapons[i - 1].forEach((skin) => {
+            teammateSummWeapDiv.appendChild(
+                createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
+            );
+        });
+    }
 }
