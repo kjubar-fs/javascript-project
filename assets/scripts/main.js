@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:46:39 PM
+ *  Last update: 12 Apr 2024, 11:02:38 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -883,7 +883,7 @@ function updateSelectedTeam(teamAbbr, teamName) {
  * Create a display card
  * @param {boolean} clickable true if this card has click interactivity
  * @param {string} imgPath src path for card's image
- * @param {string} text text to display in the card
+ * @param {string} text text to display in the card, can accept HTML
  * @returns created card div
  */
 // TODO: determine if export is necessary here
@@ -1207,14 +1207,14 @@ function updateCharSumm() {
     getElFromContentByID("charSummName").innerText = playerName;
 
     // set operator image
-    getElFromContentBySel("#charSummOperator > img").src = curOperator.image;
+    getElFromContentBySel("#charSummOperator > .display-img").src = curOperator.image;
 
     // add selected weapons
     const charWeapDiv = getElFromContentByID("charSummWeapons");
     charWeapDiv.innerHTML = "";     // clear weapon div first
     selectedSkins.forEach((skin) => {
         charWeapDiv.appendChild(
-            createDisplayCard(false, skin.image, `${weapons[skin.weaponId].name} | ${skin.name}`)
+            createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
         );
     });
 }
@@ -1277,4 +1277,23 @@ function createPageTeamSumm() {
  */
 function updateTeamSumm() {
     // TODO: implement
+    // set team name
+    getElFromContentByID("teamSummName").innerText = teamName;
+
+    // add player's data
+    const playerTeamSummDiv = getElFromContentByID("teamSummDisplay").firstChild;  // player display will always be first
+
+    // update operator image
+    playerTeamSummDiv.querySelector(".team-summ-operator > .display-img").src = curOperator.image;
+    // update player name
+    playerTeamSummDiv.querySelector(".team-summ-operator > .display-text").innerText = playerName;
+
+    // add weapons
+    const playerTeamSummWeapDiv = playerTeamSummDiv.querySelector(".team-summ-weapons");
+    playerTeamSummWeapDiv.innerHTML = "";     // clear weapon div first
+    selectedSkins.forEach((skin) => {
+        playerTeamSummWeapDiv.appendChild(
+            createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
+        );
+    });
 }
