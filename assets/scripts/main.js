@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 1:05:50 PM
+ *  Last update: 13 Apr 2024, 1:34:24 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -616,6 +616,16 @@ function navToPage(pageNum) {
     if (curPage === pageNum) {
         return;
     }
+
+    // validate current page if we're navigating forward
+    // navigating backwards doesn't need to validate yet, since the user can go back and change data
+    if (pageNum > curPage) {
+        let validationMsg = validateCurPage();
+        if (!!validationMsg) {
+            alert(validationMsg);
+            return;
+        }
+    }
     
     // TODO: remove debug
     console.log("navigating to page " + pageNum);
@@ -705,31 +715,31 @@ function navToPage(pageNum) {
 
 /**
  * Validate the current page to determine if we can navigate away
- * @returns true if page is valid, false if not
+ * @returns a validation error string, or "" if no errors were found
  */
 function validateCurPage() {
     switch (curPage) {
         case PAGES_ENUM.teamPage:
             // must select a team on the team page
             if (curTeam === "") {
-                return false;
+                return "A team must be selected.";
             }
             
             break;
         case PAGES_ENUM.charPage:
             // must select an operator
             if (Object.keys(curOperator).length === 0) {
-                return false;
+                return "An operator must be selected.";
             }
             // must enter a name
             if (playerName === "") {
-                return false;
+                return "A player name must be entered.";
             }
             // name must be 2 words and 20 characters or less, and not all whitespace
             // count all whitespace as word separators, in case the user enters tab or enter
             let whitespace = playerName.split(/\s/).length;
             if (playerName.length > 20 || whitespace > 1 || !playerName.trim()) {
-                return false;
+                return "Player name must be 20 characters or less and 2 words or less.";
             }
 
             break;
@@ -743,23 +753,29 @@ function validateCurPage() {
                 }
             });
             if (selCategories.length !== Object.keys(weaponCategories).length) {
-                return false;
+                return "You must select at least one weapon in each category.";
             }
             
             // must not exceed the funds limit
             if (curFunds < 0) {
-                return false;
+                return "Not enough funds to afford selected loadout.";
             }
 
             break;
         case PAGES_ENUM.summPage:
+            // must enter a team name
+            if (teamName === "") {
+                return "A team name must be entered.";
+            }
+
             // must have a team name of a single word with all alpha characters
             if (!teamName.match(/^[a-zA-Z]/)) {
-                return false;
+                return "Team name must be one word consisting of only letters.";
             }
             
             break;
         // default to no validation if this breaks somehow
+        // (or when starting the application, as curPage is -1)
         case PAGES_ENUM.startPage:
         case PAGES_ENUM.teamSummPage:
         default:
@@ -768,7 +784,7 @@ function validateCurPage() {
     }
 
     // if we haven't returned early, page is valid
-    return true;
+    return "";
 }
 
 /**
