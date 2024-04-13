@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 11:54:21 AM
+ *  Last update: 13 Apr 2024, 12:15:06 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -131,12 +131,8 @@ loadOperators().then((result) => {
     operators = result;
     populateOperatorCards();
 
-    // generate random operators for teammates
-    for (let i = 1; i <= 3; i++) {
-        generateRandomOperator();
-    }
     // TODO: remove debug
-    console.log(teamMemberOperators);
+    console.log(operators[0]);
 });
 
 // dictionary index of weapons
@@ -758,13 +754,14 @@ function resetApplication() {
     // reset data
     updateSelectedTeam("", ""); // clearing team clears operator, weapons, and resets the filtering
     updatePlayerName("");
+    updateTeamName("");
 
-    // regenerate random teammate data (minus weapons, that's handled after we have a team selected)
-    teamMemberNames = getRandomNames(3);
-    teamMemberOperators = [];
-    for (let i = 1; i <= 3; i++) {
-        generateRandomOperator();
-    }
+    // regenerate random teammate names (weapons and operators are handled after we have a team selected)
+    getRandomNames(3).then((result) => {
+        // TODO: remove debug
+        console.log(result);
+        teamMemberNames = result;
+    });
 
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
@@ -940,7 +937,8 @@ function updateSelectedTeam(teamAbbr, teamName) {
     updateWeaponCategory("");
     updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
 
-    // clear generated team member loadouts
+    // clear generated team member operators and loadouts
+    teamMemberOperators = [];
     teamMemberWeapons = [];
 
     // if we're clearing the team name, deselect all selection radio buttons
@@ -950,13 +948,17 @@ function updateSelectedTeam(teamAbbr, teamName) {
         getElFromContentByID("teamAuto").checked = false;
     }
 
-    // if we're setting a team, generate team member weapons
+    // if we're setting a team, generate team member operators and weapons
     if (!!teamAbbr) {
+        for (let i = 1; i <= 3; i++) {
+            generateRandomOperator();
+        }
         for (let i = 1; i <= 3; i++) {
             generateRandomLoadout();
         }
     }
     // TODO: remove debug
+    console.log(teamMemberOperators);
     console.log(teamMemberWeapons);
     
     // TODO: remove debug
@@ -1082,8 +1084,16 @@ function filterOperatorsByTeam(teamAbbr) {
  * Selects a random teammate operator and adds the result to the storage array
  */
 function generateRandomOperator() {
-    let ix = getRandomInt(0, operators.length);
-    teamMemberOperators.push(operators[ix]);
+    // generate 3 operators
+    while (teamMemberOperators.length < 3) {
+        let operator;
+        // pick random operators until we get one matching the currently selected team
+        do {
+            let ix = getRandomInt(0, operators.length - 1);
+            operator = operators[ix];
+        } while (operator.teamAbbr !== curTeam);
+        teamMemberOperators.push(operator);
+    }
 }
 
 /**
@@ -1413,12 +1423,15 @@ function generateRandomLoadout() {
     let gennedWeaps;
     let total;
 
+    // generate random loadouts until we reach one lower than the funds cap
     do {
         gennedWeaps = [];
         total = 0;
+        // pick a random weapon/skin from each category
         Object.keys(weaponsByCategory).forEach((weaponCat) => {
             let weaponIds = weaponsByCategory[weaponCat];
             let weapon;
+            // pick a random weapon until we get one matching the player's team
             do {
                 let ix = getRandomInt(0, weaponIds.length - 1);
                 weapon = weapons[weaponsByCategory[weaponCat][ix]];
@@ -1437,7 +1450,6 @@ function generateRandomLoadout() {
  * Update the team summary page with the loaded data
  */
 function updateTeamSumm() {
-    // TODO: implement
     // set team name
     getElFromContentByID("teamSummName").innerText = teamName;
 
