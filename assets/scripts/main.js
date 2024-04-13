@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 11:49:31 AM
+ *  Last update: 13 Apr 2024, 11:54:21 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -1344,9 +1344,11 @@ function updateCharSumm() {
     const charWeapDiv = getElFromContentByID("charSummWeapons");
     charWeapDiv.innerHTML = "";     // clear weapon div first
     selectedSkins.forEach((skin) => {
-        charWeapDiv.appendChild(
-            createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
-        );
+        const weapDisplayCard = createDisplayCard(true, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`);
+        weapDisplayCard.addEventListener("click", () => {
+            showWeaponSummary(skin);
+        });
+        charWeapDiv.appendChild(weapDisplayCard);
     });
 }
 
@@ -1452,9 +1454,11 @@ function updateTeamSumm() {
     const playerTeamSummWeapDiv = playerTeamSummDiv.querySelector(".team-summ-weapons");
     playerTeamSummWeapDiv.innerHTML = "";     // clear weapon div first
     selectedSkins.forEach((skin) => {
-        playerTeamSummWeapDiv.appendChild(
-            createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
-        );
+        const weapDisplayCard = createDisplayCard(true, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`);
+        weapDisplayCard.addEventListener("click", () => {
+            showWeaponSummary(skin);
+        });
+        playerTeamSummWeapDiv.appendChild(weapDisplayCard);
     });
 
     // fill in generated team members
@@ -1471,9 +1475,11 @@ function updateTeamSumm() {
         const teammateSummWeapDiv = teammateSummDiv.querySelector(".team-summ-weapons");
         teammateSummWeapDiv.innerHTML = "";     // clear weapon div first
         teamMemberWeapons[i - 1].forEach((skin) => {
-            teammateSummWeapDiv.appendChild(
-                createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
-            );
+            const weapDisplayCard = createDisplayCard(true, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`);
+            weapDisplayCard.addEventListener("click", () => {
+                showWeaponSummary(skin);
+            });
+            teammateSummWeapDiv.appendChild(weapDisplayCard);
         });
     }
 }
