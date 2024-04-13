@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 12 Apr 2024, 3:15:35 PM
+ *  Last update: 12 Apr 2024, 11:45:22 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -15,6 +15,7 @@ import { getRandomInt, roundToNearestMultiple } from "./utility.js";
 
 const CSGO_OPERATORS_API = "https://bymykel.github.io/CSGO-API/api/en/agents.json";
 const CSGO_SKINS_API = "https://bymykel.github.io/CSGO-API/api/en/skins.json";
+const RANDOM_NAME_API = "https://randomuser.me/api/";
 
 /**
  * Fetches the list of operators from the API and formats them into objects
@@ -61,7 +62,7 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
         .then((results) => {
             apiResults = results;
         })
-        .catch((reason) => console.log(`Error: ${reason}`));
+        .catch((reason) => console.log(`Error loading skins: ${reason}`));
 
     // create indexes, mapping results to Weapon and Skin objects
     apiResults.forEach(weaponRaw => {
@@ -144,4 +145,24 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
             )
         );
     });
+}
+
+/**
+ * Get a specified number of random operator names
+ * Calls into the API at https://randomuser.me/
+ * @param {number} count number of names to generate
+ */
+export async function getRandomNames(count) {
+    let names = [];
+
+    await fetch(`${RANDOM_NAME_API}?results=${count}&inc=name&nat=au,br,ca,ch,de,dk,es,fi,fr,gb,ie,in,mx,nl,no,nz,us`)
+        .then((resp) => resp.json())
+        .then((results) => {
+            results.results.forEach((user) => {
+                names.push(`${user.name.first} ${user.name.last}`);
+            });
+        })
+        .catch((reason) => console.log(`Error getting random name: ${reason}`));
+        
+    return names;
 }

@@ -1,12 +1,12 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:08:37 PM
+ *  Last update: 12 Apr 2024, 11:47:56 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
 import { Operator } from "./data_classes.js";
-import { loadOperators, loadSkins } from "./data_loading.js";
+import { loadOperators, loadSkins, getRandomNames } from "./data_loading.js";
 
 // using Object.freeze creates an object whose properties and values cannot change
 // closest you can get to having an enum in JS
@@ -72,6 +72,9 @@ let curFunds = MAX_FUNDS;
 
 let teamName = "";
 
+let teamMemberNames = [];
+let teamMemberWeapons = [];
+
 // pregenerate screen HTML
 let startContent = createPageStart();
 let teamSelContent = createPageTeamSel();
@@ -127,7 +130,7 @@ loadOperators().then((result) => {
     operators = result;
     populateOperatorCards();
 });
-// TODO: implement Weapon class
+
 // dictionary index of weapons
 // [id: string]:    weapon: Weapon
 let weapons = {};
@@ -146,6 +149,13 @@ loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
     populateWeapons();
     populateSkins();
     updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
+});
+
+// get random teammate names
+getRandomNames(3).then((result) => {
+    // TODO: remove debug
+    console.log(result);
+    teamMemberNames = result;
 });
 
 // TODO: remove debug
@@ -1298,4 +1308,6 @@ function updateTeamSumm() {
             createDisplayCard(false, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`)
         );
     });
+
+    // fill in generated team members
 }
