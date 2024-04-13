@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 9:46:26 PM
+ *  Last update: 12 Apr 2024, 10:01:53 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -605,12 +605,14 @@ function navToPage(pageNum) {
             contentDiv.id = "charSumm";
             contentDiv.className = "main-card card-lg";
             content = charSummContent;
+            updateCharSumm();
             break;
         case PAGES_ENUM.teamSummPage:
             document.title = "Team Summary | CS:GO Team Builder";
             contentDiv.id = "teamSumm";
             contentDiv.className = "main-card card-lg";
             content = teamSummContent;
+            updateTeamSumm();
             break;
         // default to start page if this breaks somehow
         case PAGES_ENUM.startPage:
@@ -1197,6 +1199,13 @@ function createPageCharSumm() {
 }
 
 /**
+ * Update the character summary page with the loaded data
+ */
+function updateCharSumm() {
+    // TODO: implement
+}
+
+/**
  * Create team summary page elements
  * @returns an array of elements to append to the main content div
  */
@@ -1246,4 +1255,11 @@ function createPageTeamSumm() {
     content.push(displayDiv);
 
     return content;
+}
+
+/**
+ * Update the team summary page with the loaded data
+ */
+function updateTeamSumm() {
+    // TODO: implement
 }
