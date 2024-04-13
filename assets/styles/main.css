@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 12 Apr 2024, 9:54:45 PM
+ *  Last update: 12 Apr 2024, 10:09:08 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -526,7 +526,6 @@ body:has(.main-card.card-lg) #mainHeading {
     flex-direction: row;
     gap: 20px;
     align-items: center;
-    overflow: scroll;
 }
 
 #charSummOperator {
@@ -541,8 +540,9 @@ body:has(.main-card.card-lg) #mainHeading {
     flex-basis: 70%;
     height: 100%;
     display: grid;
-    grid-template: 1fr 1fr / 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
+    overflow: scroll;
 }
 
 #charSummWeapons > .display-card {
@@ -593,7 +593,7 @@ body:has(.main-card.card-lg) #mainHeading {
     flex-basis: 70%;
     height: 100%;
     display: grid;
-    grid-template: 1fr 1fr / 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
 

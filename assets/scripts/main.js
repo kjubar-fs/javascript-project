@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:01:53 PM
+ *  Last update: 12 Apr 2024, 10:10:08 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -1154,7 +1154,7 @@ function createPageCharSumm() {
     });
 
     // TODO: replace with selected weapons
-    for (let i = 1; i < 7; i++) {
+    for (let i = 1; i < 10; i++) {
         charWeapDiv.appendChild(
             createDisplayCard(false, "/assets/images/logo.png", `Weapon ${i}`)
         );
@@ -1240,7 +1240,8 @@ function createPageTeamSumm() {
         const weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
 
         // create weapon cards and add to list
-        for (let j = 1; j < 7; j++) {
+        let max = i === 1 ? 10 : 7;
+        for (let j = 1; j < max; j++) {
             weaponsDiv.appendChild(
                 createDisplayCard(false, "/assets/images/logo.png", `Weapon ${j}`)
             );
