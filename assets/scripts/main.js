@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:02:38 PM
+ *  Last update: 12 Apr 2024, 11:08:37 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -528,7 +528,7 @@ function createMain() {
         id: "mainContent",
         className: "screen-1",
         innerHTML:
-            `<h1 id="mainHeading">Counter-Strike Team Builder</h1>
+            `<h1 id="mainHeading" class="text-bold">Counter-Strike Team Builder</h1>
             <div class="main-card"></div>`
     });
 
@@ -1029,7 +1029,7 @@ function createPageWeaponSel() {
         // some of this content will be interactible, but only called from other places so we'll use innerHTML for now
         innerHTML:
             `<div id="weaponBalance" class="no-back-deco">
-                <p>Available balance: <span id="balanceNum" class="price">$<span class="text-pos">${curFunds}</span></span></p>
+                <p>Available balance: <span id="balanceNum" class="text-bold">$<span class="text-pos">${curFunds}</span></span></p>
             </div>
             <div id="weaponSelections"></div>`
     });
@@ -1152,6 +1152,7 @@ function createPageCharSumm() {
     charOpDiv.id = "charSummOperator";
     charOpDiv.classList.add("no-back-deco");
     charOpDiv.lastChild.id = "charSummName";    // name is filled in by updateCharSumm()
+    charOpDiv.lastChild.classList.add("text-bold");
 
     // create weapons display
     const charWeapDiv = createEl("div", {
@@ -1249,6 +1250,7 @@ function createPageTeamSumm() {
         const opDiv = createDisplayCard(false, "/assets/images/logo.png", `Operator ${i}`);
         // replace CSS classes on this card because this page uses special styles
         opDiv.className = "team-summ-operator display-card no-back-deco";
+        opDiv.lastChild.classList.add("text-bold");
 
         // create weapon list
         const weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
