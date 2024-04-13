@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:22:19 PM
+ *  Last update: 12 Apr 2024, 10:25:52 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -180,6 +180,11 @@ export function updateOperator(newOperator) {
  */
 function updatePlayerName(newName) {
     playerName = newName;
+
+    // if clearing the name (i.e. when resetting app), clear the input
+    if (!newName) {
+        getElFromContentByID("operatorName").value = "";
+    }
 }
 
 /**
@@ -188,6 +193,11 @@ function updatePlayerName(newName) {
  */
 function updateTeamName(newName) {
     teamName = newName;
+
+    // if clearing the name (i.e. when resetting app), clear the input
+    if (!newName) {
+        getElFromContentByID("charSummTeamName").value = "";
+    }
 }
 
 /**
