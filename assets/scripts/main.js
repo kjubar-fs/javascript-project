@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 8:56:38 PM
+ *  Last update: 12 Apr 2024, 9:17:12 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -286,6 +286,7 @@ export function selectSkin(newSkin) {
         selectedSkins.forEach((skin) => {
             skin.getElement().classList.remove("selected");
         });
+        getElFromContentByID("weaponSelections").innerHTML = "";
         selectedSkins.length = 0;
         updateFunds(MAX_FUNDS);
         // TODO: remove debug
@@ -297,6 +298,11 @@ export function selectSkin(newSkin) {
     // if the skin is selected, deselect it and remove it from the list
     if (skinEl.classList.contains("selected")) {
         skinEl.classList.remove("selected");
+
+        // remove from selections display list
+        const selectionEl = getElFromContentByID(`selected-${newSkin.id}`);
+        selectionEl.parentNode.removeChild(selectionEl);
+
         let ix = selectedSkins.indexOf(newSkin);
         if (ix !== -1) {
             selectedSkins.splice(ix, 1);
@@ -323,6 +329,10 @@ export function selectSkin(newSkin) {
     filteredSkins.forEach((skin) => {
         skin.getElement().classList.remove("selected");
         selectedSkins.splice(selectedSkins.indexOf(skin), 1);
+
+        // remove from selections display list
+        const selectionEl = getElFromContentByID(`selected-${skin.id}`);
+        selectionEl.parentNode.removeChild(selectionEl);
     });
 
     // if we didn't deselect another skin, subtract the new selection's price from the total funds
@@ -331,6 +341,12 @@ export function selectSkin(newSkin) {
     }
 
     newSkin.getElement().classList.add("selected");
+    const newSelectionEl = createEl("img", {
+        id: `selected-${newSkin.id}`,
+        className: "selected-skin",
+        src: newSkin.image
+    });
+    getElFromContentByID("weaponSelections").appendChild(newSelectionEl);
     selectedSkins.push(newSkin);
 
     // TODO: remove debug
@@ -966,18 +982,10 @@ function createPageWeaponSel() {
         className: "footer",
         // some of this content will be interactible, but only called from other places so we'll use innerHTML for now
         innerHTML:
-            // TODO: remove selected skins from here
             `<div id="weaponBalance" class="no-back-deco">
                 <p>Available balance: <span id="balanceNum" class="price">$<span class="text-pos">${curFunds}</span></span></p>
             </div>
-            <div id="weaponSelections">
-                <img class="selected-skin" src="/assets/images/logo.png">
-                <img class="selected-skin" src="/assets/images/logo.png">
-                <img class="selected-skin" src="/assets/images/logo.png">
-                <img class="selected-skin" src="/assets/images/logo.png">
-                <img class="selected-skin" src="/assets/images/logo.png">
-                <img class="selected-skin" src="/assets/images/logo.png">
-            </div>`
+            <div id="weaponSelections"></div>`
     });
 
     // create next button and set up handler
