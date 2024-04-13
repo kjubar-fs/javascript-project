@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 1:34:24 PM
+ *  Last update: 13 Apr 2024, 1:39:30 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -1021,6 +1021,10 @@ function updateSelectedTeam(teamAbbr, teamName) {
     selectSkin({});
     updateWeaponCategory("");
     updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
+
+    // reset player and team names
+    updatePlayerName("");
+    updateTeamName("");
 
     // clear generated team member operators and loadouts
     teamMemberOperators = [];
