@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 9:17:12 PM
+ *  Last update: 12 Apr 2024, 9:46:26 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -283,12 +283,27 @@ export function updateWeapon(newWeapon) {
 export function selectSkin(newSkin) {
     // if we're provided an empty object, we just need to reset the skin selections
     if (Object.keys(newSkin).length === 0) {
+        // clear styles from each skin and weapon category
         selectedSkins.forEach((skin) => {
+            // clear selected styles
             skin.getElement().classList.remove("selected");
+
+            // clear selection indicator from weapons
+            weapons[skin.weaponId].getElement().classList.remove("has-selection");
         });
+        
+        // clear styles from weapon category tabs
+        Object.keys(weaponCategories).forEach((weaponCatId) => {
+            getElFromContentByID(weaponCatId).classList.remove("has-selection");
+        });
+
+        // clear selection list display and storage
         getElFromContentByID("weaponSelections").innerHTML = "";
         selectedSkins.length = 0;
+
+        // update funds back to maximum
         updateFunds(MAX_FUNDS);
+        
         // TODO: remove debug
         console.log("skins cleared");
         return;
@@ -306,6 +321,14 @@ export function selectSkin(newSkin) {
         let ix = selectedSkins.indexOf(newSkin);
         if (ix !== -1) {
             selectedSkins.splice(ix, 1);
+        }
+
+        // clear style from weapon and category tab (if applicable)
+        let weapon = weapons[newSkin.weaponId];
+        weapon.getElement().classList.remove("has-selection");
+        let weaponCat = weapon.categoryId;
+        if (!selectedSkins.some((skin) => weapons[skin.weaponId].categoryId === weaponCat)) {
+            getElFromContentByID(weaponCat).classList.remove("has-selection");
         }
 
         // add the weapon price back to the current funds
@@ -340,13 +363,24 @@ export function selectSkin(newSkin) {
         updateFunds(weapons[newSkin.weaponId].price * -1);
     }
 
+    // select element
     newSkin.getElement().classList.add("selected");
+
+    // add selection indicator to weapon and category
+    let weapon = weapons[newSkin.weaponId];
+    weapon.getElement().classList.add("has-selection");
+    let weaponCat = weapon.categoryId;
+    getElFromContentByID(weaponCat).classList.add("has-selection");
+
+    // add element to selections visual
     const newSelectionEl = createEl("img", {
         id: `selected-${newSkin.id}`,
         className: "selected-skin",
         src: newSkin.image
     });
     getElFromContentByID("weaponSelections").appendChild(newSelectionEl);
+
+    // add skin to selection array
     selectedSkins.push(newSkin);
 
     // TODO: remove debug
