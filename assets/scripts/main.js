@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 8:46:30 PM
+ *  Last update: 12 Apr 2024, 8:56:38 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -69,6 +69,8 @@ let curWeapCategory = "";
 let curWeap = {};
 let selectedSkins = [];
 let curFunds = MAX_FUNDS;
+
+let teamName = "";
 
 // pregenerate screen HTML
 let startContent = createPageStart();
@@ -178,6 +180,14 @@ export function updateOperator(newOperator) {
  */
 function updatePlayerName(newName) {
     playerName = newName;
+}
+
+/**
+ * Update the team name
+ * @param {string} newName new team name
+ */
+function updateTeamName(newName) {
+    teamName = newName;
 }
 
 /**
@@ -1112,10 +1122,18 @@ function createPageCharSumm() {
     // create footer
     const charFooter = createEl("div", {
         id: "charSummFooter",
-        className: "footer",
-        // same as with character select, interactibility on the field is set up elsewhere so we'll use innerHTML
-        innerHTML: `<input id="charSummTeamName" name="charSummTeamName" placeholder="Team Name">`
+        className: "footer"
     });
+
+    const teamNameInput = createEl("input", {
+        id: "charSummTeamName",
+        name: "charSummTeamName",
+        placeholder: "Team Name"
+    });
+    teamNameInput.addEventListener("input", (e) => {
+        updateTeamName(e.target.value);
+    });
+    charFooter.appendChild(teamNameInput);
 
     // create next button and set up handler
     const nextBtn = createEl("button", {
