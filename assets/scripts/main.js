@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 10:10:08 PM
+ *  Last update: 12 Apr 2024, 10:22:19 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -1132,9 +1132,8 @@ function createPageCharSumm() {
     // set up non-interactive elements
     content.push(createEl("h2", {
         id: "charSummName",
-        innerText: "<your name here>"
+        innerText: "<your name here>"   // name is filled in by updateCharSumm()
     }));
-    // TODO: update header contents with name
 
     // create main summary
     const charSummDiv = createEl("div", { id: "charSummDisplay" });
@@ -1143,8 +1142,7 @@ function createPageCharSumm() {
     const charOpDiv = createEl("div", {
         id: "charSummOperator",
         className: "no-back-deco",
-        // TODO: replace with operator image
-        innerHTML: `<img src="/assets/images/logo.png">`
+        innerHTML: `<img>`  // image source is filled in by updateCharSumm()
     });
 
     // create weapons display
@@ -1153,12 +1151,7 @@ function createPageCharSumm() {
         className: "no-back-deco"
     });
 
-    // TODO: replace with selected weapons
-    for (let i = 1; i < 10; i++) {
-        charWeapDiv.appendChild(
-            createDisplayCard(false, "/assets/images/logo.png", `Weapon ${i}`)
-        );
-    }
+    // selected weapons are filled in by updateCharSumm()
 
     charSummDiv.appendChild(charOpDiv);
     charSummDiv.appendChild(charWeapDiv);
@@ -1202,7 +1195,20 @@ function createPageCharSumm() {
  * Update the character summary page with the loaded data
  */
 function updateCharSumm() {
-    // TODO: implement
+    // update player name header
+    getElFromContentByID("charSummName").innerText = playerName;
+
+    // set operator image
+    getElFromContentBySel("#charSummOperator > img").src = curOperator.image;
+
+    // add selected weapons
+    const charWeapDiv = getElFromContentByID("charSummWeapons");
+    charWeapDiv.innerHTML = "";     // clear weapon div first
+    selectedSkins.forEach((skin) => {
+        charWeapDiv.appendChild(
+            createDisplayCard(false, skin.image, `${weapons[skin.weaponId].name} | ${skin.name}`)
+        );
+    });
 }
 
 /**
