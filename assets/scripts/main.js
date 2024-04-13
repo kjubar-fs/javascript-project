@@ -1,10 +1,10 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 1:39:30 PM
+ *  Last update: 13 Apr 2024, 2:41:04 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
-import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
+import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
 import { Operator } from "./data_classes.js";
 import { loadOperators, loadSkins, getRandomNames } from "./data_loading.js";
 
@@ -55,8 +55,8 @@ export const WEAPON_DETAILS = Object.freeze({
 const MAX_FUNDS = 9000;
 
 // selection storage
-// TODO: empty array, only full for debug purposes
-let visitedPages = [0, 1, 2, 3, 4, 5];
+let visitedPages = [];
+if (DEBUG_MODE) visitedPages = [0, 1, 2, 3, 4, 5];  // in debug mode, enable all pages
 let curPage = -1;
 
 let curTeam = "";
@@ -84,7 +84,7 @@ let weaponSelContent = createPageWeaponSel();
 let charSummContent = createPageCharSumm();
 let teamSummContent = createPageTeamSumm();
 let allContent = [startContent, teamSelContent, charSelContent, weaponSelContent, charSummContent, teamSummContent];
-console.log(allContent);
+if (DEBUG_MODE) console.log(allContent);
 
 // utility functions for searching the generated content, even if it isn't on screen
 // certain changes need to be made to unrendered elements, like when resetting, which is why we have these
@@ -131,8 +131,7 @@ loadOperators().then((result) => {
     operators = result;
     populateOperatorCards();
 
-    // TODO: remove debug
-    console.log(operators[0]);
+    if (DEBUG_MODE) console.log(operators[0]);
 });
 
 // dictionary index of weapons
@@ -145,10 +144,12 @@ let weaponCategories = {};
 // [categoryId: string]:    weaponId: string[]
 let weaponsByCategory = {};
 loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
-    // TODO: remove debug
-    console.log(weapons);
-    console.log(weaponCategories);
-    console.log(weaponsByCategory);
+    if (DEBUG_MODE) {
+        console.log(weapons);
+        console.log(weaponCategories);
+        console.log(weaponsByCategory);
+    }
+    
     populateWeaponTabs();
     populateWeapons();
     populateSkins();
@@ -157,13 +158,11 @@ loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
 
 // get random teammate names
 getRandomNames(3).then((result) => {
-    // TODO: remove debug
-    console.log(result);
+    if (DEBUG_MODE) console.log(result);
     teamMemberNames = result;
 });
 
-// TODO: remove debug
-console.log("main script initialized");
+if (DEBUG_MODE) console.log("main script initialized");
 
 /**
  * Change the currently selected operator
@@ -183,9 +182,10 @@ export function updateOperator(newOperator) {
         newOperator.getElement().classList.add("selected");
     }
 
-    // TODO: remove debug
-    console.log("operator updated to");
-    console.log(newOperator);
+    if (DEBUG_MODE) {
+        console.log("operator updated to");
+        console.log(newOperator);
+    }
 }
 
 /**
@@ -239,8 +239,7 @@ function updateWeaponCategory(newCategory) {
         getElFromContentByID(curWeapCategory).classList.remove("selected");
     }
 
-    // TODO: remove debug
-    console.log(`weapon category changed to: ${newCategory}`);
+    if (DEBUG_MODE) console.log(`weapon category changed to: ${newCategory}`);
 
     // if the new category is "", don't need to do anything else
     if (!newCategory) {
@@ -295,9 +294,10 @@ export function updateWeapon(newWeapon) {
     // update the current weapon
     curWeap = newWeapon;
 
-    // TODO: remove debug
-    console.log("weapon updated to");
-    console.log(newWeapon);
+    if (DEBUG_MODE) {
+        console.log("weapon updated to");
+        console.log(newWeapon);
+    }
 }
 
 /**
@@ -328,8 +328,7 @@ export function selectSkin(newSkin) {
         // update funds back to maximum
         updateFunds(MAX_FUNDS);
         
-        // TODO: remove debug
-        console.log("skins cleared");
+        if (DEBUG_MODE) console.log("skins cleared");
         return;
     }
 
@@ -407,8 +406,7 @@ export function selectSkin(newSkin) {
     // add skin to selection array
     selectedSkins.push(newSkin);
 
-    // TODO: remove debug
-    console.log(selectedSkins);
+    if (DEBUG_MODE) console.log(selectedSkins);
 }
 
 /**
@@ -456,8 +454,7 @@ function updateFunds(amt) {
         }
     });
 
-    // TODO: remove debug
-    console.log(`funds updated to ${curFunds}`);
+    if (DEBUG_MODE) console.log(`funds updated to ${curFunds}`);
 }
 
 const bodyEl = getElSlct("body");
@@ -529,8 +526,10 @@ function createNav() {
 
 bodyEl.appendChild(createNav());
 
-// TODO: remove debug
-console.log("navbar created");
+if (DEBUG_MODE) {
+    console.log("navbar created");
+    updateBreadcrumbs();
+}
 
 /**
  * Creates the main content
@@ -602,8 +601,7 @@ function createMain() {
 }
 
 bodyEl.appendChild(createMain());
-// TODO: remove debug
-console.log("main created");
+if (DEBUG_MODE) console.log("main created");
 navToPage(PAGES_ENUM.startPage);
 
 /**
@@ -627,12 +625,10 @@ function navToPage(pageNum) {
         }
     }
     
-    // TODO: remove debug
-    console.log("navigating to page " + pageNum);
+    if (DEBUG_MODE) console.log("navigating to page " + pageNum);
 
     // if this page hasn't been visited yet, record it as visited
-    // TODO: update to false to dynamically update crumbs
-    let needCrumbUpdate = true;
+    let needCrumbUpdate = false;
     if (!visitedPages.includes(pageNum)) {
         visitedPages.push(pageNum);
         needCrumbUpdate = true;
@@ -830,8 +826,7 @@ function resetApplication() {
     let shouldReset = confirm("Would you like to clear all data and restart?");
     if (!shouldReset) { return; }
 
-    // TODO: remove debug
-    console.log("application reset!");
+    if (DEBUG_MODE) console.log("application reset!");
 
     // hide reset button
     getElID("resetBtn").classList.add("hidden");
@@ -843,13 +838,15 @@ function resetApplication() {
 
     // regenerate random teammate names (weapons and operators are handled after we have a team selected)
     getRandomNames(3).then((result) => {
-        // TODO: remove debug
-        console.log(result);
+        if (DEBUG_MODE) console.log(result);
         teamMemberNames = result;
     });
 
-    // TODO: implement rest of reset (data, breadcrumbs, etc.)
-    // visitedPages.length = 0;
+    // if we're not in debug mode, reset the breadcrumbs
+    if (!DEBUG_MODE) {
+        visitedPages.length = 0;
+        updateBreadcrumbs();
+    }
 
     // navigate to home
     navToPage(PAGES_ENUM.startPage);
@@ -868,8 +865,8 @@ function navToTeamSelect() {
  * @returns an array of elements to append to the main content div
  */
 function createPageStart() {
-    // TODO: remove debug
-    console.log("creating start page");
+    if (DEBUG_MODE) console.log("creating start page");
+
     // empty content array
     let content = [];
 
@@ -884,8 +881,8 @@ function createPageStart() {
  * @returns an array of elements to append to the main content div
  */
 function createPageTeamSel() {
-    // TODO: remove debug
-    console.log("creating team select page");
+    if (DEBUG_MODE) console.log("creating team select page");
+
     // empty content array
     let content = [];
     
@@ -1046,12 +1043,13 @@ function updateSelectedTeam(teamAbbr, teamName) {
             generateRandomLoadout();
         }
     }
-    // TODO: remove debug
-    console.log(teamMemberOperators);
-    console.log(teamMemberWeapons);
     
-    // TODO: remove debug
-    console.log(`team changed: ${curTeam}`);
+    if (DEBUG_MODE) {
+        console.log(teamMemberOperators);
+        console.log(teamMemberWeapons);
+    }
+    
+    if (DEBUG_MODE) console.log(`team changed: ${curTeam}`);
 }
 
 /**
@@ -1061,7 +1059,6 @@ function updateSelectedTeam(teamAbbr, teamName) {
  * @param {string} text text to display in the card, can accept HTML
  * @returns created card div
  */
-// TODO: determine if export is necessary here
 export function createDisplayCard(clickable, imgPath, text) {
     const cardDiv = createEl("div", {
         // element needs cursor-pointer if it's intended to be clickable
@@ -1079,8 +1076,8 @@ export function createDisplayCard(clickable, imgPath, text) {
  * @returns an array of elements to append to the main content div
  */
 function createPageCharSel() {
-    // TODO: remove debug
-    console.log("creating character select page");
+    if (DEBUG_MODE) console.log("creating character select page");
+
     // empty content array
     let content = [];
 
@@ -1190,8 +1187,8 @@ function generateRandomOperator() {
  * @returns an array of elements to append to the main content div
  */
 function createPageWeaponSel() {
-    // TODO: remove debug
-    console.log("creating weapon select page");
+    if (DEBUG_MODE) console.log("creating weapon select page");
+    
     // empty content array
     let content = [];
 
@@ -1363,8 +1360,8 @@ function createKVP(key, value) {
  * @returns an array of elements to append to the main content div
  */
 function createPageCharSumm() {
-    // TODO: remove debug
-    console.log("creating character summary page");
+    if (DEBUG_MODE) console.log("creating character summary page");
+
     // empty content array
     let content = [];
     
@@ -1456,8 +1453,8 @@ function updateCharSumm() {
  * @returns an array of elements to append to the main content div
  */
 function createPageTeamSumm() {
-    // TODO: remove debug
-    console.log("creating team summary page");
+    if (DEBUG_MODE) console.log("creating team summary page");
+
     // empty content array
     let content = [];
     
@@ -1466,33 +1463,24 @@ function createPageTeamSumm() {
         id: "teamSummName",
         innerText: "<your team name here>"
     }));
-    // TODO: update header contents with team name
     
     // create main summary
     const displayDiv = createEl("div", { id: "teamSummDisplay" });
 
     // create 4 operator cards
-    // TODO: replace this with player and 3 randomly-generated operators
-    for (let i = 1; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         // create character container
         const charDiv = createEl("div", { className: "team-summ-char-details no-back-deco" });
 
         // create operator card
-        const opDiv = createDisplayCard(false, "/assets/images/logo.png", `Operator ${i}`);
+        const opDiv = createDisplayCard(false, "", "");     // this will be filled later
         // replace CSS classes on this card because this page uses special styles
         opDiv.className = "team-summ-operator display-card no-back-deco";
         opDiv.lastChild.classList.add("text-bold");
 
         // create weapon list
         const weaponsDiv = createEl("div", { className: "team-summ-weapons no-back-deco" });
-
-        // create weapon cards and add to list
-        let max = i === 1 ? 10 : 7;
-        for (let j = 1; j < max; j++) {
-            weaponsDiv.appendChild(
-                createDisplayCard(false, "/assets/images/logo.png", `Weapon ${j}`)
-            );
-        }
+        // these will be filled later
 
         charDiv.appendChild(opDiv);
         charDiv.appendChild(weaponsDiv);
@@ -1530,7 +1518,7 @@ function generateRandomLoadout() {
         });
     } while(total > MAX_FUNDS);
 
-    console.log(`loadout total: ${total}`);
+    if (DEBUG_MODE) console.log(`loadout total: ${total}`);
 
     teamMemberWeapons.push(gennedWeaps);
 }
