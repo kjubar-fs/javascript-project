@@ -1,10 +1,10 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 11:47:56 PM
+ *  Last update: 13 Apr 2024, 12:33:34 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
-import { getElID, getElSlct, createEl } from "./utility.js";
+import { getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
 import { Operator } from "./data_classes.js";
 import { loadOperators, loadSkins, getRandomNames } from "./data_loading.js";
 
@@ -73,6 +73,7 @@ let curFunds = MAX_FUNDS;
 let teamName = "";
 
 let teamMemberNames = [];
+let teamMemberOperators = [];
 let teamMemberWeapons = [];
 
 // pregenerate screen HTML
@@ -129,6 +130,13 @@ let operators;
 loadOperators().then((result) => {
     operators = result;
     populateOperatorCards();
+
+    // generate random operators for teammates
+    for (let i = 1; i <= 3; i++) {
+        generateRandomOperator();
+    }
+    // TODO: remove debug
+    console.log(teamMemberOperators);
 });
 
 // dictionary index of weapons
@@ -709,6 +717,13 @@ function resetApplication() {
     updateSelectedTeam("", ""); // clearing team clears operator, weapons, and resets the filtering
     updatePlayerName("");
 
+    // regenerate random teammate data (minus weapons, that's handled after we have a team selected)
+    teamMemberNames = getRandomNames(3);
+    teamMemberOperators = [];
+    for (let i = 1; i <= 3; i++) {
+        generateRandomOperator();
+    }
+
     // TODO: implement rest of reset (data, breadcrumbs, etc.)
     // visitedPages.length = 0;
 
@@ -847,6 +862,11 @@ function updateSelectedTeam(teamAbbr, teamName) {
         getElFromContentByID(`team${teamAbbr.toUpperCase()}`).checked = true;
     }
 
+    // do nothing if the current team is the same we intend to switch to
+    if (curTeam === teamAbbr) {
+        return;
+    }
+
     // update data vars
     curTeam = teamAbbr;
     curTeamName = teamName;
@@ -878,12 +898,24 @@ function updateSelectedTeam(teamAbbr, teamName) {
     updateWeaponCategory("");
     updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
 
+    // clear generated team member loadouts
+    teamMemberWeapons = [];
+
     // if we're clearing the team name, deselect all selection radio buttons
     if (!teamAbbr || !teamName) {
         getElFromContentByID("teamCT").checked = false;
         getElFromContentByID("teamT").checked = false;
         getElFromContentByID("teamAuto").checked = false;
     }
+
+    // if we're setting a team, generate team member weapons
+    if (!!teamAbbr) {
+        for (let i = 1; i <= 3; i++) {
+            generateRandomLoadout();
+        }
+    }
+    // TODO: remove debug
+    console.log(teamMemberWeapons);
     
     // TODO: remove debug
     console.log(`team changed: ${curTeam}`);
@@ -1002,6 +1034,14 @@ function filterOperatorsByTeam(teamAbbr) {
             opEl.classList.remove("removed") :
             opEl.classList.add("removed");
     });
+}
+
+/**
+ * Selects a random teammate operator and adds the result to the storage array
+ */
+function generateRandomOperator() {
+    let ix = getRandomInt(0, operators.length);
+    teamMemberOperators.push(operators[ix]);
 }
 
 /**
@@ -1282,6 +1322,33 @@ function createPageTeamSumm() {
     content.push(displayDiv);
 
     return content;
+}
+
+/**
+ * Generates a random teammate loadout and adds the result to the storage array
+ */
+function generateRandomLoadout() {
+    let gennedWeaps;
+    let total;
+
+    do {
+        gennedWeaps = [];
+        total = 0;
+        Object.keys(weaponsByCategory).forEach((weaponCat) => {
+            let weaponIds = weaponsByCategory[weaponCat];
+            let weapon;
+            do {
+                let ix = getRandomInt(0, weaponIds.length - 1);
+                weapon = weapons[weaponsByCategory[weaponCat][ix]];
+            } while(weapon.teamAbbr !== "both" && weapon.teamAbbr !== curTeam);
+            total += weapon.price;
+            gennedWeaps.push(weapon);
+        });
+    } while(total > MAX_FUNDS);
+
+    console.log(`loadout total: ${total}`);
+
+    teamMemberWeapons.push(gennedWeaps);
 }
 
 /**

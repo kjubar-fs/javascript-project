@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:19:41 PM
- *  Last update: 12 Apr 2024, 3:10:34 PM
+ *  Last update: 13 Apr 2024, 12:07:39 AM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -42,7 +42,7 @@ export function createEl(tag, props) {
 }
 
 /**
- * Get a random integer in the given range
+ * Get a random integer in the given range (inclusive)
  * Taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
  * @param {number} min minimum range
  * @param {number} max maximum range
