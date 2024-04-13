@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 12 Apr 2024, 9:29:15 PM
+ *  Last update: 12 Apr 2024, 9:54:45 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -463,10 +463,12 @@ body:has(.main-card.card-lg) #mainHeading {
     content: "";
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: white;
+    border: 3px solid red;
     border-radius: 5px;
-    top: -5px;
-    left: -5px;
+    top: -4px;
+    left: -4px;
+    box-sizing: border-box;
 }
 
 .weapon-selector:active {
