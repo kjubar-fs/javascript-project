@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 12 Apr 2024, 3:42:54 PM
+ *  Last update: 12 Apr 2024, 8:46:30 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { getElID, getElSlct, createEl } from "./utility.js";
@@ -51,6 +51,24 @@ export const WEAPON_DETAILS = Object.freeze({
         priceMax: 500
     })
 });
+
+const MAX_FUNDS = 9000;
+
+// selection storage
+// TODO: empty array, only full for debug purposes
+let visitedPages = [0, 1, 2, 3, 4, 5];
+let curPage = -1;
+
+let curTeam = "";
+let curTeamName = "";
+
+let curOperator = {};
+let playerName = "";
+
+let curWeapCategory = "";
+let curWeap = {};
+let selectedSkins = [];
+let curFunds = MAX_FUNDS;
 
 // pregenerate screen HTML
 let startContent = createPageStart();
@@ -127,21 +145,6 @@ loadSkins(weapons, weaponCategories, weaponsByCategory).then(() => {
     populateSkins();
     updateWeaponCategory(getElFromContentBySel("#weaponChoices + div").id);
 });
-
-// selection storage
-// TODO: empty array, only full for debug purposes
-let visitedPages = [0, 1, 2, 3, 4, 5];
-let curPage = -1;
-
-let curTeam = "";
-let curTeamName = "";
-
-let curOperator = {};
-let playerName = "";
-
-let curWeapCategory = "";
-let curWeap = {};
-let selectedSkins = [];
 
 // TODO: remove debug
 console.log("main script initialized");
@@ -274,6 +277,7 @@ export function selectSkin(newSkin) {
             skin.getElement().classList.remove("selected");
         });
         selectedSkins.length = 0;
+        updateFunds(MAX_FUNDS);
         // TODO: remove debug
         console.log("skins cleared");
         return;
@@ -287,6 +291,9 @@ export function selectSkin(newSkin) {
         if (ix !== -1) {
             selectedSkins.splice(ix, 1);
         }
+
+        // add the weapon price back to the current funds
+        updateFunds(weapons[newSkin.weaponId].price);
 
         // return early because we don't need to do anything else
         return;
@@ -308,11 +315,65 @@ export function selectSkin(newSkin) {
         selectedSkins.splice(selectedSkins.indexOf(skin), 1);
     });
 
+    // if we didn't deselect another skin, subtract the new selection's price from the total funds
+    if (filteredSkins.length === 0) {
+        updateFunds(weapons[newSkin.weaponId].price * -1);
+    }
+
     newSkin.getElement().classList.add("selected");
     selectedSkins.push(newSkin);
 
     // TODO: remove debug
     console.log(selectedSkins);
+}
+
+/**
+ * Update the current funds with the given amount
+ * Will also update colors for displayed weapon prices to indicate if remaining funds would allow purchase
+ * Does not actually enforce a restriction on going below 0
+ * @param {number} amt amount to add (or pass negative to decrease), or MAX_FUNDS to reset
+ */
+function updateFunds(amt) {
+    // if "" (or realistically any non-number) is passed, reset funds
+    if (amt === MAX_FUNDS) {
+        curFunds = MAX_FUNDS;
+    } else {
+        curFunds += amt;
+    }
+
+    // update funds display
+    const fundsSpan = getElFromContentBySel("#balanceNum > span");
+    fundsSpan.innerText = curFunds;
+    if (curFunds > 0) {
+        // positive funds
+        fundsSpan.classList.remove("text-neg");
+        fundsSpan.classList.add("text-pos");
+    } else if (curFunds < 0) {
+        // negative funds
+        fundsSpan.classList.remove("text-pos");
+        fundsSpan.classList.add("text-neg");
+    } else {
+        // if exactly 0 (rare, but could happen), make no color
+        fundsSpan.classList.remove("text-pos");
+        fundsSpan.classList.remove("text-neg");
+    }
+
+    // update weapon tags to match current funds
+    // any with a price below funds is marked green, any above is marked red
+    Object.keys(weapons).forEach((weaponId) => {
+        let weapon = weapons[weaponId];
+        const priceSpan = weapon.getElement().querySelector(".price > span");
+        if (weapon.price <= curFunds) {
+            priceSpan.classList.remove("text-neg");
+            priceSpan.classList.add("text-pos");
+        } else {
+            priceSpan.classList.remove("text-pos");
+            priceSpan.classList.add("text-neg");
+        }
+    });
+
+    // TODO: remove debug
+    console.log(`funds updated to ${curFunds}`);
 }
 
 const bodyEl = getElSlct("body");
@@ -897,7 +958,7 @@ function createPageWeaponSel() {
         innerHTML:
             // TODO: remove selected skins from here
             `<div id="weaponBalance" class="no-back-deco">
-                <p>Available balance: <span id="balanceNum" class="price">$<span class="text-pos">9000</span></span></p>
+                <p>Available balance: <span id="balanceNum" class="price">$<span class="text-pos">${curFunds}</span></span></p>
             </div>
             <div id="weaponSelections">
                 <img class="selected-skin" src="/assets/images/logo.png">
