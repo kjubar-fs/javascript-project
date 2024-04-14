@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 6:51:31 PM
+ *  Last update: 14 Apr 2024, 7:02:40 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -77,13 +77,13 @@ let teamMemberOperators = [];
 let teamMemberWeapons = [];
 
 // pregenerate screen HTML
-let startContent = createPageStart();
-let teamSelContent = createPageTeamSel();
-let charSelContent = createPageCharSel();
-let weaponSelContent = createPageWeaponSel();
-let charSummContent = createPageCharSumm();
-let teamSummContent = createPageTeamSumm();
-let allContent = [startContent, teamSelContent, charSelContent, weaponSelContent, charSummContent, teamSummContent];
+const startContent = createPageStart();
+const teamSelContent = createPageTeamSel();
+const charSelContent = createPageCharSel();
+const weaponSelContent = createPageWeaponSel();
+const charSummContent = createPageCharSumm();
+const teamSummContent = createPageTeamSumm();
+const allContent = [startContent, teamSelContent, charSelContent, weaponSelContent, charSummContent, teamSummContent];
 if (DEBUG_MODE) console.log(allContent);
 
 // utility functions for searching the generated content, even if it isn't on screen
@@ -341,15 +341,15 @@ export function selectSkin(newSkin) {
         const selectionEl = getElFromContentByID(`selected-${newSkin.id}`);
         selectionEl.parentNode.removeChild(selectionEl);
 
-        let ix = selectedSkins.indexOf(newSkin);
+        const ix = selectedSkins.indexOf(newSkin);
         if (ix !== -1) {
             selectedSkins.splice(ix, 1);
         }
 
         // clear style from weapon and category tab (if applicable)
-        let weapon = weapons[newSkin.weaponId];
+        const weapon = weapons[newSkin.weaponId];
         weapon.getElement().classList.remove("has-selection");
-        let weaponCat = weapon.categoryId;
+        const weaponCat = weapon.categoryId;
         if (!selectedSkins.some((skin) => weapons[skin.weaponId].categoryId === weaponCat)) {
             getElFromContentByID(weaponCat).classList.remove("has-selection");
         }
@@ -371,7 +371,7 @@ export function selectSkin(newSkin) {
     // notably, we will not validate if the price exceeds the total
     // or whether or not we have at least one weapon from each category
     // that will happen when the user attempts to navigate away
-    let filteredSkins = selectedSkins.filter((skin) => skin.weaponId === newSkin.weaponId);
+    const filteredSkins = selectedSkins.filter((skin) => skin.weaponId === newSkin.weaponId);
     filteredSkins.forEach((skin) => {
         skin.getElement().classList.remove("selected");
         selectedSkins.splice(selectedSkins.indexOf(skin), 1);
@@ -390,9 +390,9 @@ export function selectSkin(newSkin) {
     newSkin.getElement().classList.add("selected");
 
     // add selection indicator to weapon and category
-    let weapon = weapons[newSkin.weaponId];
+    const weapon = weapons[newSkin.weaponId];
     weapon.getElement().classList.add("has-selection");
-    let weaponCat = weapon.categoryId;
+    const weaponCat = weapon.categoryId;
     getElFromContentByID(weaponCat).classList.add("has-selection");
 
     // add element to selections visual
@@ -443,7 +443,7 @@ function updateFunds(amt) {
     // update weapon tags to match current funds
     // any with a price below funds is marked green, any above is marked red
     Object.keys(weapons).forEach((weaponId) => {
-        let weapon = weapons[weaponId];
+        const weapon = weapons[weaponId];
         const priceSpan = weapon.getElement().querySelector(".price > span");
         if (weapon.price <= curFunds) {
             priceSpan.classList.remove("text-neg");
@@ -618,7 +618,7 @@ function navToPage(pageNum) {
     // validate current page if we're navigating forward
     // navigating backwards doesn't need to validate yet, since the user can go back and change data
     if (pageNum > curPage) {
-        let validationMsg = validateCurPage();
+        const validationMsg = validateCurPage();
         if (!!validationMsg) {
             alert(validationMsg);
             return;
@@ -733,7 +733,7 @@ function validateCurPage() {
             }
             // name must be 2 words and 20 characters or less, and not all whitespace
             // count all whitespace as word separators, in case the user enters tab or enter
-            let whitespace = playerName.split(/\s/).length;
+            const whitespace = playerName.split(/\s/).length;
             if (playerName.length > 20 || whitespace > 1 || !playerName.trim()) {
                 return "Player name must be 20 characters or less and 2 words or less.";
             }
@@ -741,9 +741,9 @@ function validateCurPage() {
             break;
         case PAGES_ENUM.weaponPage:
             // must have at least one weapon of each category
-            let selCategories = [];
+            const selCategories = [];
             selectedSkins.forEach((skin) => {
-                let weaponCat = weapons[skin.weaponId].categoryId;
+                const weaponCat = weapons[skin.weaponId].categoryId;
                 if (!selCategories.includes(weaponCat)) {
                     selCategories.push(weaponCat);
                 }
@@ -835,7 +835,7 @@ function updateBreadcrumbs() {
  */
 function resetApplication() {
     // prompt for reset
-    let shouldReset = confirm("Would you like to clear all data and restart?");
+    const shouldReset = confirm("Would you like to clear all data and restart?");
     if (!shouldReset) { return; }
 
     if (DEBUG_MODE) console.log("application reset!");
@@ -880,7 +880,7 @@ function createPageStart() {
     if (DEBUG_MODE) console.log("creating start page");
 
     // empty content array
-    let content = [];
+    const content = [];
 
     // set up non-interactive elements
     content.push(createEl("h2", { innerText: "Start" }));
@@ -896,7 +896,7 @@ function createPageTeamSel() {
     if (DEBUG_MODE) console.log("creating team select page");
 
     // empty content array
-    let content = [];
+    const content = [];
     
     // set up non-interactive elements
     content.push(createEl("h2", { innerText: "Select a Team" }));
@@ -910,7 +910,7 @@ function createPageTeamSel() {
         // if the user has visited the operator or weapon select pages,
         // confirm that changing team will clear their operator and weapon selections
         if (visitedPages.includes(PAGES_ENUM.charPage) || visitedPages.includes(PAGES_ENUM.weaponPage)) {
-            let shouldChangeTeam = confirm("Changing team will reset your operator and weapon selections. Proceed?");
+            const shouldChangeTeam = confirm("Changing team will reset your operator and weapon selections. Proceed?");
             if (!shouldChangeTeam) {
                 e.preventDefault(); // this, combined with firing on click instead of on change, prevents selecting the new radio button
                 return;
@@ -1039,9 +1039,11 @@ function updateSelectedTeam(teamAbbr, teamName) {
     teamMemberOperators = [];
     teamMemberWeapons = [];
 
-    // reset breadcrumbs to just team select
-    visitedPages = [0, 1];
-    updateBreadcrumbs();
+    // reset breadcrumbs to just team select (when not in debug mode)
+    if (!DEBUG_MODE) {
+        visitedPages = [0, 1];
+        updateBreadcrumbs();
+    }
 
     // if we're clearing the team name, deselect all selection radio buttons
     if (!teamAbbr || !teamName) {
@@ -1095,7 +1097,7 @@ function createPageCharSel() {
     if (DEBUG_MODE) console.log("creating character select page");
 
     // empty content array
-    let content = [];
+    const content = [];
 
     // set up non-interactive elements
     content.push(createEl("h2", { innerText: "Select an Operator" }));
@@ -1191,7 +1193,7 @@ function generateRandomOperator() {
         let operator;
         // pick random operators until we get one matching the currently selected team
         do {
-            let ix = getRandomInt(0, operators.length - 1);
+            const ix = getRandomInt(0, operators.length - 1);
             operator = operators[ix];
         } while (operator.teamAbbr !== curTeam);
         teamMemberOperators.push(operator);
@@ -1206,7 +1208,7 @@ function createPageWeaponSel() {
     if (DEBUG_MODE) console.log("creating weapon select page");
     
     // empty content array
-    let content = [];
+    const content = [];
 
     // set up non-interactive elements
     content.push(createEl("h2", { innerText: "Select Weapons and Gear" }));
@@ -1262,7 +1264,7 @@ function createPageWeaponSel() {
  * @returns a div representing the created weapon tab
  */
 function createWeaponTab(tabId, catName) {
-    let imgPath = !!WEAPON_DETAILS[catName] ?
+    const imgPath = !!WEAPON_DETAILS[catName] ?
         `/assets/images/icons/weapons/${WEAPON_DETAILS[catName]["icon"]}.png` :
         `/assets/images/icons/weapons/unknown.png`;
     const tabDiv = createEl("div", {
@@ -1286,7 +1288,7 @@ function populateWeaponTabs() {
     // add tab for each weapon category
     const weapWrapDiv = getElFromContentByID("weaponWrapper");
     Object.keys(weaponCategories).forEach((catId) => {
-        let catName = weaponCategories[catId];
+        const catName = weaponCategories[catId];
         const tabDiv = createWeaponTab(catId, catName.toLowerCase());
         tabDiv.addEventListener("click", function() {
             updateWeaponCategory(this.id);
@@ -1379,7 +1381,7 @@ function createPageCharSumm() {
     if (DEBUG_MODE) console.log("creating character summary page");
 
     // empty content array
-    let content = [];
+    const content = [];
     
     // set up non-interactive elements
     content.push(createEl("h2", {
@@ -1472,7 +1474,7 @@ function createPageTeamSumm() {
     if (DEBUG_MODE) console.log("creating team summary page");
 
     // empty content array
-    let content = [];
+    const content = [];
     
     // set up non-interactive elements
     content.push(createEl("h2", {
@@ -1522,11 +1524,11 @@ function generateRandomLoadout() {
         total = 0;
         // pick a random weapon/skin from each category
         Object.keys(weaponsByCategory).forEach((weaponCat) => {
-            let weaponIds = weaponsByCategory[weaponCat];
+            const weaponIds = weaponsByCategory[weaponCat];
             let weapon;
             // pick a random weapon until we get one matching the player's team
             do {
-                let ix = getRandomInt(0, weaponIds.length - 1);
+                const ix = getRandomInt(0, weaponIds.length - 1);
                 weapon = weapons[weaponsByCategory[weaponCat][ix]];
             } while(weapon.teamAbbr !== "both" && weapon.teamAbbr !== curTeam);
             total += weapon.price;

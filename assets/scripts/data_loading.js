@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 11 Apr 2024, 11:25:07 AM
- *  Last update: 12 Apr 2024, 11:45:22 PM
+ *  Last update: 14 Apr 2024, 7:04:16 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -33,7 +33,7 @@ export async function loadOperators() {
         .catch((reason) => console.log(`Error loading operators: ${reason}`));
 
     // map results into Operator objects
-    let operators = [];
+    const operators = [];
 
     apiResults.forEach((op) => {
         operators.push(new Operator(
@@ -132,7 +132,7 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
 
         // index specific skin
         // a few skins aren't formatted "<weapon> | <skin>" so just fall back to full name
-        let weaponName = 
+        const weaponName = 
             weaponRaw.name.includes("|") ?
             weaponRaw.name.split("|")[1].trim() :
             weaponRaw.name;
@@ -153,7 +153,7 @@ export async function loadSkins(weapons, weaponCategories, weaponsByCategory) {
  * @param {number} count number of names to generate
  */
 export async function getRandomNames(count) {
-    let names = [];
+    const names = [];
 
     await fetch(`${RANDOM_NAME_API}?results=${count}&inc=name&nat=au,br,ca,ch,de,dk,es,fi,fr,gb,ie,in,mx,nl,no,nz,us`)
         .then((resp) => resp.json())

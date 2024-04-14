@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:19:41 PM
- *  Last update: 13 Apr 2024, 2:43:17 PM
+ *  Last update: 14 Apr 2024, 7:04:39 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -33,7 +33,7 @@ export function getElSlct(sel) {
  */
 export function createEl(tag, props) {
     // create base element
-    let el = document.createElement(tag);
+    const el = document.createElement(tag);
     
     // map properties from props Object to element
     Object.keys(props).forEach(key => {
@@ -51,8 +51,8 @@ export function createEl(tag, props) {
  * @returns generated int
  */
 export function getRandomInt(min, max) {
-    let minCeiled = Math.ceil(min);
-    let maxFloored = Math.floor(max);
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
 }
 
