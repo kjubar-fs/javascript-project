@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 7:02:40 PM
+ *  Last update: 14 Apr 2024, 7:39:10 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -695,10 +695,19 @@ function navToPage(pageNum) {
             break;
     }
 
-    // apply content to div
-    content.forEach((el) => {
-        contentDiv.appendChild(el);
-    });
+    // apply content to div after the CSS transition has finished (1.5s)
+    // only do this if we're starting the application, or we're moving within the last 4 pages (since they have the same size)
+    if (curPage === -1 || (curPage >= 2 && pageNum >= 2)) {
+        content.forEach((el) => {
+            contentDiv.appendChild(el);
+        });
+    } else {
+        setTimeout(() => {
+            content.forEach((el) => {
+                contentDiv.appendChild(el);
+            });
+        }, 1500);
+    }
 
     // set the current page
     curPage = pageNum;
