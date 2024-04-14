@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 13 Apr 2024, 2:41:04 PM
+ *  Last update: 14 Apr 2024, 6:51:31 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -788,32 +788,44 @@ function validateCurPage() {
  */
 function updateBreadcrumbs() {
     // show the divider if more than 1 page has been visited
+    const divider = getElID("breadcrumbDivider");
     if (visitedPages.length > 1) {
-        getElID("breadcrumbDivider").classList.remove("hidden");
+        divider.classList.remove("hidden");
+    } else {
+        divider.classList.add("hidden");
     }
 
     // update the breadcrumbs based on which pages we've visited
-    visitedPages.forEach((page) => {
+    Object.values(PAGES_ENUM).forEach((page) => {
+        // determine which element to operate on
+        let navEl;
         switch (page) {
             case PAGES_ENUM.teamPage:
-                getElID("navTeam").classList.remove("hidden");
+                navEl = getElID("navTeam");
                 break;
             case PAGES_ENUM.charPage:
-                getElID("navChar").classList.remove("hidden");
+                navEl = getElID("navChar");
                 break;
             case PAGES_ENUM.weaponPage:
-                getElID("navWeapon").classList.remove("hidden");
+                navEl = getElID("navWeapon");
                 break;
             case PAGES_ENUM.summPage:
-                getElID("navSummary").classList.remove("hidden");
+                navEl = getElID("navSummary");
                 break;
             case PAGES_ENUM.teamSummPage:
-                getElID("navTeamSummary").classList.remove("hidden");
+                navEl = getElID("navTeamSummary");
                 break;
             // do nothing for start page or any other number we may end up with
             case PAGES_ENUM.startPage:
             default:
-                break;
+                return;
+        }
+
+        // show if visited, hide if not
+        if (visitedPages.includes(page)) {
+            navEl.classList.remove("hidden");
+        } else {
+            navEl.classList.add("hidden");
         }
     });
 }
@@ -1026,6 +1038,10 @@ function updateSelectedTeam(teamAbbr, teamName) {
     // clear generated team member operators and loadouts
     teamMemberOperators = [];
     teamMemberWeapons = [];
+
+    // reset breadcrumbs to just team select
+    visitedPages = [0, 1];
+    updateBreadcrumbs();
 
     // if we're clearing the team name, deselect all selection radio buttons
     if (!teamAbbr || !teamName) {
