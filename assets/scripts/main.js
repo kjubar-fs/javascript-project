@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 9:02:00 PM
+ *  Last update: 14 Apr 2024, 9:07:16 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -752,7 +752,7 @@ function validateCurPage() {
             // name must be 2 words and 20 characters or less, and not all whitespace
             // count all whitespace as word separators, in case the user enters tab or enter
             const whitespace = playerName.split(/\s/).length;
-            if (playerName.length > 20 || whitespace > 1 || !playerName.trim()) {
+            if (playerName.length > 20 || whitespace > 2 || !playerName.trim()) {
                 return "Player name must be 20 characters or less and 2 words or less.";
             }
 
