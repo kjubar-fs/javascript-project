@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 8:27:29 PM
+ *  Last update: 14 Apr 2024, 8:36:12 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -1470,8 +1470,18 @@ function createPageCharSumm() {
     // create weapons display
     const charWeapDiv = createEl("div", {
         id: "charSummWeapons",
+        className: "scroll-wrapper no-back-deco"
+    });
+
+    const charWeapInnerDiv = createEl("div", {
+        id: "charSummWeaponsInner",
         className: "no-back-deco"
     });
+    charWeapInnerDiv.addEventListener("scroll", function() {
+        updateScrollIndicator(charWeapInnerDiv, true);
+    }.bind(charWeapInnerDiv));
+
+    charWeapDiv.appendChild(charWeapInnerDiv);
 
     // selected weapons are filled in by updateCharSumm()
 
@@ -1524,7 +1534,7 @@ function updateCharSumm() {
     getElFromContentBySel("#charSummOperator > .display-img").src = curOperator.image;
 
     // add selected weapons
-    const charWeapDiv = getElFromContentByID("charSummWeapons");
+    const charWeapDiv = getElFromContentByID("charSummWeaponsInner");
     charWeapDiv.innerHTML = "";     // clear weapon div first
     selectedSkins.forEach((skin) => {
         const weapDisplayCard = createDisplayCard(true, skin.image, `<span class="text-bold">${weapons[skin.weaponId].name}</span><br>${skin.name}`);
