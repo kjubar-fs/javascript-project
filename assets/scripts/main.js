@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 7:51:44 PM
+ *  Last update: 14 Apr 2024, 8:27:29 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -322,7 +322,9 @@ export function selectSkin(newSkin) {
         });
 
         // clear selection list display and storage
-        getElFromContentByID("weaponSelectionsInner").innerHTML = "";
+        const weapSelInnerDiv = getElFromContentByID("weaponSelectionsInner")
+        weapSelInnerDiv.innerHTML = "";
+        updateScrollIndicator(weapSelInnerDiv, false);  // reset scroll indicator
         selectedSkins.length = 0;
 
         // update funds back to maximum
@@ -345,6 +347,9 @@ export function selectSkin(newSkin) {
         if (ix !== -1) {
             selectedSkins.splice(ix, 1);
         }
+
+        // update the selection scroll progress
+        updateScrollIndicator(getElFromContentByID("weaponSelectionsInner"), false);
 
         // clear style from weapon and category tab (if applicable)
         const weapon = weapons[newSkin.weaponId];
@@ -401,7 +406,11 @@ export function selectSkin(newSkin) {
         className: "selected-skin",
         src: newSkin.image
     });
-    getElFromContentByID("weaponSelectionsInner").appendChild(newSelectionEl);
+    const weapSelInnerDiv = getElFromContentByID("weaponSelectionsInner")
+    weapSelInnerDiv.appendChild(newSelectionEl);
+        
+    // update the selection scroll progress
+    updateScrollIndicator(weapSelInnerDiv, false);
 
     // add skin to selection array
     selectedSkins.push(newSkin);
@@ -1245,9 +1254,23 @@ function createPageWeaponSel() {
         innerHTML:
             `<div id="weaponBalance" class="no-back-deco">
                 <p>Available balance: <span id="balanceNum" class="text-bold">$<span class="text-pos">${curFunds}</span></span></p>
-            </div>
-            <div id="weaponSelections" class="scroll-wrapper"><div id="weaponSelectionsInner" class="no-back-deco"></div></div>`
+            </div>`
     });
+
+    const weapSelectionsDiv = createEl("div", {
+        id: "weaponSelections",
+        className: "scroll-wrapper"
+    });
+
+    const weapSelInnerDiv = createEl("div", {
+        id: "weaponSelectionsInner",
+        className: "no-back-deco"
+    });
+    weapSelInnerDiv.addEventListener("scroll", function() {
+        updateScrollIndicator(this, false);
+    }.bind(weapSelInnerDiv));
+
+    weapSelectionsDiv.appendChild(weapSelInnerDiv);
 
     // create next button and set up handler
     const nextBtn = createEl("button", {
@@ -1258,12 +1281,49 @@ function createPageWeaponSel() {
 
     nextBtn.addEventListener("click", () => { navToPage(PAGES_ENUM.summPage) });
 
+    weapFooterDiv.appendChild(weapSelectionsDiv);
     weapFooterDiv.appendChild(nextBtn);
 
     content.push(weapWrapDiv);
     content.push(weapFooterDiv);
 
     return content;
+}
+
+/**
+ * Update the scroll indicators for a given element
+ * @param {HTMLElement} elem HTML element to check scroll progress of, must be wrapped in an element with the .scroll-wrapper class for this to do anything
+ * @param {boolean} isY if true, adds Y-axs scroll indicators, if false adds them to the X-axis
+ */
+function updateScrollIndicator(elem, isY) {
+    // calculate the current scroll percentage and round to 2 decimal places
+    let scrollDiff = 
+        isY ?
+        elem.scrollHeight - elem.clientHeight :
+        elem.scrollWidth - elem.clientWidth;
+    let scrollPerc = 
+        isY ?
+        elem.scrollTop / scrollDiff :  // calculate scroll height for Y
+        elem.scrollLeft / scrollDiff;    // calculate scroll width for X
+    scrollPerc = Number.parseFloat(scrollPerc.toFixed(2));
+
+    // show top/bottom for Y, left/right for X
+    const startIndicatorClass = isY ? "show-top-scroll" : "show-left-scroll";
+    const endIndicatorClass = isY ? "show-bottom-scroll" : "show-right-scroll";
+
+    // show start indicator if percentage > 0
+    if (scrollPerc > 0) {
+        elem.parentElement.classList.add(startIndicatorClass);
+    } else {
+        elem.parentElement.classList.remove(startIndicatorClass);
+    }
+
+    // show end indicator if percentage < 1
+    if (scrollPerc < 1) {
+        elem.parentElement.classList.add(endIndicatorClass);
+    } else {
+        elem.parentElement.classList.remove(endIndicatorClass);
+    }
 }
 
 /**
