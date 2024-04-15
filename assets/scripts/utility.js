@@ -1,11 +1,11 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:19:41 PM
- *  Last update: 14 Apr 2024, 7:04:39 PM
+ *  Last update: 14 Apr 2024, 9:06:18 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
-export const DEBUG_MODE = true;
+export const DEBUG_MODE = false;
 
 /**
  * Get the DOM element with the provided ID
