@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 8:36:12 PM
+ *  Last update: 14 Apr 2024, 9:02:00 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -1543,6 +1543,7 @@ function updateCharSumm() {
         });
         charWeapDiv.appendChild(weapDisplayCard);
     });
+    updateScrollIndicator(charWeapDiv, true);
 }
 
 /**
@@ -1562,7 +1563,20 @@ function createPageTeamSumm() {
     }));
     
     // create main summary
-    const displayDiv = createEl("div", { id: "teamSummDisplay" });
+    const displayDiv = createEl("div", {
+        id: "teamSummDisplay",
+        className: "scroll-wrapper"
+    });
+
+    const displayInnerDiv = createEl("div", {
+        id: "teamSummDisplayInner",
+        className: "no-back-deco"
+    });
+    displayInnerDiv.addEventListener("scroll", function() {
+        updateScrollIndicator(displayInnerDiv, true);
+    }.bind(displayInnerDiv));
+
+    displayDiv.appendChild(displayInnerDiv);
 
     // create 4 operator cards
     for (let i = 0; i < 4; i++) {
@@ -1582,7 +1596,7 @@ function createPageTeamSumm() {
         charDiv.appendChild(opDiv);
         charDiv.appendChild(weaponsDiv);
 
-        displayDiv.appendChild(charDiv);
+        displayInnerDiv.appendChild(charDiv);
     }
 
     content.push(displayDiv);
@@ -1628,7 +1642,7 @@ function updateTeamSumm() {
     getElFromContentByID("teamSummName").innerText = teamName;
 
     // add player's data
-    const teamSummDiv = getElFromContentByID("teamSummDisplay")
+    const teamSummDiv = getElFromContentByID("teamSummDisplayInner")
     const playerTeamSummDiv = teamSummDiv.firstChild;  // player display will always be first
 
     // update operator image
@@ -1668,4 +1682,6 @@ function updateTeamSumm() {
             teammateSummWeapDiv.appendChild(weapDisplayCard);
         });
     }
+
+    updateScrollIndicator(teamSummDiv, true);
 }

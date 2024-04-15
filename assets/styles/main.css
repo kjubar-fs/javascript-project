@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 14 Apr 2024, 8:38:34 PM
+ *  Last update: 14 Apr 2024, 9:04:41 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -644,11 +644,24 @@ body:has(.main-card.card-lg) #mainHeading {
 
 /* team summary styles */
 #teamSummDisplay {
-    display: grid;
-    grid-template: 1fr 1fr / 1fr 1fr;
     height: 90%;
     border-radius: 5px;
-    overflow: scroll;
+}
+
+#teamSummDisplay.scroll-wrapper.show-top-scroll::before {
+    top: 0;
+}
+
+#teamSummDisplay.scroll-wrapper.show-bottom-scroll::after {
+    bottom: 0;
+}
+
+#teamSummDisplayInner {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+    overflow-y: scroll;
 }
 
 .team-summ-char-details {
