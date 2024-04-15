@@ -1,6 +1,6 @@
 --  Author: Kaleb Jubar
 --  Created: 18 Mar 2024, 1:18:03 PM
---  Last update: 13 Apr 2024, 10:42:37 AM
+--  Last update: 14 Apr 2024, 7:43:55 PM
 --  Copyright (c) 2024 Kaleb Jubar
 
 favicon.jpg
@@ -11,6 +11,10 @@ Edited by Kaleb Jubar
 icons/close.png
 https://www.flaticon.com/free-icon/close_1828778
 Created by Pixel perfect
+
+icons/caret.png
+https://www.flaticon.com/free-icon/arrow_14736750
+Created by ariefstudio
 
 --  navbar
 logo.png

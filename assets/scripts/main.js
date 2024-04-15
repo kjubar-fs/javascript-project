@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 9 Apr 2024, 3:17:00 PM
- *  Last update: 14 Apr 2024, 7:39:10 PM
+ *  Last update: 14 Apr 2024, 7:51:44 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 import { DEBUG_MODE, getElID, getElSlct, createEl, getRandomInt } from "./utility.js";
@@ -322,7 +322,7 @@ export function selectSkin(newSkin) {
         });
 
         // clear selection list display and storage
-        getElFromContentByID("weaponSelections").innerHTML = "";
+        getElFromContentByID("weaponSelectionsInner").innerHTML = "";
         selectedSkins.length = 0;
 
         // update funds back to maximum
@@ -401,7 +401,7 @@ export function selectSkin(newSkin) {
         className: "selected-skin",
         src: newSkin.image
     });
-    getElFromContentByID("weaponSelections").appendChild(newSelectionEl);
+    getElFromContentByID("weaponSelectionsInner").appendChild(newSelectionEl);
 
     // add skin to selection array
     selectedSkins.push(newSkin);
@@ -1246,7 +1246,7 @@ function createPageWeaponSel() {
             `<div id="weaponBalance" class="no-back-deco">
                 <p>Available balance: <span id="balanceNum" class="text-bold">$<span class="text-pos">${curFunds}</span></span></p>
             </div>
-            <div id="weaponSelections"></div>`
+            <div id="weaponSelections" class="scroll-wrapper"><div id="weaponSelectionsInner" class="no-back-deco"></div></div>`
     });
 
     // create next button and set up handler

@@ -1,7 +1,7 @@
 /*
  *  Author: Kaleb Jubar
  *  Created: 1 Apr 2024, 2:29:51 PM
- *  Last update: 13 Apr 2024, 11:26:33 AM
+ *  Last update: 14 Apr 2024, 7:59:17 PM
  *  Copyright (c) 2024 Kaleb Jubar
  */
 
@@ -155,6 +155,55 @@ input:focus {
 .display-card > .display-text {
     text-align: center;
     margin: 15px;
+}
+
+/* scroll indicator styles */
+.scroll-wrapper {
+    position: relative;
+}
+
+.scroll-wrapper.show-left-scroll::before {
+    content: "";
+    position: absolute;
+    background-image: url("/assets/images/icons/caret.png");
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    transform: translateY(-50%);
+}
+
+.scroll-wrapper.show-right-scroll::after {
+    content: "";
+    position: absolute;
+    background-image: url("/assets/images/icons/caret.png");
+    top: 50%;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    transform: translateY(-50%);
+}
+
+.scroll-wrapper.show-top-scroll::before {
+    content: "";
+    position: absolute;
+    background-image: url("/assets/images/icons/caret.png");
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%);
+}
+
+.scroll-wrapper.show-bottom-scroll::after {
+    content: "";
+    position: absolute;
+    background-image: url("/assets/images/icons/caret.png");
+    bottom: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%);
 }
 
 /* nav styles */
@@ -502,14 +551,21 @@ body:has(.main-card.card-lg) #mainHeading {
 }
 
 #weaponSelections {
+    box-sizing: content-box;
+    padding: 5px 5px 0 5px;
+    border-radius: 5px;
+    overflow-x: hidden;
+}
+
+#weaponSelectionsInner {
+    width: 100%;
     height: 35px;
     box-sizing: content-box;
+    overflow-x: scroll;
     display: flex;
     flex-direction: row;
     gap: 5px;
-    overflow-x: scroll;
-    padding: 5px 5px 10px 5px;
-    border-radius: 5px;
+    padding-bottom: 10px;
 }
 
 .selected-skin {
